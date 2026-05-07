@@ -1,0 +1,15 @@
+{
+  "name": "skylife-sakura",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "skyライフ株式会社 — corporate site + AI creative studio",
+  "scripts": {
+    "lint": "eslint functions/ store.js",
+    "deploy": "wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "wrangler": "^3.91.0"
+  }
+}
