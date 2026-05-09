@@ -23,11 +23,13 @@ export async function onRequestPost({ request, env }) {
   const displayName = (name || '').trim() || emailLower.split('@')[0];
 
   const result = await env.DB
-    .prepare('INSERT INTO users (email, name, pw_hash, pw_salt, credits) VALUES (?, ?, ?, ?, 100) RETURNING id, credits')
+    .prepare('INSERT INTO users (email, name, pw_hash, pw_salt, credits) VALUES (?, ?, ?, ?, 0) RETURNING id, credits')
     .bind(emailLower, displayName, hash, salt)
     .first();
 
   const token = await createToken({ userId: result.id, email: emailLower }, env.JWT_SECRET);
 
-  return json({ token, email: emailLower, name: displayName, credits: result.credits }, 201);
+  const adminEmail = (env.ADMIN_EMAIL || '').trim().toLowerCase();
+  const isAdmin = adminEmail !== '' && emailLower === adminEmail;
+  return json({ token, email: emailLower, name: displayName, credits: result.credits, isAdmin }, 201);
 }

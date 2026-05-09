@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI creative studio · SKYライフ株式会社</title>
+<meta name="description" content="generate images and short video clips from text prompts." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+SC:wght@300;400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #000000; --muted: #8a8a8a; --line: #e5e5e5; --accent: #E86020;
+    --nav-h: 88px;
+    --tiny: 11px; --small: 12px; --reg: 13px;
+    --type-sans: "Inter", "Helvetica Neue", "Noto Sans JP", helvetica, arial, sans-serif;
+    --type-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; }
+  html { background: var(--bg); color: var(--fg); scroll-padding-top: calc(var(--nav-h) + 8px); max-width: 100%; overflow-x: hidden; }
+  body {
+    font-family: var(--type-sans); font-weight: 300; font-size: var(--reg);
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility; letter-spacing: 0.005em;
+    max-width: 100%; overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+  button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg); height: var(--nav-h);
+    border-bottom: 1px solid var(--line); padding: 0 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: var(--tiny);
+  }
+  .brand-logo {
+    display: block; height: 22px; width: 210px; flex-shrink: 0;
+    background-color: var(--accent);
+    -webkit-mask: url('assets/skylogo.svg') no-repeat left center / contain;
+            mask: url('assets/skylogo.svg') no-repeat left center / contain;
+  }
+  .desktop-nav { display: flex; align-items: center; }
+  .desktop-nav ul { display: flex; gap: 24px; list-style: none; font-size: var(--small); }
+  .desktop-nav ul a { letter-spacing: 0.02em; }
+  .desktop-nav ul a.current { color: var(--accent); }
+  .lang-ctrl { display: flex; gap: 10px; margin-left: 28px; color: var(--muted); }
+  .lang-ctrl button { font-size: var(--tiny); letter-spacing: 0.04em; }
+  .lang-ctrl button.on { color: var(--fg); }
+
+  .hamburger { display: none; flex-direction: column; justify-content: center; gap: 6px; width: 36px; height: 36px; padding: 6px; flex-shrink: 0; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--fg); transition: transform 220ms ease, opacity 180ms ease; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 49; box-shadow: 0 6px 16px rgba(0,0,0,0.07); }
+  .mobile-menu.open { display: block; }
+  .mobile-menu ul { list-style: none; }
+  .mobile-menu ul li { border-bottom: 1px solid var(--line); }
+  .mobile-menu ul li a { display: block; padding: 16px 18px; font-size: var(--small); letter-spacing: 0.02em; }
+  .mobile-menu ul li a.current, .mobile-menu ul li a:hover { color: var(--accent); }
+  .mob-lang-row { display: flex; gap: 14px; padding: 16px 18px 20px; color: var(--muted); }
+  .mob-lang-row button { font-size: var(--tiny); letter-spacing: 0.04em; }
+  .mob-lang-row button.on { color: var(--fg); }
+
+  /* language switching */
+  .lang-ja { display: none; }
+  html[lang="ja"] .lang-ja { display: inline; }
+  html[lang="ja"] .lang-en { display: none; }
+
+  /* ── STUDIO BAR ── */
+  .studio-bar {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 10px 18px; border-bottom: 1px solid var(--line);
+    font-size: var(--tiny); font-family: var(--type-mono);
+  }
+  .studio-bar .back-link { color: var(--muted); transition: color 120ms; white-space: nowrap; }
+  .studio-bar .back-link:hover { color: var(--accent); }
+  .studio-bar .bar-sep { color: var(--line); user-select: none; }
+  .studio-bar .bar-title { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .studio-bar .bar-credits { margin-left: auto; color: var(--muted); white-space: nowrap; }
+  .studio-bar .bar-credits #credit-num { color: var(--fg); }
+  #admin-toggle {
+    font-size: var(--tiny); font-family: var(--type-mono);
+    color: var(--muted); border: 1px solid var(--line); padding: 4px 10px;
+    transition: color 120ms, border-color 120ms, background 120ms;
+    white-space: nowrap;
+  }
+  #admin-toggle:hover { border-color: var(--fg); color: var(--fg); }
+  #admin-toggle.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+  /* ── AUTH SECTION ── */
+  #auth-section { max-width: 340px; margin: 64px auto; padding: 0 18px; }
+  #tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+  #tabs button {
+    padding: 8px 16px 10px; font-size: var(--small); color: var(--muted);
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: color 120ms;
+  }
+  #tabs button:hover { color: var(--fg); }
+  #tabs button.on { color: var(--fg); border-bottom-color: var(--fg); }
+  #auth-form input {
+    display: block; width: 100%; border: 1px solid var(--line);
+    padding: 10px 12px; font: inherit; font-size: var(--small);
+    margin-bottom: 10px; background: var(--bg); transition: border-color 120ms;
+  }
+  #auth-form input:focus { outline: none; border-color: var(--fg); }
+  .auth-helper { font-size: var(--tiny); color: var(--muted); margin-bottom: 14px; }
+  .auth-err { font-size: var(--tiny); color: var(--accent); margin-bottom: 10px; min-height: 1em; }
+  #auth-submit {
+    display: block; width: 100%; padding: 10px; font: inherit; font-size: var(--small);
+    background: var(--fg); color: var(--bg); cursor: pointer; border: 0;
+    transition: transform 120ms, filter 120ms;
+  }
+  #auth-submit:hover:not(:disabled) { transform: scale(1.01); filter: brightness(1.15); }
+  #auth-submit:disabled { opacity: 0.5; cursor: default; }
+
+  /* ── STUDIO LAYOUT ── */
+  .studio-layout {
+    display: grid; grid-template-columns: 300px 1fr;
+    border-top: 1px solid var(--line);
+    min-height: calc(100vh - var(--nav-h) - 48px - 120px);
+  }
+  .controls {
+    border-right: 1px solid var(--line); padding: 18px;
+    display: flex; flex-direction: column; gap: 22px;
+    overflow: hidden;
+  }
+  .ctrl-block { display: flex; flex-direction: column; gap: 8px; }
+  .ctrl-label { font-size: var(--tiny); color: var(--muted); font-family: var(--type-mono); }
+
+  /* model grid */
+  #model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .model {
+    border: 1px solid var(--line); padding: 10px 12px; cursor: pointer;
+    transition: border-color 120ms, transform 150ms, background 120ms;
+  }
+  .model:hover { border-color: var(--fg); transform: scale(1.02); }
+  .model.on { border-color: var(--fg); background: #f8f8f8; }
+  .model-name { font-size: var(--small); font-weight: 400; }
+  .model-sub { font-size: var(--tiny); color: var(--muted); margin-top: 2px; font-family: var(--type-mono); }
+
+  /* ratio row */
+  #ratio-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ratio {
+    border: 1px solid var(--line); padding: 5px 10px; font-size: var(--tiny);
+    font-family: var(--type-mono); cursor: pointer;
+    transition: border-color 120ms, color 120ms, transform 120ms;
+  }
+  .ratio:hover { border-color: var(--fg); transform: scale(1.04); }
+  .ratio.on { border-color: var(--fg); color: var(--fg); }
+
+  /* prompt */
+  #prompt {
+    width: 100%; border: 1px solid var(--line); padding: 10px 12px;
+    font: inherit; font-size: var(--small); resize: vertical; min-height: 100px;
+    background: var(--bg); transition: border-color 120ms; max-width: 100%;
+  }
+  #prompt:focus { outline: none; border-color: var(--fg); }
+  .char-count { font-size: var(--tiny); color: var(--muted); font-family: var(--type-mono); text-align: right; }
+
+  /* cost + generate */
+  .cost-line { font-size: var(--tiny); color: var(--muted); font-family: var(--type-mono); }
+  #generate-btn {
+    width: 100%; padding: 11px; font: inherit; font-size: var(--small);
+    background: var(--accent); color: #fff; cursor: pointer; border: 0;
+    transition: transform 120ms, filter 120ms;
+  }
+  #generate-btn:hover:not(:disabled) { transform: scale(1.01); filter: brightness(1.1); }
+  #generate-btn:disabled { opacity: 0.6; cursor: default; }
+
+  /* logout */
+  .logout-btn {
+    font-size: var(--tiny); color: var(--muted); margin-top: auto;
+    transition: color 120ms; text-align: left;
+  }
+  .logout-btn:hover { color: var(--accent); }
+
+  /* output area */
+  .output-area { display: flex; flex-direction: column; padding: 18px; gap: 12px; overflow: hidden; }
+  #stage {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    background: #f7f5f0; min-height: 260px; position: relative; overflow: hidden;
+  }
+  #stage img, #stage video { max-width: 100%; max-height: 60vh; display: block; }
+  #stage svg.gen { width: auto; height: auto; max-width: 100%; max-height: 60vh; }
+  #caption { font-size: var(--tiny); color: var(--muted); overflow-wrap: break-word; }
+  #caption .meta {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px;
+    font-family: var(--type-mono);
+  }
+  a.download-link { color: var(--accent); }
+  a.download-link:hover { text-decoration: underline; }
+  .output-foot { padding-top: 8px; border-top: 1px solid var(--line); }
+  #output-stamp { font-size: var(--tiny); font-family: var(--type-mono); color: var(--muted); }
+
+  /* loading overlay */
+  .stage-loading {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+    font-size: var(--tiny); color: var(--muted); font-family: var(--type-mono);
+  }
+  .progressbar { width: 120px; height: 2px; background: var(--line); overflow: hidden; }
+  .progressbar i { display: block; height: 100%; width: 40%; background: var(--accent); animation: progress 1.2s ease-in-out infinite alternate; }
+  @keyframes progress { from { margin-left: 0; } to { margin-left: 60%; } }
+
+  /* history strip */
+  .history-bar { border-top: 1px solid var(--line); padding: 14px 18px; }
+  .history-label { font-size: var(--tiny); color: var(--muted); font-family: var(--type-mono); margin-bottom: 10px; }
+  #history-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .history-cell {
+    aspect-ratio: 1; background: #f5f4f1; overflow: hidden; position: relative;
+    cursor: pointer; transition: opacity 120ms;
+  }
+  .history-cell:hover { opacity: 0.8; }
+  .history-cell.empty {
+    cursor: default; display: flex; align-items: center; justify-content: center;
+    font-family: var(--type-mono); font-size: var(--tiny); color: var(--muted);
+  }
+  .history-cell img, .history-cell svg { width: 100%; height: 100%; object-fit: cover; }
+  .history-cell .stamp {
+    position: absolute; bottom: 3px; right: 4px;
+    font-family: var(--type-mono); font-size: 8px; color: #fff;
+    background: rgba(0,0,0,0.4); padding: 1px 3px;
+  }
+
+  /* ── ADMIN PANEL ── */
+  .admin-head {
+    padding: 14px 18px; border-bottom: 1px solid var(--line);
+    background: #fafafa; font-size: var(--tiny); font-family: var(--type-mono); color: var(--muted);
+  }
+  .admin-topup {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 14px 18px; border-bottom: 1px solid var(--line);
+  }
+  .admin-topup label { font-size: var(--tiny); font-family: var(--type-mono); color: var(--muted); white-space: nowrap; }
+  #topup-email, #topup-amount {
+    border: 1px solid var(--line); padding: 7px 10px;
+    font: inherit; font-size: var(--small); background: var(--bg);
+    transition: border-color 120ms;
+  }
+  #topup-email { width: 200px; max-width: 100%; }
+  #topup-amount { width: 80px; }
+  #topup-email:focus, #topup-amount:focus { outline: none; border-color: var(--fg); }
+  #topup-submit {
+    padding: 7px 16px; font: inherit; font-size: var(--small);
+    background: var(--fg); color: var(--bg); cursor: pointer; border: 0;
+    transition: filter 120ms;
+  }
+  #topup-submit:hover { filter: brightness(1.2); }
+  #topup-msg { font-size: var(--tiny); font-family: var(--type-mono); color: var(--accent); }
+  .admin-users-wrap { overflow-x: auto; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: var(--small); }
+  .admin-table th {
+    text-align: left; padding: 10px 18px; font-size: var(--tiny); font-weight: 400;
+    color: var(--muted); border-bottom: 1px solid var(--line); font-family: var(--type-mono);
+    white-space: nowrap;
+  }
+  .admin-table td { padding: 10px 18px; border-bottom: 1px solid var(--line); }
+  .admin-table .credits-cell { font-family: var(--type-mono); font-weight: 400; }
+  .admin-table tr:hover td { background: #fafafa; }
+  .action-btn {
+    font-size: var(--tiny); font-family: var(--type-mono);
+    border: 1px solid var(--line); padding: 3px 8px; margin-right: 4px;
+    transition: background 120ms, color 120ms, border-color 120ms;
+    white-space: nowrap;
+  }
+  .action-btn:hover { border-color: var(--fg); }
+  .action-btn.add { color: var(--accent); border-color: var(--accent); }
+  .action-btn.add:hover { background: var(--accent); color: #fff; }
+  .action-btn.zero { color: var(--muted); }
+  .action-btn.zero:hover { color: var(--fg); border-color: var(--fg); }
+  .action-btn.ban { color: #c0392b; border-color: #c0392b; }
+  .action-btn.ban:hover { background: #c0392b; color: #fff; }
+  .action-btn.unban { color: #27ae60; border-color: #27ae60; }
+  .action-btn.unban:hover { background: #27ae60; color: #fff; }
+  .user-banned { opacity: 0.45; }
+  .admin-loading { color: var(--muted); font-family: var(--type-mono); text-align: center; padding: 24px; }
+
+  .mono { font-family: var(--type-mono); }
+  .muted { color: var(--muted); }
+  .acc { color: var(--accent); }
+
+  @media (max-width: 880px) {
+    .desktop-nav { display: none; }
+    .hamburger { display: flex; }
+    .studio-layout { grid-template-columns: 1fr; }
+    .controls { border-right: 0; border-bottom: 1px solid var(--line); }
+    #history-row { grid-template-columns: repeat(3, 1fr); }
+    .bar-title, .bar-sep { display: none; }
+  }
+  @media (max-width: 560px) {
+    #model-grid { grid-template-columns: 1fr 1fr; }
+    .controls { padding: 14px; }
+    .output-area { padding: 14px; }
+    .admin-topup { gap: 8px; }
+    #topup-email { width: 100%; }
+    #topup-amount { width: 70px; }
+    #history-row { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <a href="index.html" aria-label="SKYライフ株式会社">
+    <span class="brand-logo" role="img" aria-label="SKYライフ"></span>
+  </a>
+  <div class="desktop-nav" id="desktop-nav">
+    <ul>
+      <li><a href="index.html#products"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
+      <li><a href="store.html" class="current">store</a></li>
+      <li><a href="index.html#journal"><span class="lang-en">journal</span><span class="lang-ja">ジャーナル</span></a></li>
+      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
+      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+    </ul>
+    <div class="lang-ctrl">
+      <button data-lang="en" class="on">en</button>
+      <button data-lang="ja">日本語</button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <ul>
+    <li><a href="index.html#products" class="mob-link"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
+    <li><a href="store.html" class="mob-link current">store</a></li>
+    <li><a href="index.html#journal" class="mob-link"><span class="lang-en">journal</span><span class="lang-ja">ジャーナル</span></a></li>
+    <li><a href="index.html#about" class="mob-link"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
+    <li><a href="index.html#contact" class="mob-link"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+  </ul>
+  <div class="mob-lang-row">
+    <button data-lang="en" class="on">en</button>
+    <button data-lang="ja">日本語</button>
+  </div>
+</div>
+
+<!-- STUDIO BAR -->
+<div class="studio-bar">
+  <a href="store.html" class="back-link">← store</a>
+  <span class="bar-sep">/</span>
+  <span class="bar-title">
+    <span class="lang-en">AI creative studio</span>
+    <span class="lang-ja">AIクリエイティブスタジオ</span>
+  </span>
+  <div class="bar-credits">
+    <span id="credit-num">—</span> cr
+  </div>
+  <button id="admin-toggle" style="display:none">admin</button>
+</div>
+
+<!-- AUTH SECTION -->
+<section id="auth-section">
+  <div id="tabs">
+    <button data-tab="login" class="on">login</button>
+    <button data-tab="register">register</button>
+  </div>
+  <form id="auth-form" autocomplete="on">
+    <div id="name-field" style="display:none">
+      <input id="uname" type="text" placeholder="name" autocomplete="name">
+    </div>
+    <input id="email" type="email" placeholder="email" required autocomplete="email">
+    <input id="password" type="password" placeholder="password" required autocomplete="current-password">
+    <p id="auth-helper" class="auth-helper">welcome back.</p>
+    <p id="auth-err" class="auth-err"></p>
+    <button id="auth-submit" type="submit">login →</button>
+  </form>
+</section>
+
+<!-- STUDIO SECTION -->
+<section id="studio-section" style="display:none">
+  <div class="studio-layout">
+
+    <!-- Controls panel -->
+    <aside class="controls">
+
+      <div class="ctrl-block">
+        <div class="ctrl-label">model</div>
+        <div id="model-grid">
+          <div class="model on" data-model="gpt-image" data-cost="1">
+            <div class="model-name">DALL·E 3</div>
+            <div class="model-sub">still · 1 cr</div>
+          </div>
+          <div class="model" data-model="seedance-video" data-cost="4">
+            <div class="model-name">Seedance</div>
+            <div class="model-sub">5s video · 4 cr</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctrl-block">
+        <div class="ctrl-label">ratio</div>
+        <div id="ratio-row">
+          <button class="ratio on" data-ratio="1:1">1:1</button>
+          <button class="ratio" data-ratio="3:2">3:2</button>
+          <button class="ratio" data-ratio="2:3">2:3</button>
+          <button class="ratio" data-ratio="16:9">16:9</button>
+        </div>
+      </div>
+
+      <div class="ctrl-block">
+        <div class="ctrl-label">prompt</div>
+        <textarea id="prompt" placeholder="describe your image or scene…" maxlength="500" rows="5"></textarea>
+        <div class="char-count"><span id="char-count">0 / 500</span></div>
+      </div>
+
+      <div class="ctrl-block">
+        <div class="cost-line">
+          <span class="lang-en"><span id="cost-num">1</span> credit</span>
+          <span class="lang-ja"><span id="cost-num-ja">1</span> クレジット</span>
+        </div>
+        <button id="generate-btn">
+          <span class="lang-en">generate →</span><span class="lang-ja" style="display:none;">生成する →</span>
+        </button>
+      </div>
+
+      <button id="logout-btn" class="logout-btn">
+        <span class="lang-en">sign out</span><span class="lang-ja">サインアウト</span>
+      </button>
+
+    </aside>
+
+    <!-- Output area -->
+    <div class="output-area">
+      <div id="stage"></div>
+      <div id="caption" style="display:none"></div>
+      <div class="output-foot">
+        <span id="output-stamp" class="mono muted">—</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- History strip -->
+  <div class="history-bar">
+    <div class="history-label">
+      <span class="lang-en">history</span><span class="lang-ja">履歴</span>
+      · <span id="hist-count">0</span>
+    </div>
+    <div id="history-row"></div>
+  </div>
+</section>
+
+<!-- ADMIN PANEL (admin only) -->
+<section id="admin-section" style="display:none">
+  <div class="admin-head">admin · member management &nbsp;·&nbsp; image: 1 cr = ¥1 &nbsp;·&nbsp; video: 8 cr = ¥8</div>
+  <div class="admin-topup">
+    <label>top up →</label>
+    <form id="topup-form" style="display:contents">
+      <input id="topup-email" type="email" placeholder="member email" required>
+      <input id="topup-amount" type="number" placeholder="credits" min="1" max="10000" required>
+      <button id="topup-submit" type="submit">add →</button>
+    </form>
+    <span id="topup-msg"></span>
+  </div>
+  <div class="admin-users-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>email</th>
+          <th>name</th>
+          <th>credits</th>
+          <th>joined</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody id="admin-users-body">
+        <tr><td colspan="5" class="admin-loading">loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script src="store.js"></script>
+</body>
+</html>

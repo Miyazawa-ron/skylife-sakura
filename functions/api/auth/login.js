@@ -20,5 +20,7 @@ export async function onRequestPost({ request, env }) {
 
   const token = await createToken({ userId: user.id, email: emailLower }, env.JWT_SECRET);
 
-  return json({ token, email: emailLower, name: user.name, credits: user.credits });
+  const adminEmail = (env.ADMIN_EMAIL || '').trim().toLowerCase();
+  const isAdmin = adminEmail !== '' && emailLower === adminEmail;
+  return json({ token, email: emailLower, name: user.name, credits: user.credits, isAdmin });
 }

@@ -8,7 +8,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "skylife"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "c3d64aff-151f-4687-a86b-7782e0d41b5a"
 
 # Secrets — set via CLI (never commit these):
 #   wrangler pages secret put JWT_SECRET

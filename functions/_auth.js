@@ -96,5 +96,13 @@ export async function requireAuth(request, env) {
   const payload = await verifyToken(token, env.JWT_SECRET);
   if (!payload?.userId) return null;
   const user = await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(payload.userId).first();
-  return user || null;
+  if (!user || !user.is_active) return null;
+  const adminEmail = (env.ADMIN_EMAIL || '').trim().toLowerCase();
+  return { ...user, isAdmin: adminEmail !== '' && user.email === adminEmail };
+}
+
+export async function requireAdmin(request, env) {
+  const user = await requireAuth(request, env);
+  if (!user || !user.isAdmin) return null;
+  return user;
 }

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>skyライフ株式会社</title>
-<meta name="description" content="a small studio for slow architecture, quiet hospitality, and considered design. 建築・宿泊・デザインを静かに営む。" />
+<title>SKYライフ株式会社</title>
+<meta name="description" content="a small studio for slow architecture, quiet hospitality, and considered design." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+SC:wght@300;400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
     --muted: #8a8a8a;
     --line: #e5e5e5;
     --accent: #E86020;
+    --nav-h: 88px;
     --tiny: 11px;
     --small: 12px;
     --reg: 13px;
@@ -23,7 +24,11 @@
     --type-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); color: var(--fg); }
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    scroll-padding-top: calc(var(--nav-h) + 8px);
+  }
   body {
     font-family: var(--type-sans);
     font-weight: 300;
@@ -38,56 +43,103 @@
   img { display: block; max-width: 100%; }
   button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
 
-  .wrap { padding: 0 24px; }
   .row { display: flex; align-items: center; }
   .between { justify-content: space-between; }
-  .hr { border: 0; border-top: 1px solid var(--line); }
 
-  /* nav */
-  .nav nav ul {
-    font-family: "Noto Sans JP", var(--type-sans);
-    font-weight: 400;
-    text-align: left;
-  }
-  .nav nav ul a {
-    font-family: "Noto Sans JP", var(--type-sans);
-    font-size: 13px;
-  }
+  /* ── NAV ── */
   .nav {
     position: sticky; top: 0; z-index: 50;
     background: var(--bg);
-    height: 44px;
+    height: var(--nav-h);
     border-bottom: 1px solid var(--line);
     padding: 0 18px;
     font-size: var(--tiny);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  .nav .brand { letter-spacing: 0.02em; }
   .brand-logo {
     display: block;
-    height: 20px;
-    width: 192px;
+    height: 22px;
+    width: 210px;
     background-color: var(--accent);
     -webkit-mask: url('assets/skylogo.svg') no-repeat left center / contain;
             mask: url('assets/skylogo.svg') no-repeat left center / contain;
   }
-  .nav ul { display: flex; gap: 22px; list-style: none; }
-  .nav .lang { display: flex; gap: 10px; margin-left: 28px; color: var(--muted); }
-  .nav .lang button { font-size: var(--tiny); }
-  .nav .lang button.on { color: var(--fg); }
-
-  /* hero */
-  .hero {
-    padding: 18px 18px 0;
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
   }
-  .hero-meta {
-    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 18px;
-    font-size: var(--tiny);
+  .desktop-nav ul {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    font-size: var(--small);
+  }
+  .desktop-nav ul a { letter-spacing: 0.02em; }
+  .lang-ctrl {
+    display: flex;
+    gap: 10px;
+    margin-left: 28px;
     color: var(--muted);
-    padding: 14px 0 16px;
   }
-  .hero-meta b { color: var(--fg); font-weight: 400; }
-  .hero-meta .k { display: block; margin-bottom: 4px; }
+  .lang-ctrl button { font-size: var(--tiny); letter-spacing: 0.04em; }
+  .lang-ctrl button.on { color: var(--fg); }
+
+  /* hamburger (mobile only) */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--fg);
+    transition: transform 220ms ease, opacity 180ms ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* mobile menu panel */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    z-index: 49;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.07);
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu ul { list-style: none; }
+  .mobile-menu ul li { border-bottom: 1px solid var(--line); }
+  .mobile-menu ul li a {
+    display: block;
+    padding: 16px 18px;
+    font-size: var(--small);
+    letter-spacing: 0.02em;
+  }
+  .mobile-menu ul li a:hover { color: var(--accent); }
+  .mobile-menu .mob-lang-row {
+    display: flex;
+    gap: 14px;
+    padding: 16px 18px 20px;
+    color: var(--muted);
+  }
+  .mobile-menu .mob-lang-row button { font-size: var(--tiny); letter-spacing: 0.04em; }
+  .mobile-menu .mob-lang-row button.on { color: var(--fg); }
+
+  /* ── HERO ── */
+  .hero { padding: 18px 18px 0; }
   .hero-img {
     position: relative;
     width: 100%;
@@ -95,15 +147,6 @@
     background: #efece6;
     overflow: hidden;
   }
-  .hero-img .frame-meta {
-    position: absolute; left: 12px; bottom: 12px;
-    font-family: var(--type-mono);
-    font-size: 10px;
-    color: rgba(255,255,255,0.92);
-    letter-spacing: 0.04em;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.35);
-  }
-  .hero-img .frame-meta.tr { left: auto; right: 12px; bottom: auto; top: 12px; }
   .hero-title {
     display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 18px;
@@ -122,7 +165,7 @@
     color: var(--muted);
   }
 
-  /* section header */
+  /* ── SECTION HEADER ── */
   .sec-head {
     display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
     gap: 18px;
@@ -134,10 +177,9 @@
   }
   .sec-head .num { color: var(--fg); }
   .sec-head h2 { font-size: var(--tiny); font-weight: 400; color: var(--fg); letter-spacing: 0.04em; text-transform: lowercase; }
-  .sec-head .meta { text-align: left; }
   .sec-head .more { text-align: right; color: var(--muted); }
 
-  /* product grid */
+  /* ── PRODUCT GRID ── */
   .grid3 {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 1px;
@@ -156,16 +198,8 @@
   .card .ph {
     width: 100%; aspect-ratio: 4/3;
     background: #f1efe9;
-    position: relative; overflow: hidden;
+    overflow: hidden;
   }
-  .card .ph .corner {
-    position: absolute; top: 8px; left: 8px;
-    font-family: var(--type-mono); font-size: 10px; color: rgba(0,0,0,0.45);
-    letter-spacing: 0.05em;
-  }
-  .card .ph .corner.tr { left: auto; right: 8px; top: 8px; bottom: auto; }
-  .card .ph .corner.br { left: auto; right: 8px; top: auto; bottom: 8px; }
-  .card .ph .corner.bl { left: 8px; right: auto; top: auto; bottom: 8px; }
   .card-meta {
     display: grid; grid-template-columns: 1fr auto;
     gap: 12px; align-items: baseline;
@@ -176,12 +210,8 @@
   .card-meta .sub { display: block; color: var(--muted); margin-top: 2px; }
   .card-meta .price { font-family: var(--type-mono); font-size: var(--tiny); }
   .card-meta .price.acc { color: var(--accent); }
-  .card-id {
-    font-family: var(--type-mono); font-size: 10px; color: var(--muted);
-    letter-spacing: 0.05em;
-  }
 
-  /* manifesto */
+  /* ── MANIFESTO ── */
   .manifesto {
     display: grid;
     grid-template-columns: 60px 1fr 1fr 1fr 80px;
@@ -199,15 +229,12 @@
     text-wrap: pretty;
     max-width: 70ch;
   }
-  .manifesto .lead em {
-    font-style: normal;
-    color: var(--accent);
-  }
+  .manifesto .lead em { font-style: normal; color: var(--accent); }
 
-  /* news / index list */
+  /* ── INDEX LIST ── */
   .indexlist { border-top: 1px solid var(--line); }
   .indexlist .item {
-    display: grid; grid-template-columns: 60px 90px 1fr 1fr 120px 80px;
+    display: grid; grid-template-columns: 60px 90px 1fr 120px 80px;
     gap: 18px;
     padding: 14px 18px;
     font-size: var(--small);
@@ -216,10 +243,13 @@
   }
   .indexlist .item:hover { background: #fafafa; }
   .indexlist .item:hover .arrow { color: var(--accent); }
-  .indexlist .item .num, .indexlist .item .date, .indexlist .item .tag, .indexlist .item .arrow { color: var(--muted); font-size: var(--tiny); }
+  .indexlist .item .num,
+  .indexlist .item .date,
+  .indexlist .item .tag,
+  .indexlist .item .arrow { color: var(--muted); font-size: var(--tiny); }
   .indexlist .item .arrow { text-align: right; }
 
-  /* contact */
+  /* ── CONTACT ── */
   .contact {
     display: grid; grid-template-columns: 60px repeat(3, 1fr) 80px;
     gap: 18px;
@@ -231,7 +261,7 @@
   .contact .num { font-size: var(--tiny); color: var(--muted); }
   .contact address { font-style: normal; line-height: 1.55; }
 
-  /* footer */
+  /* ── FOOTER ── */
   .foot {
     display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
     gap: 18px;
@@ -244,48 +274,39 @@
   .foot ul { list-style: none; display: grid; gap: 4px; }
   .foot .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
 
-  /* ticker */
-  .ticker {
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    overflow: hidden; white-space: nowrap;
-    font-family: var(--type-mono); font-size: 10px; letter-spacing: 0.08em;
-    color: var(--muted);
-    padding: 8px 0;
-  }
-  .ticker .track {
-    display: inline-block; padding-left: 100%;
-    animation: tk 60s linear infinite;
-  }
-  .ticker span { margin-right: 30px; }
-  .ticker em { font-style: normal; color: var(--accent); }
-  @keyframes tk { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-
-  /* utility */
-  .acc { color: var(--accent); }
-  .mono { font-family: var(--type-mono); }
-  .muted { color: var(--muted); }
-
-  /* scroll progress */
+  /* ── SCROLL PROGRESS ── */
   .progress {
     position: fixed; top: 0; left: 0; height: 2px; width: 0;
     background: var(--accent); z-index: 100;
     transition: width 80ms linear;
   }
 
+  /* ── LANGUAGE SWITCHING ── */
+  .lang-ja { display: none; }
+  html[lang="ja"] .lang-ja { display: inline; }
+  html[lang="ja"] .lang-en { display: none; }
+
+  /* utility */
+  .acc { color: var(--accent); }
+  .mono { font-family: var(--type-mono); }
+  .muted { color: var(--muted); }
+
   :focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 880px) {
-    .hero-meta { grid-template-columns: 1fr 1fr; }
+    .desktop-nav { display: none; }
+    .hamburger { display: flex; }
+
     .hero-title { grid-template-columns: 1fr; }
     .hero-title .arrow { display: none; }
     .sec-head { grid-template-columns: 40px 1fr 80px; }
-    .sec-head .meta:first-of-type { display: none; }
+    .sec-head > div:nth-child(3), .sec-head > div:nth-child(4) { display: none; }
     .grid3 { grid-template-columns: 1fr 1fr; }
     .manifesto { grid-template-columns: 40px 1fr; padding: 40px 18px 60px; }
     .manifesto .lead { grid-column: 2; font-size: 18px; }
     .indexlist .item { grid-template-columns: 40px 1fr 60px; }
-    .indexlist .item .date, .indexlist .item .tag, .indexlist .item > span:nth-child(4) { display: none; }
+    .indexlist .item .date, .indexlist .item .tag { display: none; }
     .contact { grid-template-columns: 40px 1fr; }
     .foot { grid-template-columns: 40px 1fr 1fr; }
   }
@@ -299,247 +320,308 @@
 <div class="progress" id="progress"></div>
 
 <!-- NAV -->
-<header class="nav row between" data-screen-label="00 nav">
-  <div class="row" style="gap:22px;">
-    <a href="#" class="brand" aria-label="skyライフ 株式会社">
-      <span class="brand-logo" role="img" aria-label="skyライフ"></span>
-    </a>
-    <span class="muted mono" style="font-size:10px; letter-spacing:0.06em;">est. 2014 / chiba · tokyo</span>
-  </div>
-  <nav class="row">
+<header class="nav">
+  <a href="#" aria-label="SKYライフ株式会社">
+    <span class="brand-logo" role="img" aria-label="SKYライフ"></span>
+  </a>
+
+  <!-- Desktop navigation -->
+  <div class="desktop-nav" id="desktop-nav">
     <ul>
-      <li><a href="#products">products</a></li>
+      <li><a href="#products">
+        <span class="lang-en">products</span>
+        <span class="lang-ja">製品・サービス</span>
+      </a></li>
       <li><a href="store.html">store</a></li>
-      <li><a href="#journal">journal</a></li>
-      <li><a href="#about">about</a></li>
-      <li><a href="#contact">contact</a></li>
+      <li><a href="#journal">
+        <span class="lang-en">journal</span>
+        <span class="lang-ja">ジャーナル</span>
+      </a></li>
+      <li><a href="#about">
+        <span class="lang-en">about</span>
+        <span class="lang-ja">会社概要</span>
+      </a></li>
+      <li><a href="#contact">
+        <span class="lang-en">contact</span>
+        <span class="lang-ja">お問い合わせ</span>
+      </a></li>
     </ul>
-    <div class="lang" id="lang">
-      <button data-lang="en">en</button>
-      <button data-lang="ja" class="on">日本語</button>
+    <div class="lang-ctrl">
+      <button data-lang="en" class="on">en</button>
+      <button data-lang="ja">日本語</button>
     </div>
-  </nav>
+  </div>
+
+  <!-- Hamburger button (mobile only) -->
+  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
-<!-- HERO -->
-<section class="hero" data-screen-label="01 hero">
-  <div class="hero-meta">
-    <div><span class="k muted">index</span><b>00 — homepage</b></div>
-    <div><span class="k muted">issue</span><b>vol. 24 / spring 2026</b></div>
-    <div><span class="k muted">location</span><b>35.0116° n, 135.7681° e</b></div>
-    <div><span class="k muted">status</span><b><span class="acc">●</span> open for inquiry</b></div>
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <ul>
+    <li><a href="#products" class="mob-link">
+      <span class="lang-en">products</span>
+      <span class="lang-ja">製品・サービス</span>
+    </a></li>
+    <li><a href="store.html" class="mob-link">store</a></li>
+    <li><a href="#journal" class="mob-link">
+      <span class="lang-en">journal</span>
+      <span class="lang-ja">ジャーナル</span>
+    </a></li>
+    <li><a href="#about" class="mob-link">
+      <span class="lang-en">about</span>
+      <span class="lang-ja">会社概要</span>
+    </a></li>
+    <li><a href="#contact" class="mob-link">
+      <span class="lang-en">contact</span>
+      <span class="lang-ja">お問い合わせ</span>
+    </a></li>
+  </ul>
+  <div class="mob-lang-row">
+    <button data-lang="en" class="on">en</button>
+    <button data-lang="ja">日本語</button>
   </div>
+</div>
 
+<!-- HERO -->
+<section class="hero">
   <div class="hero-img" role="img" aria-label="japanese guesthouse exterior"
        style="background-image:url('assets/hero.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-    <div class="frame-meta tr">f/8 · 1/250 · iso 200</div>
-    <div class="frame-meta">[ japanese guesthouse · arashiyama, chiba · 京町家 ]</div>
   </div>
-
   <div class="hero-title">
-    <h1>a small studio for slow architecture, quiet hospitality, and considered design.<br/>建築・宿泊・デザインを静かに営む。</h1>
+    <h1>
+      <span class="lang-en">a small studio for slow architecture, quiet hospitality, and considered design.</span>
+      <span class="lang-ja">建築・宿泊・デザインを静かに営む。</span>
+    </h1>
     <div></div>
     <div class="arrow">scroll ↓</div>
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="track">
-    <span>地域と暮らしをデザインする</span>
-    <span>—</span>
-    <span><em>new</em> · 千葉 西陣 machiya project complete</span>
-    <span>—</span>
-    <span>Designing the region and the way we live.</span>
-    <span>—</span>
-    <span>vol. 24 journal printed in osaka, 80gsm matte</span>
-    <span>—</span>
-    <span>now booking · 春の宿 spring stays 2026</span>
-    <span>—</span>
-    <span><em>new</em> · 千葉 西陣 machiya project complete</span>
-    <span>—</span>
-  </div>
-</div>
+<!-- ABOUT / MANIFESTO -->
+<section class="manifesto" id="about">
+  <div class="num mono">— 01</div>
+  <p class="lead">
+    <span class="lang-en">skyライフ co., ltd. redefines space — not as property, but as a place where people and communities <em>connect</em>. we breathe new life into existing buildings and overlooked spaces, turning them into homes for travelers, long-term residents, and the communities around them. design is at the heart of everything we do — not as decoration, but as a way of shaping how people live. our guiding principle: <em>designing the region and the way we live.</em></span>
+    <span class="lang-ja">SKYライフ株式会社は、空間を単なる不動産としてではなく、人とコミュニティが<em>つながる</em>場所として再定義します。既存の建物や見過ごされた空間に新たな命を吹き込み、旅行者・長期滞在者・地域の人々のための場所へと変えていきます。デザインは私たちの活動の核心にあります——装飾としてではなく、人々の暮らし方を形づくる手段として。私たちの指針：<em>地域と暮らしをデザインする。</em></span>
+  </p>
+</section>
 
 <!-- PRODUCTS / SERVICES -->
 <div class="sec-head" id="products">
-  <div class="num mono">— 01</div>
-  <h2>products &amp; services</h2>
-  <div class="meta muted">four disciplines · one studio</div>
-  <div class="meta muted">updated 2026.04.18</div>
-  <a class="more" href="#">all →</a>
+  <div class="num mono">— 02</div>
+  <h2>
+    <span class="lang-en">products &amp; services</span>
+    <span class="lang-ja">製品・サービス</span>
+  </h2>
+  <div></div>
+  <div></div>
+  <a class="more" href="#">
+    <span class="lang-en">all →</span>
+    <span class="lang-ja">すべて →</span>
+  </a>
 </div>
 
-<div class="grid3" id="grid">
+<div class="grid3">
   <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a01.jpg'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-      <span class="corner" style="color:rgba(255,255,255,0.85); text-shadow:0 1px 2px rgba(0,0,0,0.4);">a.01</span>
-      <span class="corner tr mono" style="color:rgba(255,255,255,0.85); text-shadow:0 1px 2px rgba(0,0,0,0.4);">[ guesthouse / 宿 ]</span>
-      <span class="corner bl" style="color:rgba(255,255,255,0.85); text-shadow:0 1px 2px rgba(0,0,0,0.4);">interior</span>
-      <span class="corner br" style="color:rgba(255,255,255,0.85); text-shadow:0 1px 2px rgba(0,0,0,0.4);">04 photos</span>
-    </div>
-    <div class="card-id mono">sky—001 / real estate</div>
+    <div class="ph" style="background-image:url('assets/card-a01.jpg'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
     <div class="card-meta">
       <div>
-        <div class="name">real estate &amp; guesthouse</div>
-        <span class="sub">不動産・宿泊運営 · machiya restoration, leasing, hospitality operation across chiba and setouchi.</span>
+        <div class="name">
+          <span class="lang-en">real estate &amp; guesthouse</span>
+          <span class="lang-ja">不動産・ゲストハウス</span>
+        </div>
+        <span class="sub">
+          <span class="lang-en">machiya restoration, leasing, hospitality operation across chiba and setouchi.</span>
+          <span class="lang-ja">町家再生・賃貸管理・宿泊運営。千葉・瀬戸内エリアを中心に展開。</span>
+        </span>
       </div>
     </div>
   </article>
 
   <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a02.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-      <span class="corner" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">a.02</span>
-      <span class="corner tr mono" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">[ design / 設計 ]</span>
-      <span class="corner bl" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">studio</span>
-      <span class="corner br" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">12 works</span>
-    </div>
-    <div class="card-id mono">sky—002 / creative</div>
+    <div class="ph" style="background-image:url('assets/card-a02.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
     <div class="card-meta">
       <div>
-        <div class="name">design &amp; creative</div>
-        <span class="sub">設計・デザイン · architecture, interiors, identity, signage, print. small team, long projects.</span>
+        <div class="name">
+          <span class="lang-en">design &amp; creative</span>
+          <span class="lang-ja">設計・デザイン</span>
+        </div>
+        <span class="sub">
+          <span class="lang-en">architecture, interiors, identity, signage, print. small team, long projects.</span>
+          <span class="lang-ja">建築・インテリア・グラフィック・サイン・印刷。少数精鋭、長期プロジェクト。</span>
+        </span>
       </div>
     </div>
   </article>
 
   <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a03.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-      <span class="corner" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">a.03</span>
-      <span class="corner tr mono" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">[ services / 業務 ]</span>
-      <span class="corner bl" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">field</span>
-      <span class="corner br" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">on-site</span>
-    </div>
-    <div class="card-id mono">sky—003 / services</div>
+    <div class="ph" style="background-image:url('assets/card-a03.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
     <div class="card-meta">
       <div>
-        <div class="name">services</div>
-        <span class="sub">運営・管理 · property management, concierge, translation, permits, retainers and long-term care.</span>
+        <div class="name">
+          <span class="lang-en">services</span>
+          <span class="lang-ja">サービス</span>
+        </div>
+        <span class="sub">
+          <span class="lang-en">property management, concierge, translation, permits, retainers and long-term care.</span>
+          <span class="lang-ja">物件管理・コンシェルジュ・翻訳・許認可申請・長期サポート。</span>
+        </span>
       </div>
     </div>
   </article>
 
   <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a04.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-      <span class="corner" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">a.04</span>
-      <span class="corner tr mono" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">[ quotation / 見積 ]</span>
-      <span class="corner bl" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">desk</span>
-      <span class="corner br" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">3–5 day reply</span>
-    </div>
-    <div class="card-id mono">sky—004 / quotation</div>
+    <div class="ph" style="background-image:url('assets/card-a04.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
     <div class="card-meta">
       <div>
-        <div class="name">quotation</div>
-        <span class="sub">見積依頼 · request a written quotation for any of the above. plain pdf, no decoration, no surprise.</span>
+        <div class="name">
+          <span class="lang-en">quotation</span>
+          <span class="lang-ja">見積依頼</span>
+        </div>
+        <span class="sub">
+          <span class="lang-en">request a written quotation for any of the above. plain pdf, no decoration, no surprise.</span>
+          <span class="lang-ja">各サービスの見積依頼を受け付けています。シンプルなPDF形式でご提示します。</span>
+        </span>
       </div>
-      <div class="price acc">request →</div>
+      <div class="price acc">
+        <span class="lang-en">request →</span>
+        <span class="lang-ja">依頼する →</span>
+      </div>
     </div>
   </article>
 
-  <a class="card" tabindex="0" href="store.html" style="display:block; color:inherit; text-decoration:none;">
-    <div class="ph" style="background-image:url('assets/card-a05.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-      <span class="corner" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">a.05</span>
-      <span class="corner tr mono" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">[ store / 店 ]</span>
-      <span class="corner bl" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">objects</span>
-      <span class="corner br" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">in stock</span>
-    </div>
-    <div class="card-id mono">sky—005 / store</div>
+  <a class="card" tabindex="0" href="store.html" style="color:inherit; text-decoration:none;">
+    <div class="ph" style="background-image:url('assets/card-a05.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
     <div class="card-meta">
       <div>
-        <div class="name">store</div>
-        <span class="sub">物販 · small editions: paper goods, bath salt, towels, ceramics — made for our guesthouses.</span>
+        <div class="name">
+          <span class="lang-en">store</span>
+          <span class="lang-ja">ストア</span>
+        </div>
+        <span class="sub">
+          <span class="lang-en">small editions: paper goods, bath salt, towels, ceramics — made for our guesthouses.</span>
+          <span class="lang-ja">少量製作の物販。紙製品・入浴剤・タオル・陶器など、宿のために作ったもの。</span>
+        </span>
       </div>
     </div>
   </a>
 
   <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a06.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-      <span class="corner" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">a.06</span>
-      <span class="corner tr mono" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">[ journal / 記録 ]</span>
-      <span class="corner bl" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">vol.24</span>
-      <span class="corner br" style="color:rgba(255,255,255,0.9); text-shadow:0 1px 2px rgba(0,0,0,0.45);">spring 2026</span>
-    </div>
-    <div class="card-id mono">sky—006 / journal</div>
+    <div class="ph" style="background-image:url('assets/card-a06.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
     <div class="card-meta">
       <div>
-        <div class="name">journal</div>
-        <span class="sub">季刊誌 · a quarterly notebook of our buildings, our guests, and what we are reading. printed in osaka.</span>
+        <div class="name">
+          <span class="lang-en">journal</span>
+          <span class="lang-ja">ジャーナル</span>
+        </div>
+        <span class="sub">
+          <span class="lang-en">a quarterly notebook of our buildings, our guests, and what we are reading. printed in osaka.</span>
+          <span class="lang-ja">季刊誌。建物・宿泊客・読書記録を綴る小冊子。大阪で印刷。</span>
+        </span>
       </div>
     </div>
   </article>
 </div>
 
-<!-- MANIFESTO -->
-<section class="manifesto" id="about" data-screen-label="02 about">
-  <div class="num mono">— 02</div>
-  <p class="lead">
-    skyライフ co., ltd. redefines space — not as property, but as a place where people and communities <em>connect</em>.
-    we breathe new life into existing buildings and overlooked spaces, turning them into homes for travelers, long-term residents, and the communities around them.
-    design is at the heart of everything we do — not as decoration, but as a way of shaping how people live. our guiding principle: <em>designing the region and the way we live.</em>
-  </p>
-</section>
-
-<!-- JOURNAL / NEWS LIST -->
+<!-- JOURNAL -->
 <div class="sec-head" id="journal">
   <div class="num mono">— 03</div>
-  <h2>journal</h2>
-  <div class="meta muted">recent entries</div>
-  <div class="meta muted">monthly · printed quarterly</div>
-  <a class="more" href="#">archive →</a>
+  <h2>
+    <span class="lang-en">journal</span>
+    <span class="lang-ja">ジャーナル</span>
+  </h2>
+  <div></div>
+  <div></div>
+  <a class="more" href="#">
+    <span class="lang-en">archive →</span>
+    <span class="lang-ja">アーカイブ →</span>
+  </a>
 </div>
 
 <div class="indexlist">
   <a class="item" href="#">
     <span class="num mono">001</span>
     <span class="date mono">2026.04.18</span>
-    <span class="title">on the door height of an old chiba townhouse</span>
-    <span class="muted">京町家の鴨居について</span>
-    <span class="tag mono">[ field note ]</span>
+    <span class="title">
+      <span class="lang-en">on the door height of an old chiba townhouse</span>
+      <span class="lang-ja">京町家の鴨居について</span>
+    </span>
+    <span class="tag mono">
+      <span class="lang-en">[ field note ]</span>
+      <span class="lang-ja">[ フィールドノート ]</span>
+    </span>
     <span class="arrow">→</span>
   </a>
   <a class="item" href="#">
     <span class="num mono">002</span>
     <span class="date mono">2026.03.30</span>
-    <span class="title">a guesthouse for two — naoshima, march</span>
-    <span class="muted">直島の小さな宿</span>
-    <span class="tag mono">[ project ]</span>
+    <span class="title">
+      <span class="lang-en">a guesthouse for two — naoshima, march</span>
+      <span class="lang-ja">直島の小さな宿</span>
+    </span>
+    <span class="tag mono">
+      <span class="lang-en">[ project ]</span>
+      <span class="lang-ja">[ プロジェクト ]</span>
+    </span>
     <span class="arrow">→</span>
   </a>
   <a class="item" href="#">
     <span class="num mono">003</span>
     <span class="date mono">2026.03.11</span>
-    <span class="title">we made a kettle. it weighs 480 grams.</span>
-    <span class="muted">薬缶をひとつ</span>
-    <span class="tag mono">[ store ]</span>
+    <span class="title">
+      <span class="lang-en">we made a kettle. it weighs 480 grams.</span>
+      <span class="lang-ja">薬缶をひとつ</span>
+    </span>
+    <span class="tag mono">
+      <span class="lang-en">[ store ]</span>
+      <span class="lang-ja">[ ストア ]</span>
+    </span>
     <span class="arrow">→</span>
   </a>
   <a class="item" href="#">
     <span class="num mono">004</span>
     <span class="date mono">2026.02.27</span>
-    <span class="title">a winter site visit, nishijin</span>
-    <span class="muted">西陣・冬の現場</span>
-    <span class="tag mono">[ field note ]</span>
+    <span class="title">
+      <span class="lang-en">a winter site visit, nishijin</span>
+      <span class="lang-ja">西陣・冬の現場</span>
+    </span>
+    <span class="tag mono">
+      <span class="lang-en">[ field note ]</span>
+      <span class="lang-ja">[ フィールドノート ]</span>
+    </span>
     <span class="arrow">→</span>
   </a>
   <a class="item" href="#">
     <span class="num mono">005</span>
     <span class="date mono">2026.02.04</span>
-    <span class="title">five years of the same towel</span>
-    <span class="muted">五年使った手拭い</span>
-    <span class="tag mono">[ essay ]</span>
+    <span class="title">
+      <span class="lang-en">five years of the same towel</span>
+      <span class="lang-ja">五年使った手拭い</span>
+    </span>
+    <span class="tag mono">
+      <span class="lang-en">[ essay ]</span>
+      <span class="lang-ja">[ エッセイ ]</span>
+    </span>
     <span class="arrow">→</span>
   </a>
 </div>
 
 <!-- CONTACT -->
-<section class="contact" id="contact" data-screen-label="03 contact">
+<section class="contact" id="contact">
   <div class="num mono">— 04</div>
   <div>
-    <div class="label">studio · chiba</div>
+    <div class="label">
+      <span class="lang-en">studio · chiba</span>
+      <span class="lang-ja">スタジオ · 千葉</span>
+    </div>
     <address>
-      skyライフ株式会社<br/>
+      SKYライフ株式会社<br/>
       <a href="mailto:skylife.sakura@gmail.com">skylife.sakura@gmail.com</a><br/>
-      mon – fri · 10:00 – 18:00 jst
+      <span class="lang-en">mon – fri · 10:00 – 18:00 jst</span>
+      <span class="lang-ja">月〜金 · 10:00 – 18:00 JST</span>
     </address>
   </div>
   <div></div>
@@ -548,44 +630,86 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="foot" data-screen-label="04 footer">
+<footer class="foot">
   <div class="num mono">— 05</div>
   <div class="col">
-    <h4>studio</h4>
+    <h4>
+      <span class="lang-en">studio</span>
+      <span class="lang-ja">スタジオ</span>
+    </h4>
     <ul>
-      <li><a href="#about">about</a></li>
-      <li><a href="#">team</a></li>
-      <li><a href="#">careers</a></li>
-      <li><a href="#">press</a></li>
+      <li><a href="#about">
+        <span class="lang-en">about</span>
+        <span class="lang-ja">会社概要</span>
+      </a></li>
+      <li><a href="#">
+        <span class="lang-en">team</span>
+        <span class="lang-ja">チーム</span>
+      </a></li>
+      <li><a href="#">
+        <span class="lang-en">careers</span>
+        <span class="lang-ja">採用情報</span>
+      </a></li>
+      <li><a href="#">
+        <span class="lang-en">press</span>
+        <span class="lang-ja">プレス</span>
+      </a></li>
     </ul>
   </div>
   <div class="col">
-    <h4>products</h4>
+    <h4>
+      <span class="lang-en">products</span>
+      <span class="lang-ja">製品</span>
+    </h4>
     <ul>
-      <li><a href="#products">guesthouses</a></li>
-      <li><a href="#products">design</a></li>
-      <li><a href="#products">services</a></li>
-      <li><a href="store.html">store</a></li>
+      <li><a href="#products">
+        <span class="lang-en">guesthouses</span>
+        <span class="lang-ja">ゲストハウス</span>
+      </a></li>
+      <li><a href="#products">
+        <span class="lang-en">design</span>
+        <span class="lang-ja">デザイン</span>
+      </a></li>
+      <li><a href="#products">
+        <span class="lang-en">services</span>
+        <span class="lang-ja">サービス</span>
+      </a></li>
+      <li><a href="store.html">
+        <span class="lang-en">store</span>
+        <span class="lang-ja">ストア</span>
+      </a></li>
     </ul>
   </div>
   <div class="col">
-    <h4>elsewhere</h4>
+    <h4>
+      <span class="lang-en">elsewhere</span>
+      <span class="lang-ja">その他</span>
+    </h4>
     <ul>
-      <li><a href="#">instagram</a></li>
+      <li><a href="#">
+        <span class="lang-en">instagram</span>
+        <span class="lang-ja">インスタグラム</span>
+      </a></li>
       <li><a href="#">are.na</a></li>
-      <li><a href="#">newsletter</a></li>
-      <li><a href="#">rss</a></li>
+      <li><a href="#">
+        <span class="lang-en">newsletter</span>
+        <span class="lang-ja">ニュースレター</span>
+      </a></li>
+      <li><a href="#">RSS</a></li>
     </ul>
   </div>
   <div></div>
   <div class="legal">
-    <span>© 2014 – 2026 skyライフ株式会社. all rights reserved.</span>
-    <span class="mono">v 24.04 / build 0418 — handmade in chiba.</span>
+    <span>© 2014 – 2026 SKYライフ株式会社.
+      <span class="lang-en">all rights reserved.</span>
+      <span class="lang-ja">無断転載禁止。</span>
+    </span>
   </div>
 </footer>
 
 <script>
 (function () {
+  /* scroll progress */
   var p = document.getElementById('progress');
   function onScroll() {
     var h = document.documentElement;
@@ -597,18 +721,50 @@
 })();
 
 (function () {
-  var dict = {
-    en: { products: 'products', store: 'store', journal: 'journal', about: 'about', contact: 'contact' },
-    ja: { products: 'products', store: 'store', journal: 'journal', about: 'about', contact: 'contact' }
-  };
-  var links = document.querySelectorAll('.nav nav ul li a');
-  var keys = ['products', 'store', 'journal', 'about', 'contact'];
-  document.getElementById('lang').addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-lang]');
-    if (!b) return;
-    var l = b.getAttribute('data-lang');
-    document.querySelectorAll('#lang button').forEach(function (x) { x.classList.toggle('on', x === b); });
-    links.forEach(function (a, i) { a.textContent = dict[l][keys[i]]; });
+  /* language switching — handles all [data-lang] buttons in both desktop and mobile menus */
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-lang]').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-lang]');
+    if (b) setLang(b.getAttribute('data-lang'));
+  });
+
+  /* hamburger menu */
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobile-menu');
+
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  }
+
+  hamburger.addEventListener('click', function () {
+    var opening = !mobileMenu.classList.contains('open');
+    if (opening) {
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+    } else {
+      closeMenu();
+    }
+  });
+
+  /* close on mobile link tap */
+  mobileMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* close when resizing to desktop */
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 880) closeMenu();
   });
 })();
 </script>

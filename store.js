@@ -1,23 +1,16 @@
-// skyライフ · store · ai creative studio
-// Connects to the skylife-image Cloudflare Worker via /api/*
-// Auth: JWT stored in localStorage, sent as Authorization: Bearer <token>
-
 (function () {
   const API = '/api';
   const TOKEN_KEY = 'sky.token.v1';
   const HIST_KEY = (email) => `sky.hist.${email}`;
 
-  // ---- DOM helpers ----
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const readJSON = (k, fb) => { try { return JSON.parse(localStorage.getItem(k)) ?? fb; } catch { return fb; } };
   const writeJSON = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-  // ---- token ----
   function getToken() { return localStorage.getItem(TOKEN_KEY); }
   function setToken(t) { t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY); }
 
-  // ---- API fetch ----
   async function apiFetch(path, opts = {}) {
     const token = getToken();
     const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
@@ -26,13 +19,50 @@
     return res;
   }
 
-  // ---- session state ----
   let currentEmail = null;
   let currentCredits = 0;
-
-  // ---- tab state ----
+  let isAdmin = false;
   let mode = 'login';
 
+  // ── NAV: language switching ──
+  document.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-lang]');
+    if (b) {
+      const l = b.getAttribute('data-lang');
+      document.documentElement.lang = l;
+      document.querySelectorAll('[data-lang]').forEach(x => {
+        x.classList.toggle('on', x.getAttribute('data-lang') === l);
+      });
+    }
+  });
+
+  // ── NAV: hamburger ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  }
+
+  hamburger.addEventListener('click', function () {
+    const opening = !mobileMenu.classList.contains('open');
+    if (opening) {
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+    } else {
+      closeMenu();
+    }
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  window.addEventListener('resize', () => { if (window.innerWidth > 880) closeMenu(); });
+
+  // ── AUTH tabs ──
   $$('#tabs button').forEach(b => {
     b.addEventListener('click', () => {
       mode = b.dataset.tab;
@@ -40,13 +70,13 @@
       $('#name-field').style.display = mode === 'register' ? '' : 'none';
       $('#auth-submit').textContent = mode === 'register' ? 'register →' : 'login →';
       $('#auth-helper').textContent = mode === 'register'
-        ? 'new members receive 100 credits.'
-        : 'welcome back. members keep their credit balance.';
+        ? 'contact us to get credits after registering.'
+        : 'welcome back.';
       $('#auth-err').textContent = '';
     });
   });
 
-  // ---- auth form submit ----
+  // ── AUTH form submit ──
   $('#auth-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = $('#email').value.trim().toLowerCase();
@@ -65,11 +95,7 @@
         ? { email, password: pw, name: name || undefined }
         : { email, password: pw };
 
-      const res = await apiFetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(body),
-      });
-
+      const res = await apiFetch(endpoint, { method: 'POST', body: JSON.stringify(body) });
       const data = await res.json();
 
       if (!res.ok) {
@@ -79,7 +105,7 @@
 
       setToken(data.token);
       currentEmail = email;
-      currentCredits = data.credits ?? 100;
+      currentCredits = data.credits ?? 0;
       enterStudio(data);
     } catch (_err) {
       errEl.textContent = 'network error — please try again.';
@@ -89,20 +115,16 @@
     }
   });
 
-  // ---- studio enter / leave ----
+  // ── studio enter / leave ──
   function enterStudio(userData) {
     $('#auth-section').style.display = 'none';
     $('#studio-section').style.display = '';
 
-    const email = userData?.email || currentEmail || '—';
-    currentEmail = email;
+    currentEmail = userData?.email || currentEmail || '—';
     currentCredits = userData?.credits ?? currentCredits;
+    isAdmin = userData?.isAdmin || false;
 
-    // session label: first 6 chars of email + hash fragment
-    const label = email.length > 6
-      ? email.slice(0, 6) + '·' + simpleHash(email).slice(0, 4)
-      : email;
-    $('#session-id').textContent = label;
+    if (isAdmin) $('#admin-toggle').style.display = '';
 
     paintCredits();
     paintHistory();
@@ -112,6 +134,10 @@
     setToken(null);
     currentEmail = null;
     currentCredits = 0;
+    isAdmin = false;
+    $('#admin-toggle').style.display = 'none';
+    $('#admin-toggle').classList.remove('on');
+    $('#admin-section').style.display = 'none';
     $('#auth-section').style.display = '';
     $('#studio-section').style.display = 'none';
     $('#email').value = '';
@@ -121,17 +147,103 @@
 
   $('#logout-btn').addEventListener('click', leaveStudio);
 
+  // ── admin panel ──
+  $('#admin-toggle').addEventListener('click', function () {
+    const adminOpen = $('#admin-section').style.display !== 'none';
+    if (adminOpen) {
+      $('#admin-section').style.display = 'none';
+      $('#studio-section').style.display = '';
+      this.classList.remove('on');
+    } else {
+      $('#studio-section').style.display = 'none';
+      $('#admin-section').style.display = '';
+      this.classList.add('on');
+      loadAdminPanel();
+    }
+  });
+
+  async function loadAdminPanel() {
+    const tbody = $('#admin-users-body');
+    tbody.innerHTML = '<tr><td colspan="5" class="admin-loading">loading…</td></tr>';
+    try {
+      const res = await apiFetch('/admin/users');
+      if (!res.ok) { tbody.innerHTML = '<tr><td colspan="5" class="admin-loading">error loading users</td></tr>'; return; }
+      const { users } = await res.json();
+      tbody.innerHTML = '';
+      (users || []).forEach(u => {
+        const active = u.is_active !== 0;
+        const tr = document.createElement('tr');
+        if (!active) tr.classList.add('user-banned');
+        tr.innerHTML = `
+          <td>${escapeHtml(u.email)}</td>
+          <td>${escapeHtml(u.name || '—')}</td>
+          <td class="credits-cell">${u.credits}</td>
+          <td class="muted mono">${(u.created_at || '').slice(0, 10)}</td>
+          <td>
+            <button class="action-btn add">+ cr</button>
+            <button class="action-btn zero">× 0</button>
+            <button class="action-btn ${active ? 'ban' : 'unban'}">${active ? 'ban' : 'unban'}</button>
+          </td>
+        `;
+        tr.querySelector('.add').addEventListener('click', () => {
+          $('#topup-email').value = u.email;
+          $('#topup-amount').focus();
+        });
+        tr.querySelector('.zero').addEventListener('click', async () => {
+          if (!confirm(`Clear all credits for ${u.email}?`)) return;
+          const r = await apiFetch('/admin/topup', {
+            method: 'POST', body: JSON.stringify({ email: u.email, zero: true }),
+          });
+          if (r.ok) { $('#topup-msg').textContent = `✓ ${u.email} credits cleared`; loadAdminPanel(); }
+          else { const d = await r.json(); $('#topup-msg').textContent = d.error || 'failed'; }
+        });
+        tr.querySelector(active ? '.ban' : '.unban').addEventListener('click', async () => {
+          const newActive = active ? 0 : 1;
+          const action = active ? 'ban' : 'unban';
+          if (!confirm(`${action} ${u.email}?`)) return;
+          const r = await apiFetch('/admin/ban', {
+            method: 'POST', body: JSON.stringify({ email: u.email, active: newActive }),
+          });
+          if (r.ok) { $('#topup-msg').textContent = `✓ ${u.email} ${action}ned`; loadAdminPanel(); }
+          else { const d = await r.json(); $('#topup-msg').textContent = d.error || 'failed'; }
+        });
+        tbody.appendChild(tr);
+      });
+    } catch (_e) {
+      tbody.innerHTML = '<tr><td colspan="5" class="admin-loading">network error</td></tr>';
+    }
+  }
+
+  $('#topup-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const email = $('#topup-email').value.trim().toLowerCase();
+    const amount = parseInt($('#topup-amount').value, 10);
+    const msgEl = $('#topup-msg');
+    msgEl.textContent = 'processing…';
+    try {
+      const res = await apiFetch('/admin/topup', {
+        method: 'POST',
+        body: JSON.stringify({ email, amount }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        msgEl.textContent = data.error || 'failed';
+      } else {
+        msgEl.textContent = `✓ ${data.email} · ${data.credits} cr`;
+        $('#topup-amount').value = '';
+        loadAdminPanel();
+      }
+    } catch (_e) {
+      msgEl.textContent = 'network error';
+    }
+  });
+
   function paintCredits() {
-    $('#credit-num').textContent = String(currentCredits).padStart(3, '0');
+    const display = String(currentCredits).padStart(3, '0');
+    document.querySelectorAll('#credit-num').forEach(el => el.textContent = display);
   }
 
-  function simpleHash(s) {
-    let h = 0xdeadbeef ^ s.length;
-    for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 2654435761);
-    return ((h ^ (h >>> 16)) >>> 0).toString(16);
-  }
-
-  // ---- model / ratio / prompt state ----
+  // ── model / ratio / prompt ──
   let selectedModel = 'gpt-image';
   let selectedCost = 1;
   let selectedRatio = '1:1';
@@ -141,7 +253,7 @@
       $$('#model-grid .model').forEach(x => x.classList.toggle('on', x === m));
       selectedModel = m.dataset.model;
       selectedCost = Number(m.dataset.cost);
-      $('#cost-num').textContent = selectedCost;
+      setCostDisplay(selectedCost);
       const isVideo = selectedModel === 'seedance-video';
       $$('#ratio-row .ratio').forEach(r => { r.style.opacity = isVideo ? '0.4' : '1'; });
     });
@@ -159,8 +271,36 @@
     $('#char-count').textContent = `${e.target.value.length} / 500`;
   });
 
-  // ---- generation ----
+  function setCostDisplay(n) {
+    document.querySelectorAll('#cost-num, #cost-num-ja').forEach(el => el.textContent = n);
+  }
+
+  // ── generation ──
   $('#generate-btn').addEventListener('click', generate);
+
+  async function pollVideoTask(taskId, prompt) {
+    const MAX_POLLS = 60;
+    for (let i = 0; i < MAX_POLLS; i++) {
+      await new Promise(r => setTimeout(r, 5000));
+      try {
+        const res = await apiFetch('/status?taskId=' + taskId);
+        if (!res.ok) continue;
+        const data = await res.json();
+        const status = data.status;
+        if (status === 'succeeded') {
+          const videoUrl = (data.content && data.content.video_url) || null;
+          if (!videoUrl) { flashStamp('video ready but no url'); return; }
+          showOutput({ imageUrl: null, videoUrl, caption: 'generated video: ' + prompt.slice(0, 60), prompt, model: selectedModel, ratio: selectedRatio });
+          pushHistory({ imageUrl: null, videoUrl, caption: 'generated video: ' + prompt.slice(0, 60), prompt, model: selectedModel, ratio: selectedRatio, ts: Date.now() });
+          return;
+        }
+        if (status === 'failed') { flashStamp('video generation failed'); return; }
+        const overlay = document.querySelector('#stage .stage-loading div');
+        if (overlay) overlay.textContent = 'processing video… ' + (i + 1) * 5 + 's';
+      } catch (_e) { /* continue */ }
+    }
+    flashStamp('video generation timed out');
+  }
 
   async function generate() {
     const prompt = $('#prompt').value.trim();
@@ -170,7 +310,6 @@
     setLoading(true);
     $('#caption').style.display = 'none';
 
-    // Show SVG placeholder while waiting for the real image
     const placeholderArt = renderPlaceholder({ prompt, model: selectedModel, ratio: selectedRatio, seed: Date.now() });
     $('#stage').innerHTML = '';
     $('#stage').appendChild(placeholderArt);
@@ -178,43 +317,35 @@
     try {
       const res = await apiFetch('/generate', {
         method: 'POST',
-        body: JSON.stringify({
-          prompt,
-          model: selectedModel,
-          aspect: selectedRatio,
-        }),
+        body: JSON.stringify({ prompt, model: selectedModel, aspect: selectedRatio }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
         flashStamp(data.error || 'generation failed');
-        // Restore credits on client if server didn't deduct
         return;
       }
 
       currentCredits = data.credits ?? Math.max(0, currentCredits - selectedCost);
       paintCredits();
 
-      showOutput({
-        imageUrl: data.imageUrl || null,
-        videoUrl: data.videoUrl || null,
-        caption: data.caption || `a generated impression: ${prompt}`,
-        prompt,
-        model: selectedModel,
-        ratio: selectedRatio,
-        generationId: data.id || null,
-      });
-
-      pushHistory({
-        imageUrl: data.imageUrl || null,
-        videoUrl: data.videoUrl || null,
-        caption: data.caption || '',
-        prompt,
-        model: selectedModel,
-        ratio: selectedRatio,
-        ts: Date.now(),
-      });
+      if (data.polling && data.taskId) {
+        await pollVideoTask(data.taskId, prompt);
+      } else {
+        showOutput({
+          imageUrl: data.imageUrl || null,
+          videoUrl: data.videoUrl || null,
+          caption: data.caption || `generated: ${prompt}`,
+          prompt, model: selectedModel, ratio: selectedRatio,
+        });
+        pushHistory({
+          imageUrl: data.imageUrl || null,
+          videoUrl: data.videoUrl || null,
+          caption: data.caption || '',
+          prompt, model: selectedModel, ratio: selectedRatio, ts: Date.now(),
+        });
+      }
     } catch (_err) {
       flashStamp('network error — try again');
     } finally {
@@ -233,11 +364,9 @@
   function setLoading(on) {
     const btn = $('#generate-btn');
     btn.disabled = on;
-    btn.textContent = on ? 'generating …' : 'generate →';
     if (on) {
-      // Keep placeholder in stage, overlay loading indicator
+      btn.textContent = 'generating …';
       const existing = $('#stage');
-      // Remove any prior loading overlay
       const prior = existing.querySelector('.stage-loading');
       if (prior) prior.remove();
       const overlay = document.createElement('div');
@@ -249,34 +378,34 @@
       existing.appendChild(overlay);
       $('#output-stamp').textContent = 'rendering …';
     } else {
+      // Restore bilingual button text
+      btn.innerHTML = '<span class="lang-en">generate →</span><span class="lang-ja" style="display:none;">生成する →</span>';
+      // Re-apply current language state
+      const lang = document.documentElement.lang;
+      btn.querySelectorAll('[class^="lang-"]').forEach(s => {
+        const isMatch = s.classList.contains('lang-' + lang);
+        s.style.display = isMatch ? '' : 'none';
+      });
       const overlay = $('#stage .stage-loading');
       if (overlay) overlay.remove();
     }
   }
 
-  function showOutput({ imageUrl, videoUrl, caption, prompt, model, ratio, generationId: _generationId }) {
+  function showOutput({ imageUrl, videoUrl, caption, prompt, model, ratio }) {
     const stage = $('#stage');
     stage.innerHTML = '';
 
     if (videoUrl) {
       const video = document.createElement('video');
-      video.src = videoUrl;
-      video.controls = true;
-      video.autoplay = true;
-      video.loop = true;
-      video.muted = true;
-      video.playsInline = true;
+      video.src = videoUrl; video.controls = true; video.autoplay = true;
+      video.loop = true; video.muted = true; video.playsInline = true;
       stage.appendChild(video);
     } else if (imageUrl) {
       const img = document.createElement('img');
-      img.src = imageUrl;
-      img.alt = prompt;
-      img.loading = 'eager';
+      img.src = imageUrl; img.alt = prompt; img.loading = 'eager';
       stage.appendChild(img);
     } else {
-      // Fallback: render SVG placeholder
-      const art = renderPlaceholder({ prompt, model, ratio, seed: Date.now() });
-      stage.appendChild(art);
+      stage.appendChild(renderPlaceholder({ prompt, model, ratio, seed: Date.now() }));
     }
 
     const seed = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
@@ -287,8 +416,8 @@
       <div class="meta">
         <span>${model === 'gpt-image' ? 'still · ' + ratio : 'video · 5s · 720p'}</span>
         <span>seed ${seed}</span>
-        <span>prompt · ${escapeHtml(prompt.slice(0, 40))}${prompt.length > 40 ? '…' : ''}</span>
-        ${imageUrl ? `<a class="download-link" href="${escapeHtml(imageUrl)}" download="skylife-gen-${seed}.jpg" target="_blank">↓ save</a>` : ''}
+        <span>${escapeHtml(prompt.slice(0, 40))}${prompt.length > 40 ? '…' : ''}</span>
+        ${imageUrl ? `<a class="download-link" href="${escapeHtml(imageUrl)}" download="skylife-${seed}.jpg" target="_blank">↓ save</a>` : ''}
       </div>`;
     $('#output-stamp').textContent = new Date().toISOString().replace('T', ' ').slice(0, 19);
   }
@@ -298,12 +427,11 @@
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  // ---- SVG placeholder renderer (shown while loading / on fallback) ----
+  // ── SVG placeholder renderer ──
   function renderPlaceholder({ prompt: _prompt, model, ratio, seed }) {
     let s = seed >>> 0;
     const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 0xffffffff; };
     const palette = ['#E86020', '#1a1a1a', '#f4f1ec'];
-
     const ratioMap = { '1:1': [600, 600], '3:2': [600, 400], '2:3': [400, 600], '16:9': [640, 360] };
     const [w, h] = model === 'seedance-video' ? [640, 360] : (ratioMap[ratio] || [600, 600]);
 
@@ -322,8 +450,7 @@
     [[palette[2], '0.95'], [palette[1], '0.35']].forEach(([c, op], i) => {
       const st = document.createElementNS(ns, 'stop');
       st.setAttribute('offset', i === 0 ? '0%' : '100%');
-      st.setAttribute('stop-color', c);
-      st.setAttribute('stop-opacity', op);
+      st.setAttribute('stop-color', c); st.setAttribute('stop-opacity', op);
       grad.appendChild(st);
     });
     defs.appendChild(grad);
@@ -345,23 +472,19 @@
     const sun = document.createElementNS(ns, 'circle');
     sun.setAttribute('cx', w * (0.25 + rnd() * 0.5));
     sun.setAttribute('cy', horizon - sunR * (0.3 + rnd() * 0.7));
-    sun.setAttribute('r', sunR);
-    sun.setAttribute('fill', palette[0]); sun.setAttribute('opacity', '0.85');
+    sun.setAttribute('r', sunR); sun.setAttribute('fill', palette[0]); sun.setAttribute('opacity', '0.85');
     svg.appendChild(sun);
 
     for (let i = 0; i < 2 + Math.floor(rnd() * 3); i++) {
-      const bw = w * (0.06 + rnd() * 0.1);
-      const bh = bw * (0.6 + rnd() * 0.5);
-      const bx = w * (0.1 + rnd() * 0.8) - bw / 2;
-      const by = horizon - bh + 2;
+      const bw = w * (0.06 + rnd() * 0.1), bh = bw * (0.6 + rnd() * 0.5);
+      const bx = w * (0.1 + rnd() * 0.8) - bw / 2, by = horizon - bh + 2;
       const box = document.createElementNS(ns, 'rect');
       box.setAttribute('x', bx); box.setAttribute('y', by);
       box.setAttribute('width', bw); box.setAttribute('height', bh);
       box.setAttribute('fill', palette[1]); box.setAttribute('opacity', '0.85');
       svg.appendChild(box);
       const roof = document.createElementNS(ns, 'polygon');
-      const peak = bh * 0.4;
-      roof.setAttribute('points', `${bx - 2},${by} ${bx + bw + 2},${by} ${bx + bw / 2},${by - peak}`);
+      roof.setAttribute('points', `${bx - 2},${by} ${bx + bw + 2},${by} ${bx + bw / 2},${by - bh * 0.4}`);
       roof.setAttribute('fill', palette[0]); roof.setAttribute('opacity', '0.92');
       svg.appendChild(roof);
     }
@@ -377,17 +500,11 @@
 
     const fr = document.createElementNS(ns, 'g');
     fr.setAttribute('font-family', '"JetBrains Mono", monospace');
-    fr.setAttribute('font-size', '9');
-    fr.setAttribute('fill', palette[1]);
-    fr.setAttribute('opacity', '0.7');
+    fr.setAttribute('font-size', '9'); fr.setAttribute('fill', palette[1]); fr.setAttribute('opacity', '0.7');
     const tl = document.createElementNS(ns, 'text');
     tl.setAttribute('x', 12); tl.setAttribute('y', 18);
     tl.textContent = (model === 'seedance-video' ? 'video · 5.0s' : `still · ${ratio}`).toUpperCase();
     fr.appendChild(tl);
-    const tr = document.createElementNS(ns, 'text');
-    tr.setAttribute('x', w - 12); tr.setAttribute('y', 18); tr.setAttribute('text-anchor', 'end');
-    tr.textContent = 'sky/studio · generating…';
-    fr.appendChild(tr);
     svg.appendChild(fr);
 
     if (model === 'seedance-video') {
@@ -405,7 +522,7 @@
     return svg;
   }
 
-  // ---- history (localStorage per user, last 6) ----
+  // ── history ──
   function pushHistory(entry) {
     if (!currentEmail) return;
     const list = readJSON(HIST_KEY(currentEmail), []);
@@ -425,33 +542,21 @@
       const cell = document.createElement('div');
       if (!list[i]) {
         cell.className = 'history-cell empty';
-        cell.textContent = 'empty';
+        cell.textContent = '—';
       } else {
         cell.className = 'history-cell';
         cell.title = list[i].caption || list[i].prompt || '';
-
         if (list[i].imageUrl) {
           const img = document.createElement('img');
-          img.src = list[i].imageUrl;
-          img.alt = list[i].prompt || '';
-          img.loading = 'lazy';
+          img.src = list[i].imageUrl; img.alt = list[i].prompt || ''; img.loading = 'lazy';
           cell.appendChild(img);
         } else {
-          // SVG placeholder thumbnail from stored prompt
-          const art = renderPlaceholder({
-            prompt: list[i].prompt || '',
-            model: list[i].model,
-            ratio: list[i].ratio,
-            seed: list[i].ts || i,
-          });
-          cell.appendChild(art);
+          cell.appendChild(renderPlaceholder({ prompt: list[i].prompt || '', model: list[i].model, ratio: list[i].ratio, seed: list[i].ts || i }));
         }
-
         const stamp = document.createElement('span');
         stamp.className = 'stamp';
         stamp.textContent = (i + 1).toString().padStart(2, '0');
         cell.appendChild(stamp);
-
         cell.addEventListener('click', () => restoreFromHistory(list[i]));
       }
       row.appendChild(cell);
@@ -466,26 +571,15 @@
 
     if (entry.videoUrl) {
       const video = document.createElement('video');
-      video.src = entry.videoUrl;
-      video.controls = true;
-      video.autoplay = true;
-      video.loop = true;
-      video.muted = true;
-      video.playsInline = true;
+      video.src = entry.videoUrl; video.controls = true; video.autoplay = true;
+      video.loop = true; video.muted = true; video.playsInline = true;
       stage.appendChild(video);
     } else if (entry.imageUrl) {
       const img = document.createElement('img');
-      img.src = entry.imageUrl;
-      img.alt = entry.prompt || '';
+      img.src = entry.imageUrl; img.alt = entry.prompt || '';
       stage.appendChild(img);
     } else {
-      const art = renderPlaceholder({
-        prompt: entry.prompt || '',
-        model: entry.model,
-        ratio: entry.ratio,
-        seed: entry.ts || Date.now(),
-      });
-      stage.appendChild(art);
+      stage.appendChild(renderPlaceholder({ prompt: entry.prompt || '', model: entry.model, ratio: entry.ratio, seed: entry.ts || Date.now() }));
     }
 
     const cap = $('#caption');
@@ -494,19 +588,12 @@
       <div>${escapeHtml(entry.caption || '')}</div>
       <div class="meta">
         <span>${entry.model === 'gpt-image' ? 'still · ' + entry.ratio : 'video · 5s · 720p'}</span>
-        <span>from history · ${new Date(entry.ts).toLocaleString()}</span>
+        <span>history · ${new Date(entry.ts).toLocaleString()}</span>
       </div>`;
     $('#output-stamp').textContent = 'history · ' + new Date(entry.ts).toISOString().slice(0, 19).replace('T', ' ');
   }
 
-  // ---- language toggle (cosmetic) ----
-  $$('#lang button').forEach(b => {
-    b.addEventListener('click', () => {
-      $$('#lang button').forEach(x => x.classList.toggle('on', x === b));
-    });
-  });
-
-  // ---- init: check for existing valid session ----
+  // ── init: verify token, auto-enter studio if valid ──
   async function init() {
     const token = getToken();
     if (!token) return;
@@ -519,11 +606,9 @@
         currentCredits = data.credits;
         enterStudio(data);
       } else {
-        // Token expired or invalid
         setToken(null);
       }
-    } catch {
-      // Offline or network error — clear token to be safe
+    } catch (_e) {
       setToken(null);
     }
   }

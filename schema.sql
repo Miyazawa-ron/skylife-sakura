@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
   name       TEXT,
   pw_hash    TEXT    NOT NULL,
   pw_salt    TEXT    NOT NULL,
-  credits    INTEGER NOT NULL DEFAULT 100,
+  credits    INTEGER NOT NULL DEFAULT 0,
+  is_active  INTEGER NOT NULL DEFAULT 1,
   created_at TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
