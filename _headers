@@ -1,0 +1,5 @@
+/*
+  Cache-Control: public, max-age=86400, s-maxage=604800
+
+/store/*
+  Cache-Control: public, max-age=0, s-maxage=0
