@@ -6,3 +6,4 @@ package-lock.json
 *.local
 .DS_Store
 Thumbs.db
+en_backup.db

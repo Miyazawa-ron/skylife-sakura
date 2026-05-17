@@ -31,3 +31,15 @@ CREATE INDEX IF NOT EXISTS idx_generations_user_id
 
 CREATE INDEX IF NOT EXISTS idx_generations_created_at
   ON generations(created_at DESC);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  name       TEXT    NOT NULL,
+  message    TEXT    NOT NULL,
+  ip_hash    TEXT,
+  is_active  INTEGER DEFAULT 1,
+  created_at TEXT    DEFAULT (datetime('now', '+9 hours'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_messages_created_at
+  ON messages(created_at DESC);

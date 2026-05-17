@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>contact us · SKYライフ株式会社</title>
+<meta name="description" content="contact us — write us an email, or leave a note in the guestbook." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+SC:wght@300;400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #000000; --muted: #8a8a8a; --line: #e5e5e5; --accent: #E86020;
+    --nav-h: 88px;
+    --tiny: 11px; --small: 12px; --reg: 13px;
+    --type-sans: "Inter", "Helvetica Neue", "Noto Sans JP", helvetica, arial, sans-serif;
+    --type-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); color: var(--fg); scroll-padding-top: calc(var(--nav-h) + 8px); }
+  body {
+    font-family: var(--type-sans); font-weight: 300; font-size: var(--reg);
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility; letter-spacing: 0.005em;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+  button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg); height: var(--nav-h);
+    border-bottom: 1px solid var(--line); padding: 0 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: var(--tiny);
+  }
+  .brand-logo {
+    display: block; height: 22px; width: 210px; background-color: var(--accent);
+    -webkit-mask: url('assets/skylogo.svg') no-repeat left center / contain;
+            mask: url('assets/skylogo.svg') no-repeat left center / contain;
+  }
+  .desktop-nav { display: flex; align-items: center; }
+  .desktop-nav ul { display: flex; gap: 24px; list-style: none; font-size: var(--small); }
+  .desktop-nav ul a { letter-spacing: 0.02em; }
+  .desktop-nav ul a.current { color: var(--accent); }
+  .lang-ctrl { display: flex; gap: 10px; margin-left: 28px; color: var(--muted); }
+  .lang-ctrl button { font-size: var(--tiny); letter-spacing: 0.04em; }
+  .lang-ctrl button.on { color: var(--fg); }
+
+  .hamburger { display: none; flex-direction: column; justify-content: center; gap: 6px; width: 36px; height: 36px; padding: 6px; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--fg); transition: transform 220ms ease, opacity 180ms ease; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 49; box-shadow: 0 6px 16px rgba(0,0,0,0.07); }
+  .mobile-menu.open { display: block; }
+  .mobile-menu ul { list-style: none; }
+  .mobile-menu ul li { border-bottom: 1px solid var(--line); }
+  .mobile-menu ul li a { display: block; padding: 16px 18px; font-size: var(--small); letter-spacing: 0.02em; }
+  .mobile-menu ul li a.current, .mobile-menu ul li a:hover { color: var(--accent); }
+  .mob-lang-row { display: flex; gap: 14px; padding: 16px 18px 20px; color: var(--muted); }
+  .mob-lang-row button { font-size: var(--tiny); letter-spacing: 0.04em; }
+  .mob-lang-row button.on { color: var(--fg); }
+
+  /* language switching */
+  .lang-ja { display: none; }
+  html[lang="ja"] .lang-ja { display: inline; }
+  html[lang="ja"] .lang-en { display: none; }
+
+  /* ── SECTION HEADER ── */
+  .sec-head {
+    display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
+    gap: 18px; padding: 14px 18px; font-size: var(--tiny);
+    border-top: 1px solid var(--line); color: var(--muted); align-items: baseline;
+  }
+  .sec-head .num { color: var(--fg); font-family: var(--type-mono); }
+  .sec-head h2 { font-size: var(--tiny); font-weight: 400; color: var(--fg); letter-spacing: 0.04em; text-transform: lowercase; }
+
+  /* ── PAGE LAYOUT ── */
+  .page-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 18px 60px;
+  }
+  .page-body h1 {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+  .page-body .page-desc {
+    color: var(--muted);
+    font-size: var(--small);
+    margin-bottom: 48px;
+  }
+
+  /* ── FORM SECTION ── */
+  .section-block {
+    margin-bottom: 60px;
+  }
+  .section-block h3 {
+    font-size: var(--small);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: var(--tiny);
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: var(--type-sans);
+    font-size: var(--reg);
+    font-weight: 300;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--bg);
+    color: var(--fg);
+    outline: none;
+    transition: border-color 150ms;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .char-count {
+    text-align: right;
+    font-size: var(--tiny);
+    color: var(--muted);
+    font-family: var(--type-mono);
+    margin-top: 4px;
+  }
+  .char-count.over {
+    color: #d32f2f;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 28px;
+    font-size: var(--small);
+    font-family: var(--type-sans);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--fg);
+    background: var(--fg);
+    color: var(--bg);
+    cursor: pointer;
+    transition: background 150ms, color 150ms;
+  }
+  .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .btn--outline {
+    background: transparent;
+    color: var(--fg);
+  }
+  .btn--outline:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .form-feedback {
+    margin-top: 10px;
+    font-size: var(--tiny);
+    color: var(--muted);
+  }
+  .form-feedback.error {
+    color: #d32f2f;
+  }
+  .form-feedback.success {
+    color: #2e7d32;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0;
+    color: var(--line);
+    font-size: var(--tiny);
+    font-family: var(--type-mono);
+  }
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── MESSAGE LIST ── */
+  .msg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .msg-item {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .msg-item:last-child {
+    border-bottom: none;
+  }
+  .msg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .msg-name {
+    font-size: var(--small);
+    font-weight: 400;
+    color: var(--fg);
+  }
+  .msg-date {
+    font-size: var(--tiny);
+    color: var(--muted);
+    font-family: var(--type-mono);
+  }
+  .msg-body {
+    font-size: var(--reg);
+    line-height: 1.6;
+    color: var(--fg);
+    word-break: break-word;
+  }
+  .msg-empty {
+    color: var(--muted);
+    font-size: var(--small);
+    font-style: italic;
+    padding: 24px 0;
+  }
+  .msg-loading {
+    color: var(--muted);
+    font-size: var(--small);
+    padding: 24px 0;
+  }
+
+  /* ── FOOTER ── */
+  .foot { display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px; gap: 18px; padding: 28px 18px; border-top: 1px solid var(--line); font-size: var(--tiny); color: var(--muted); }
+  .foot .col h4 { font-size: var(--tiny); color: var(--fg); font-weight: 400; margin-bottom: 8px; letter-spacing: 0.04em; }
+  .foot ul { list-style: none; display: grid; gap: 4px; }
+  .foot .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
+
+  .mono { font-family: var(--type-mono); }
+  .muted { color: var(--muted); }
+  .acc { color: var(--accent); }
+
+  @media (max-width: 880px) {
+    .desktop-nav { display: none; }
+    .hamburger { display: flex; }
+    .sec-head { grid-template-columns: 40px 1fr 80px; }
+    .sec-head > div:nth-child(3), .sec-head > div:nth-child(4) { display: none; }
+    .foot { grid-template-columns: 30px 1fr 1fr; }
+    .page-body { padding: 32px 18px 40px; }
+    .page-body h1 { font-size: 19px; }
+  }
+  @media (max-width: 560px) {
+    .foot { grid-template-columns: 1fr 1fr; }
+    .foot .num { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <a href="index.html" aria-label="SKYライフ株式会社">
+    <span class="brand-logo" role="img" aria-label="SKYライフ"></span>
+  </a>
+  <div class="desktop-nav" id="desktop-nav">
+    <ul>
+      <li><a href="index.html#products"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
+      <li><a href="store.html">store</a></li>
+      <li><a href="journal.html" class="current"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
+      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+    </ul>
+    <div class="lang-ctrl">
+      <button data-lang="en" class="on">en</button>
+      <button data-lang="ja">日本語</button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <ul>
+    <li><a href="index.html#products" class="mob-link"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
+    <li><a href="store.html" class="mob-link">store</a></li>
+    <li><a href="journal.html" class="mob-link current"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+    <li><a href="index.html#about" class="mob-link"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
+    <li><a href="index.html#contact" class="mob-link"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+  </ul>
+  <div class="mob-lang-row">
+    <button data-lang="en" class="on">en</button>
+    <button data-lang="ja">日本語</button>
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<div class="page-body">
+
+  <h1>
+    <span class="lang-en">contact us</span>
+    <span class="lang-ja">お問い合わせ</span>
+  </h1>
+  <p class="page-desc">
+    <span class="lang-en">write us an email, or leave a note in the guestbook.</span>
+    <span class="lang-ja">メールを送るか、ゲストブックにメッセージをお書きください。</span>
+  </p>
+
+  <!-- ── EMAIL SECTION ── -->
+  <div class="section-block">
+    <h3>
+      <span class="lang-en">✉ send us an email</span>
+      <span class="lang-ja">✉ メールを送る</span>
+    </h3>
+    <form id="emailForm">
+      <div class="form-group">
+        <label for="emailName">
+          <span class="lang-en">your name</span>
+          <span class="lang-ja">お名前</span>
+        </label>
+        <input type="text" id="emailName" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="emailAddr">
+          <span class="lang-en">your email</span>
+          <span class="lang-ja">メールアドレス</span>
+        </label>
+        <input type="email" id="emailAddr" name="email" required />
+      </div>
+      <div class="form-group">
+        <label for="emailSubj">
+          <span class="lang-en">subject</span>
+          <span class="lang-ja">件名</span>
+        </label>
+        <input type="text" id="emailSubj" name="subject" />
+      </div>
+      <div class="form-group">
+        <label for="emailMsg">
+          <span class="lang-en">message</span>
+          <span class="lang-ja">本文</span>
+        </label>
+        <textarea id="emailMsg" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="btn btn--outline">
+        <span class="lang-en">send email</span>
+        <span class="lang-ja">メールを送信</span>
+      </button>
+      <div class="form-feedback" id="emailFeedback"></div>
+    </form>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <span class="lang-en">— or —</span>
+    <span class="lang-ja">— または —</span>
+  </div>
+
+  <!-- ── GUESTBOOK SECTION ── -->
+  <div class="section-block">
+    <h3>
+      <span class="lang-en">💬 guestbook</span>
+      <span class="lang-ja">💬 ゲストブック</span>
+    </h3>
+    <p style="color:var(--muted); font-size:var(--tiny); margin-bottom:16px;">
+      <span class="lang-en">leave a public message. no registration needed. max 200 characters.</span>
+      <span class="lang-ja">公開メッセージをどうぞ。登録不要。200字以内。</span>
+    </p>
+
+    <form id="guestbookForm">
+      <div class="form-group">
+        <label for="gbName">
+          <span class="lang-en">your name</span>
+          <span class="lang-ja">お名前</span>
+        </label>
+        <input type="text" id="gbName" name="name" maxlength="50" required />
+      </div>
+      <div class="form-group">
+        <label for="gbMsg">
+          <span class="lang-en">message</span>
+          <span class="lang-ja">メッセージ</span>
+        </label>
+        <textarea id="gbMsg" name="message" rows="3" maxlength="200" required></textarea>
+        <div class="char-count" id="charCount">
+          <span id="charCountNum">0</span> / 200
+        </div>
+      </div>
+      <button type="submit" class="btn" id="gbSubmit">
+        <span class="lang-en">post message</span>
+        <span class="lang-ja">メッセージを投稿</span>
+      </button>
+      <div class="form-feedback" id="gbFeedback"></div>
+    </form>
+  </div>
+
+  <!-- ── MESSAGE LIST ── -->
+  <div class="section-block">
+    <h3>
+      <span class="lang-en">📝 messages</span>
+      <span class="lang-ja">📝 みなさんのメッセージ</span>
+    </h3>
+    <div class="msg-list" id="msgList">
+      <div class="msg-loading" id="msgLoading">
+        <span class="lang-en">loading messages…</span>
+        <span class="lang-ja">メッセージを読み込み中…</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="num mono">—</div>
+  <div class="col">
+    <h4><span class="lang-en">studio</span><span class="lang-ja">スタジオ</span></h4>
+    <ul>
+      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
+      <li><a href="journal.html"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4>store</h4>
+    <ul>
+      <li><a href="store-studio.html"><span class="lang-en">AI creative studio</span><span class="lang-ja">AIクリエイティブスタジオ</span></a></li>
+      <li><a href="#"><span class="lang-en">terms of use</span><span class="lang-ja">利用規約</span></a></li>
+      <li><a href="#"><span class="lang-en">credits &amp; billing</span><span class="lang-ja">クレジット・請求</span></a></li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4><span class="lang-en">elsewhere</span><span class="lang-ja">その他</span></h4>
+    <ul>
+      <li><a href="#">instagram</a></li>
+      <li><a href="#">are.na</a></li>
+      <li><a href="#"><span class="lang-en">newsletter</span><span class="lang-ja">ニュースレター</span></a></li>
+    </ul>
+  </div>
+  <div></div>
+  <div class="legal">
+    <span>© 2014 – 2026 SKYライフ株式会社. <span class="lang-en">all rights reserved.</span><span class="lang-ja">無断転載禁止。</span></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ── language switching ── */
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-lang]').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-lang]');
+    if (b) setLang(b.getAttribute('data-lang'));
+  });
+
+  /* ── hamburger menu ── */
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobile-menu');
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  }
+  hamburger.addEventListener('click', function () {
+    var opening = !mobileMenu.classList.contains('open');
+    if (opening) {
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+    } else { closeMenu(); }
+  });
+  mobileMenu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
+  window.addEventListener('resize', function () { if (window.innerWidth > 880) closeMenu(); });
+
+  /* ── GUESTBOOK: char counter ── */
+  var gbMsg = document.getElementById('gbMsg');
+  var charCountNum = document.getElementById('charCountNum');
+  var charCountWrap = document.getElementById('charCount');
+  gbMsg.addEventListener('input', function () {
+    var len = gbMsg.value.length;
+    charCountNum.textContent = len;
+    charCountWrap.classList.toggle('over', len > 200);
+  });
+
+  /* ── EMAIL FORM: mailto fallback ── */
+  var emailForm = document.getElementById('emailForm');
+  var emailFeedback = document.getElementById('emailFeedback');
+  emailForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name   = document.getElementById('emailName').value.trim();
+    var email  = document.getElementById('emailAddr').value.trim();
+    var subj   = document.getElementById('emailSubj').value.trim();
+    var msg    = document.getElementById('emailMsg').value.trim();
+
+    if (!name || !email || !msg) {
+      emailFeedback.textContent = 'please fill in name, email, and message.';
+      emailFeedback.className = 'form-feedback error';
+      return;
+    }
+
+    // mailto fallback
+    var body = 'from: ' + name + ' (' + email + ')\n\n' + msg;
+    window.location.href = 'mailto:skylife.sakura@gmail.com?subject='
+      + encodeURIComponent(subj || 'contact inquiry')
+      + '&body=' + encodeURIComponent(body);
+
+    emailFeedback.textContent = 'opening your email client…';
+    emailFeedback.className = 'form-feedback success';
+  });
+
+  /* ── GUESTBOOK: post message ── */
+  var gbForm = document.getElementById('guestbookForm');
+  var gbSubmit = document.getElementById('gbSubmit');
+  var gbFeedback = document.getElementById('gbFeedback');
+  var gbName = document.getElementById('gbName');
+
+  gbForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = gbName.value.trim();
+    var msg  = gbMsg.value.trim();
+
+    if (!name || !msg) {
+      gbFeedback.textContent = 'please enter your name and message.';
+      gbFeedback.className = 'form-feedback error';
+      return;
+    }
+
+    if (msg.length > 200) {
+      gbFeedback.textContent = 'message exceeds 200 characters.';
+      gbFeedback.className = 'form-feedback error';
+      return;
+    }
+
+    gbSubmit.disabled = true;
+    gbFeedback.textContent = 'posting…';
+    gbFeedback.className = 'form-feedback';
+
+    fetch('/api/journal/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, message: msg })
+    })
+    .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
+    .then(function (res) {
+      if (res.status === 201 || res.status === 200) {
+        gbFeedback.textContent = 'message posted!';
+        gbFeedback.className = 'form-feedback success';
+        gbName.value = '';
+        gbMsg.value = '';
+        charCountNum.textContent = '0';
+        charCountWrap.classList.remove('over');
+        loadMessages(); // refresh list
+      } else {
+        gbFeedback.textContent = res.data.error || 'something went wrong.';
+        gbFeedback.className = 'form-feedback error';
+      }
+    })
+    .catch(function () {
+      gbFeedback.textContent = 'could not reach the server. try again later.';
+      gbFeedback.className = 'form-feedback error';
+    })
+    .finally(function () {
+      gbSubmit.disabled = false;
+    });
+  });
+
+  /* ── LOAD MESSAGES ── */
+  var msgList = document.getElementById('msgList');
+  var msgLoading = document.getElementById('msgLoading');
+
+  function loadMessages() {
+    msgLoading.style.display = 'block';
+
+    fetch('/api/journal/messages')
+      .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
+      .then(function (res) {
+        msgLoading.style.display = 'none';
+        msgList.innerHTML = '';
+
+        var messages = res.data.messages || res.data || [];
+
+        if (!messages || messages.length === 0) {
+          var empty = document.createElement('div');
+          empty.className = 'msg-empty';
+          empty.innerHTML = '<span class="lang-en">no messages yet. be the first!</span><span class="lang-ja">まだメッセージがありません。最初に投稿しましょう！</span>';
+          msgList.appendChild(empty);
+          return;
+        }
+
+        messages.forEach(function (m) {
+          var item = document.createElement('div');
+          item.className = 'msg-item';
+
+          var head = document.createElement('div');
+          head.className = 'msg-head';
+
+          var nameEl = document.createElement('span');
+          nameEl.className = 'msg-name';
+          nameEl.textContent = m.name;
+
+          var dateEl = document.createElement('span');
+          dateEl.className = 'msg-date';
+          dateEl.textContent = formatDate(m.created_at);
+
+          head.appendChild(nameEl);
+          head.appendChild(dateEl);
+
+          var bodyEl = document.createElement('div');
+          bodyEl.className = 'msg-body';
+          bodyEl.textContent = m.message;
+
+          item.appendChild(head);
+          item.appendChild(bodyEl);
+          msgList.appendChild(item);
+        });
+      })
+      .catch(function () {
+        msgLoading.style.display = 'none';
+        msgList.innerHTML = '<div class="msg-empty" style="color:#d32f2f;">could not load messages.</div>';
+      });
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    var d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    var y = d.getFullYear();
+    var m = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return y + '.' + m + '.' + day;
+  }
+
+  // load on page init
+  loadMessages();
+})();
+</script>
+
+</body>
+</html>
