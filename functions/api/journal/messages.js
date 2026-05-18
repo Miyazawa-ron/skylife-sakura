@@ -1,11 +1,24 @@
-import { json, err, requireAdmin } from '../../_auth.js';
+import { json, err } from '../../_auth.js';
 
-export async function onRequestGet({ env }) {
-  const { results } = await env.DB
-    .prepare(
-      'SELECT id, name, message, created_at FROM messages WHERE is_active = 1 ORDER BY created_at DESC LIMIT 50'
-    )
-    .all();
+// 简单密码认证（用于管理后台）
+function checkSimpleAdmin(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+  const adminPwd = (env.JOURNAL_ADMIN_PASSWORD || '').trim();
+  return adminPwd && token === adminPwd;
+}
+
+export async function onRequestGet({ request, env }) {
+  const url = new URL(request.url);
+  const showAll = url.searchParams.get('all') === '1';
+
+  let sql = 'SELECT id, name, message, created_at, is_active FROM messages';
+  if (!showAll) {
+    sql += ' WHERE is_active = 1';
+  }
+  sql += ' ORDER BY created_at DESC LIMIT 50';
+
+  const { results } = await env.DB.prepare(sql).all();
   return json({ messages: results });
 }
 
@@ -49,8 +62,8 @@ export async function onRequestPost({ request, env }) {
 
 // DELETE /api/journal/messages?id=123
 export async function onRequestDelete({ request, env }) {
-  const admin = await requireAdmin(request, env);
-  if (!admin) {
+  const isAdmin = checkSimpleAdmin(request, env) || (await requireAdminFromAuth(request, env));
+  if (!isAdmin) {
     return err('Unauthorized. Admin access required.', 401);
   }
 
@@ -69,4 +82,15 @@ export async function onRequestDelete({ request, env }) {
   }
 
   return json({ success: true, deletedId: id });
+}
+
+// 辅助函数：尝试使用 JWT 管理员验证
+async function requireAdminFromAuth(request, env) {
+  try {
+    const { requireAdmin } = await import('../../_auth.js');
+    const admin = await requireAdmin(request, env);
+    return !!admin;
+  } catch {
+    return false;
+  }
 }

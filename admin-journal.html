@@ -5,99 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>留言管理 · SKYライフ</title>
   <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background: #f8f5f0;
-      color: #222;
-    }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; background: #f8f5f0; color: #222; }
     h1 { font-size: 24px; margin-bottom: 30px; }
-    .login-box {
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      max-width: 400px;
-      margin: 80px auto;
-    }
-    .login-box input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      margin-bottom: 16px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    button {
-      background: #E86020;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+    .login-box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 400px; margin: 80px auto; }
+    .login-box input { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 16px; border: 1px solid #ddd; border-radius: 4px; }
+    button { background: #E86020; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; }
     button:hover { background: #d35400; }
-    .message-card {
-      background: white;
-      border: 1px solid #e5e5e5;
-      border-radius: 6px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-    .message-card.deleted {
-      background: #f5f5f5;
-      opacity: 0.6;
-    }
-    .message-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 13px;
-      color: #666;
-    }
-    .message-content {
-      font-size: 15px;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-    .delete-btn {
-      background: #c0392b;
-      padding: 6px 14px;
-      font-size: 12px;
-    }
-    .delete-btn:hover {
-      background: #922b21;
-    }
-    .status {
-      font-size: 12px;
-      padding: 2px 8px;
-      border-radius: 3px;
-    }
+    .message-card { background: white; border: 1px solid #e5e5e5; border-radius: 6px; padding: 20px; margin-bottom: 16px; }
+    .message-card.deleted { background: #f5f5f5; opacity: 0.6; }
+    .message-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; color: #666; }
+    .message-content { font-size: 15px; line-height: 1.6; white-space: pre-wrap; }
+    .delete-btn { background: #c0392b; padding: 6px 14px; font-size: 12px; }
+    .delete-btn:hover { background: #922b21; }
+    .status { font-size: 12px; padding: 2px 8px; border-radius: 3px; }
     .status.active { background: #d4edda; color: #155724; }
     .status.deleted { background: #f8d7da; color: #721c24; }
   </style>
 </head>
 <body>
 
-  <!-- 登录区域 -->
   <div id="login-section">
     <div class="login-box">
       <h2 style="margin-bottom:20px;">留言管理后台</h2>
       <input type="password" id="password" placeholder="请输入管理密码" />
       <button onclick="login()" style="width:100%;">登录</button>
+      <p style="font-size:12px; color:#888; margin-top:16px;">提示：密码由站长设置（JOURNAL_ADMIN_PASSWORD）</p>
     </div>
   </div>
 
-  <!-- 管理区域 -->
   <div id="admin-section" style="display:none;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
       <h1>留言管理</h1>
-      <button onclick="loadMessages()">刷新列表</button>
+      <div>
+        <button onclick="loadMessages()">刷新</button>
+        <button onclick="logout()" style="background:#666; margin-left:8px;">退出</button>
+      </div>
     </div>
-
     <div id="messages-list"></div>
   </div>
 
@@ -107,14 +50,16 @@
 
     function login() {
       const pwd = document.getElementById('password').value.trim();
-      if (!pwd) {
-        alert('请输入密码');
-        return;
-      }
+      if (!pwd) { alert('请输入密码'); return; }
       adminPassword = pwd;
       document.getElementById('login-section').style.display = 'none';
       document.getElementById('admin-section').style.display = 'block';
       loadMessages();
+    }
+
+    function logout() {
+      adminPassword = '';
+      location.reload();
     }
 
     async function loadMessages() {
@@ -173,7 +118,6 @@
         const res = await fetch(`${API_BASE}?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${adminPassword}`
           }
         });
@@ -182,8 +126,8 @@
           alert('删除成功');
           loadMessages();
         } else {
-          const err = await res.json();
-          alert('删除失败: ' + (err.error || res.status));
+          const errData = await res.json().catch(() => ({}));
+          alert('删除失败: ' + (errData.error || res.status));
           btnElement.disabled = false;
           btnElement.textContent = '删除';
         }
