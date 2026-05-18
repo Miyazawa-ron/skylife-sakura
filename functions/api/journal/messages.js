@@ -1,4 +1,4 @@
-import { json, err } from '../../_auth.js';
+import { json, err, requireAdmin } from '../../_auth.js';
 
 export async function onRequestGet({ env }) {
   const { results } = await env.DB
@@ -21,14 +21,12 @@ export async function onRequestPost({ request, env }) {
   if (name.length > 50)   return err('name must be 50 characters or fewer');
   if (message.length > 200) return err('message must be 200 characters or fewer');
 
-  // IP hash for abuse prevention (no raw IP stored)
   const ip = request.headers.get('CF-Connecting-IP') || '';
   const ipHash = ip
     ? Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(ip))))
         .map(b => b.toString(16).padStart(2, '0')).join('')
     : null;
 
-  // Rate limit: max 3 posts per IP per 60 seconds
   if (ipHash) {
     const { results: recent } = await env.DB
       .prepare(
@@ -47,4 +45,28 @@ export async function onRequestPost({ request, env }) {
     .first();
 
   return json(row, 201);
+}
+
+// DELETE /api/journal/messages?id=123
+export async function onRequestDelete({ request, env }) {
+  const admin = await requireAdmin(request, env);
+  if (!admin) {
+    return err('Unauthorized. Admin access required.', 401);
+  }
+
+  const url = new URL(request.url);
+  const id = url.searchParams.get('id');
+
+  if (!id) return err('Missing id parameter');
+
+  const result = await env.DB
+    .prepare('UPDATE messages SET is_active = 0 WHERE id = ?')
+    .bind(id)
+    .run();
+
+  if (result.meta.changes === 0) {
+    return err('Message not found', 404);
+  }
+
+  return json({ success: true, deletedId: id });
 }
