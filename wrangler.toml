@@ -3,12 +3,15 @@ pages_build_output_dir = "."
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-# D1 database binding — replace database_id after running:
-#   wrangler d1 create skylife
+# D1 database binding
 [[d1_databases]]
 binding = "DB"
 database_name = "skylife"
 database_id = "c3d64aff-151f-4687-a86b-7782e0d41b5a"
+
+# 留言管理后台简单密码（用于 admin-journal.html）
+[vars]
+JOURNAL_ADMIN_PASSWORD = "skylife-admin-2026"
 
 # Secrets — set via CLI (never commit these):
 #   wrangler pages secret put JWT_SECRET
