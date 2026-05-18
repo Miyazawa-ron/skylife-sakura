@@ -33,10 +33,19 @@
       border: 1px solid var(--rule);
     }
 
+    /* 封面图 */
+    .blog-cover {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--rule);
+    }
+
     /* Logo */
     .blog-logo {
       text-align: center;
-      padding: 35px 0 20px;
+      padding: 30px 0 18px;
       border-bottom: 1px solid var(--rule);
     }
     .blog-logo .logo-text {
@@ -53,25 +62,25 @@
     }
 
     header {
-      padding: 30px 60px 20px;
+      padding: 25px 60px 18px;
       text-align: center;
     }
 
     .page-title {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 36px;
-      margin-bottom: 8px;
+      font-size: 34px;
+      margin-bottom: 6px;
       color: #111;
     }
 
     .page-subtitle {
-      font-size: 14.5px;
+      font-size: 14px;
       color: #666;
     }
 
     .back-link {
       display: inline-block;
-      margin-top: 18px;
+      margin-top: 15px;
       font-size: 13px;
       color: var(--brand);
       text-decoration: none;
@@ -80,17 +89,17 @@
 
     /* 文章列表 */
     .article-list {
-      padding: 20px 60px 60px;
+      padding: 20px 60px 50px;
     }
 
     .article-item {
       border-bottom: 1px solid var(--rule);
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .article-header {
       cursor: pointer;
-      padding: 25px 0;
+      padding: 22px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -102,8 +111,8 @@
 
     .article-title {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 22px;
-      line-height: 1.3;
+      font-size: 21px;
+      line-height: 1.32;
       color: #111;
       font-weight: 700;
       letter-spacing: -0.3px;
@@ -112,24 +121,24 @@
     .article-meta {
       font-size: 13px;
       color: #888;
-      margin-top: 6px;
+      margin-top: 5px;
       letter-spacing: 0.5px;
     }
 
     /* 圆形橘黄色展开按钮 */
     .expand-btn {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border: 2px solid var(--brand);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 15px;
       color: var(--brand);
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       flex-shrink: 0;
-      margin-left: 20px;
+      margin-left: 18px;
       background: white;
     }
     .article-item.open .expand-btn {
@@ -139,7 +148,7 @@
       border-color: var(--brand);
     }
 
-    /* 内容区 - 舒适背景 */
+    /* 内容区 */
     .article-content {
       max-height: 0;
       overflow: hidden;
@@ -147,41 +156,31 @@
       background: #f9f6f0;
       border: 1px solid var(--rule);
       border-radius: 4px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .article-content.open {
-      max-height: 5200px; /* 支持长内容 */
+      max-height: 6200px;
     }
 
     .content-inner {
-      padding: 40px 50px;
-      overflow-y: auto;
-      font-size: 17.5px;
+      padding: 38px 48px;
+      font-size: 17.2px;
       line-height: 1.85;
       color: #222;
-      max-height: 5200px;
-    }
-
-    .content-inner::-webkit-scrollbar {
-      width: 5px;
-    }
-    .content-inner::-webkit-scrollbar-thumb {
-      background: #d4c9a8;
-      border-radius: 3px;
     }
 
     .content-inner p {
-      margin-bottom: 1.45em;
+      margin-bottom: 1.4em;
       text-align: justify;
     }
 
     .content-inner h2 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 20px;
-      margin: 2.0em 0 0.7em;
+      font-size: 19.5px;
+      margin: 1.9em 0 0.65em;
       color: #111;
       border-bottom: 1px solid var(--rule);
-      padding-bottom: 8px;
+      padding-bottom: 7px;
     }
 
     /* 语言切换 */
@@ -209,7 +208,7 @@
 
     .back-home {
       text-align: center;
-      padding: 20px 0 50px;
+      padding: 15px 0 45px;
       font-size: 13px;
     }
   </style>
@@ -224,6 +223,9 @@
 
   <div class="container">
     
+    <!-- 封面图 -->
+    <img src="assets/blog-cover.jpg" alt="Blog Cover" class="blog-cover">
+
     <!-- Logo -->
     <div class="blog-logo">
       <div class="logo-text">SKYライフ</div>
@@ -308,44 +310,44 @@
               <p>The reason for restraint: this repository currently has only 7 commits. There is a clear gap between the 248 stars and the actual completion level of the repository. It is more like a carefully designed blueprint than a system that has been validated in large-scale production. The entire architecture assumes you are running Ubuntu/Debian VPS, and is not directly applicable to macOS local environments.</p>
             </div>
 
-            <!-- 日文内容 -->
+            <!-- 日文内容（已正确翻译） -->
             <div class="lang-content lang-ja" style="display:none;">
-              <p>大多数人第一次使用AI Agent时的感受は惊喜，第二次は困惑，第三次以后则是混乱。</p>
-              <p>惊喜来自于效率。困惑来自于它有时灵、有时不灵。混乱来自于——当你同时运行着三四个AI工具时，它们各自为政、互不知晓、没有协调，整个工作流开始变得比之前更难维护。</p>
-              <p>这不是AI本身的问题。这是一个<strong>治理问题</strong>。</p>
-              <p>最近我在研究一个GitHub仓库：<em>Hermes Agent Control Room</em>。它不是AI应用本身，也不是什么新模型，而是一套用来<strong>管理和编排AI Agent团队的方法论与文档体系</strong>。看完之后我意识到，这套思路值得认真写一篇文章。</p>
+              <p>多くの人がAI Agentを初めて使ったときの感想は「驚き」、2回目は「混乱」、3回目以降は「カオス」になる。</p>
+              <p>驚きは効率から来る。混乱は「時々うまくいくが、時々うまくいかない」ことから来る。カオスは、3〜4つのAIツールを同時に動かしているときに起こる。それぞれが独立して動き、互いを知らず、調整もないため、全体のワークフローが以前より管理しにくくなる。</p>
+              <p>これはAI自体の問題ではない。これは<strong>ガバナンスの問題</strong>である。</p>
+              <p>最近、私はあるGitHubリポジトリを研究した：<em>Hermes Agent Control Room</em>。これはAIアプリケーションそのものではなく、新しいモデルでもない。<strong>AI Agentチームを管理・編成するための方法論とドキュメント体系</strong>である。これを読んで、私はこのアプローチを真剣に記事にすべきだと感じた。</p>
 
-              <h2>问题出在哪里？</h2>
-              <p>先泼一盆冷水：大多数声称在"用AI工作"的人，本质上是在用AI<em>聊天</em>。</p>
-              <p>聊天和工作的区别在于——工作需要记忆、角色分工、流程衔接，以及出了问题时能追溯的记录。当你的AI对话每次都从零开始，当不同Agent之间互不相识，当没有任何文档记录"这个AI负责什么"，你拥有的不是团队，而是一群健忘的临时工。</p>
-              <p>"先搭控制室，再插Agent。避免把AI跑成一堆零散的机器人。"</p>
-              <p>这句话看起来简单，但背后的逻辑却值得细品：它把AI Agent的管理问题，类比成了企业的人力资源问题。你不会直接招一批员工然后让他们自己协调，你需要岗位职责、汇报链条、任务分发系统。</p>
+              <h2>問題はどこにあるのか？</h2>
+              <p>まず冷や水を浴びせよう。「AIで仕事をしている」と主張する人のほとんどは、実際にはAIと「チャット」しているだけだ。</p>
+              <p>チャットと仕事の違いは、仕事には記憶、役割分担、プロセスのつながり、そして問題が発生したときに追跡可能な記録が必要だということだ。AIとの会話が毎回ゼロから始まり、異なるAgent同士が互いを知らず、「このAIは何を担当しているか」というドキュメントもない場合、あなたが持っているのはチームではなく、忘れっぽい派遣社員の集まりである。</p>
+              <p>「まずControl Roomを構築し、それからAgentを接続せよ。AIを散らばったロボットの集まりにしないために。」</p>
+              <p>この文はシンプルに見えるが、その背後にある論理は深く考える価値がある。これはAI Agentの管理問題を、企業の人的資源管理に例えている。あなたは従業員を大勢雇ってから彼らに勝手に調整させたりはしないはずだ。職務記述書、報告ライン、タスク配分システムが必要になる。</p>
 
-              <h2>Control Room是什么？</h2>
-              <p>Control Room不是运行AI的地方，而是<strong>描述、规范和治理AI的地方</strong>。用技术语言说，这是一个"控制平面"，与实际运行的Agent实例分离。</p>
-              <p>打个比方：Control Room类似一家公司的HR系统和内部Wiki——它记录每个人是谁、负责什么、有哪些规则、密码放在哪、出了问题找谁。但它本身不干活，干活的是下面的Agent。</p>
+              <h2>Control Roomとは何か？</h2>
+              <p>Control RoomはAIが実際に動く場所ではない。AIを<strong>記述し、規制し、統治する場所</strong>である。技術的な言葉で言えば、それは実際のAgentインスタンスから分離された「コントロールプレーン」である。</p>
+              <p>例えるなら、Control Roomは会社のHRシステムや社内Wikiのようなものだ——そこには「誰が誰で、何を担当していて、どんなルールがあり、パスワードはどこにあり、問題が起きたら誰に連絡するか」が記録されている。しかしControl Room自体は仕事はしない。実際に仕事をするのは下のAgentたちである。</p>
 
-              <h2>四个成长级别</h2>
-              <p>这套体系最有价值的部分之一，是它定义了一条从"个人玩具"到"团队基础设施"的成长路径，分为四个级别，每一级都有清晰的适用场景。</p>
-              <p>对我自己而言，目前大概是Level 1.5——有多个工具在跑，但角色模糊、没有文档。这套分级让我意识到下一步应该做什么。</p>
+              <h2>4つの成長レベル</h2>
+              <p>このシステムのもっとも価値のある部分の一つは、「個人の玩具」から「チームのインフラ」への成長パスを定義していることだ。4つのレベルに分かれており、それぞれに明確な適用シーンがある。</p>
+              <p>私自身は現在、Level 1.5くらいの位置にいる。複数のツールは動いているが、役割が曖昧で、ドキュメントもない。この分類を見て、私は次に何をすべきかが明確になった。</p>
 
-              <h2>Task Bus：让Agent之间能"传话"</h2>
-              <p>多Agent协作的核心问题是通讯：一个Agent完成了任务，结果怎么传给下一个？</p>
-              <p>这个仓库的解法很工程化，也很朴素——用文件目录模拟消息队列。每个Agent有自己的收件箱（inbox）、处理中（working）、发件箱（outbox）和归档（archive）四个文件夹。</p>
-              <p>这个设计的优雅之处在于：它不依赖任何中间件或第三方服务，文件系统本身就是消息队列。简单、可审计、出了问题打开文件夹就能看到状态。</p>
+              <h2>Task Bus：Agent同士が「話せる」ようにする</h2>
+              <p>マルチAgent協調の核心的な問題はコミュニケーションである。あるAgentがタスクを完了したとき、その結果を次のAgentにどう渡すのか？</p>
+              <p>このリポジトリの解決策は非常に工学的で、かつシンプルだ——ファイルディレクトリを使ってメッセージキューをシミュレートする。各Agentはinbox、working、outbox、archiveの4つのフォルダを持つ。</p>
+              <p>この設計の優れた点は、ミドルウェアやサードパーティサービスに依存しないことだ。ファイルシステム自体がメッセージキューになる。シンプルで、監査可能で、問題が発生したらフォルダを開けば状態がわかる。</p>
 
-              <h2>安全问题：一条最容易犯错的铁律</h2>
-              <p>在多Agent场景下，安全是个真实的问题，不是理论上的风险。当你有四五个Agent共享API Key，当密钥散落在各处的配置文件里，泄露或误用的概率会快速上升。</p>
-              <p>这个仓库提出了一条分离原则：<strong>记录密钥的名称和位置，绝不记录密钥的值</strong>。</p>
-              <p>这条规则的价值在于：Control Room的文档可以公开讨论、可以上传Git、可以多人协作——因为里面只有结构，没有秘密。</p>
+              <h2>セキュリティ：最も犯しやすい鉄則</h2>
+              <p>マルチAgentのシナリオでは、セキュリティは現実的な問題であり、理論上のリスクではない。4〜5つのAgentがAPI Keyを共有し、鍵がさまざまな設定ファイルに散らばっている場合、漏洩や誤用の確率は急速に上昇する。</p>
+              <p>このリポジトリは一つの分離原則を提案している：<strong>鍵の名前と場所は記録するが、鍵の値自体は絶対に記録しない</strong>。</p>
+              <p>このルールの価値は、Control Roomのドキュメントを公開で議論したり、Gitに上げたり、複数人で共同編集したりできることにある。なぜなら、そこには構造だけがあり、秘密はないからだ。</p>
 
-              <h2>8个内置技能，拿来就能用</h2>
-              <p>除了方法论，这个仓库还内置了8个可复用的"Skill"——每个Skill是一套标准操作手册，告诉Agent如何完成特定任务。</p>
+              <h2>8つのビルトインSkill、すぐに使える</h2>
+              <p>方法論に加えて、このリポジトリには8つの再利用可能な「Skill」が組み込まれている。各Skillは特定のタスクをAgentが完了するための標準的な操作マニュアルである。</p>
 
-              <h2>对我自己的启发与冷静评估</h2>
-              <p>看完这个仓库，我的第一反应是兴奋，第二反应是克制。</p>
-              <p>兴奋的原因是：这套思路帮我看清楚了我自己工作流的混乱根源——工具有，但治理没有。每个AI工具各自为政，没有角色定义，没有文档，没有统一的任务追踪。</p>
-              <p>克制的原因是：这个仓库目前只有7次提交，248星的热度和仓库本身的完成度之间有明显落差。它更像一份精心设计的蓝图，而不是一套经过大量生产验证的系统。整个架构假设你在跑Ubuntu/Debian VPS，对macOS本地环境不直接适用。</p>
+              <h2>私自身のインスピレーションと冷静な評価</h2>
+              <p>このリポジトリを読んだ後、私の最初の反応は興奮、2番目の反応は抑制だった。</p>
+              <p>興奮の理由：このアプローチは、私自身のワークフローのカオスな根本原因を明確に示してくれた。ツールはあったが、ガバナンスがなかった。各AIツールが独立して動き、役割定義もドキュメントもなく、統一されたタスク追跡もなかった。</p>
+              <p>抑制の理由：このリポジトリは現在、コミット数が7回しかない。248スターの人気と、リポジトリ自体の完成度との間には明らかなギャップがある。これは大規模な本番環境で検証されたシステムというより、丁寧に設計された青写真に近い。全体のアーキテクチャはUbuntu/Debian VPSで動作することを前提としており、macOSローカル環境には直接適用できない。</p>
             </div>
 
           </div>
@@ -364,7 +366,6 @@
   </div>
 
   <script>
-    // 手风琴展开/收起 + 动态效果
     function toggleArticle(id) {
       const content = document.getElementById('content-' + id);
       const item = document.getElementById('article-' + id);
@@ -373,7 +374,6 @@
         content.classList.remove('open');
         item.classList.remove('open');
       } else {
-        // 关闭其他已打开的
         document.querySelectorAll('.article-content.open').forEach(el => el.classList.remove('open'));
         document.querySelectorAll('.article-item.open').forEach(el => el.classList.remove('open'));
         
@@ -382,9 +382,7 @@
       }
     }
 
-    // 语言切换（纯英文 / 纯日文）
     function switchLang(lang) {
-      // 更新按钮状态
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
         if ((lang === 'en' && btn.textContent === 'EN') || 
@@ -393,20 +391,10 @@
         }
       });
 
-      // 切换所有内容显示
       document.querySelectorAll('.lang-content').forEach(el => {
-        if (el.classList.contains('lang-' + lang)) {
-          el.style.display = 'block';
-        } else {
-          el.style.display = 'none';
-        }
+        el.style.display = el.classList.contains('lang-' + lang) ? 'block' : 'none';
       });
     }
-
-    // 初始化
-    document.addEventListener('DOMContentLoaded', () => {
-      // 默认显示英文
-    });
   </script>
 </body>
 </html>
