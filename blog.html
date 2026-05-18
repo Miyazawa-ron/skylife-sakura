@@ -272,8 +272,8 @@
       <!-- 第一篇文章标题 -->
       <div class="article-title-item active" onclick="showArticle(1)">
         <div class="title">
-          <span class="lang-en">The Quiet Revolution of Local AI</span>
-          <span class="lang-ja">ローカルAIの静かな革命</span>
+          <span class="lang-en">When You Have Your First AI Employee, How Do You Manage It?</span>
+          <span class="lang-ja">最初のAI社員ができたら、どう管理するのか？</span>
         </div>
         <div class="date">2026.04.18</div>
       </div>
@@ -285,8 +285,8 @@
     <div class="article-content-wrapper" id="article-content-1">
       <div class="article-header">
         <div class="article-main-title">
-          <span class="lang-en">The Quiet Revolution of Local AI</span>
-          <span class="lang-ja">ローカルAIの静かな革命</span>
+          <span class="lang-en">When You Have Your First AI Employee, How Do You Manage It?</span>
+          <span class="lang-ja">最初のAI社員ができたら、どう管理するのか？</span>
         </div>
         <div class="article-date">
           <span class="lang-en">April 18, 2026</span>
@@ -298,32 +298,82 @@
         
         <!-- 英文内容 -->
         <div class="lang-content lang-en">
-          <p>In the past two years, we have witnessed an extraordinary shift: powerful language models are no longer confined to massive data centers. They now run comfortably on laptops, even on phones. This is not merely a technical curiosity — it is a quiet revolution in how we think about intelligence, privacy, and creativity.</p>
-          
-          <h2>The End of the Cloud Monopoly</h2>
-          <p>For nearly a decade, the dominant narrative was that AI required enormous compute resources. The cloud was king. But a new generation of quantized models and efficient inference engines has changed the equation. Today, a well-optimized 7B or 13B parameter model can deliver remarkably coherent responses on consumer hardware.</p>
-          
-          <p>This shift carries profound implications. When models run locally, latency drops to milliseconds. Privacy improves dramatically — your prompts never leave the device. And perhaps most importantly, the barrier to experimentation collapses. Anyone with a decent laptop can now fine-tune, prompt-engineer, and even train small specialized models.</p>
+          <p>Most people feel surprised the first time they use an AI Agent, confused the second time, and chaotic after the third.</p>
+<p>The surprise comes from efficiency. The confusion comes from it sometimes working, sometimes not. The chaos comes from running three or four AI tools at the same time — each operating independently, unaware of each other, with no coordination. The entire workflow becomes harder to maintain than before.</p>
+<p>This is not a problem with AI itself. It is a <strong>governance problem</strong>.</p>
+<p>Recently I studied a GitHub repository: <em>Hermes Agent Control Room</em>. It is not an AI application itself, nor a new model, but a methodology and documentation system for <strong>managing and orchestrating teams of AI Agents</strong>. After reading it, I realized this approach deserves a serious article.</p>
 
-          <h2>Design Implications</h2>
-          <p>For designers and architects, local AI opens entirely new workflows. Imagine generating spatial concepts while sitting in the actual space you are redesigning. Or running iterative material studies without uploading sensitive project data to third-party servers.</p>
-          
-          <p>The tools are still young, but the direction is clear: intelligence is becoming personal again.</p>
+<h2>Where Does the Problem Lie?</h2>
+<p>Let me pour some cold water: most people who claim to be "working with AI" are essentially just chatting with AI.</p>
+<p>The difference between chatting and working is that work requires memory, role division, process衔接, and traceable records when problems arise. When every AI conversation starts from zero, when different Agents don't know each other, and when there is no documentation recording "what this AI is responsible for", what you have is not a team — but a group of forgetful temporary workers.</p>
+<p>"Build the Control Room first, then plug in Agents. Avoid turning AI into a bunch of scattered robots."</p>
+<p>This sentence seems simple, but the logic behind it is worth pondering: it analogizes the management of AI Agents to human resource management in a company. You wouldn't hire a bunch of employees and let them coordinate themselves. You need job responsibilities, reporting chains, and task distribution systems.</p>
+
+<h2>What is Control Room?</h2>
+<p>Control Room is not where AI runs, but where AI is <strong>described, regulated, and governed</strong>. In technical terms, it is a "control plane" separated from the actual running Agent instances.</p>
+<p>For example: Control Room is like a company's HR system and internal Wiki — it records who everyone is, what they are responsible for, what rules exist, where passwords are stored, and who to contact when problems arise. But it doesn't do the work itself. The Agents below do the actual work.</p>
+
+<h2>Four Growth Levels</h2>
+<p>One of the most valuable parts of this system is that it defines a growth path from "personal toy" to "team infrastructure", divided into four levels, each with clear applicable scenarios.</p>
+<p>For myself, I am currently around Level 1.5 — multiple tools are running, but roles are vague and there is no documentation. This grading made me realize what I should do next.</p>
+
+<h2>Task Bus: Enabling Agents to "Talk" to Each Other</h2>
+<p>The core problem of multi-Agent collaboration is communication: when one Agent completes a task, how does the result get passed to the next?</p>
+<p>The solution in this repository is very engineering-oriented and simple — using file directories to simulate a message queue. Each Agent has four folders: inbox, working, outbox, and archive.</p>
+<p>The elegance of this design lies in the fact that it does not rely on any middleware or third-party services. The file system itself becomes the message queue. It is simple, auditable, and when problems occur, you can open the folder to see the status.</p>
+
+<h2>Security: The Easiest Rule to Break</h2>
+<p>In multi-Agent scenarios, security is a real issue, not a theoretical risk. When you have four or five Agents sharing API Keys, and keys are scattered across configuration files, the probability of leakage or misuse rises rapidly.</p>
+<p>This repository proposes a separation principle: <strong>Record the name and location of keys, never record the value of the keys</strong>.</p>
+<p>The value of this rule is that the Control Room documentation can be discussed publicly, uploaded to Git, and collaborated on by multiple people — because it only contains structure, not secrets.</p>
+
+<h2>8 Built-in Skills, Ready to Use</h2>
+<p>In addition to the methodology, this repository also includes 8 reusable "Skills" — each Skill is a standard operating manual that tells Agents how to complete specific tasks.</p>
+
+<h2>My Inspiration and Calm Assessment</h2>
+<p>After reading this repository, my first reaction was excitement, and my second reaction was restraint.</p>
+<p>The reason for excitement: this approach helped me clearly see the root of chaos in my own workflow — I had tools, but no governance. Each AI tool operated independently, with no role definitions, no documentation, and no unified task tracking.</p>
+<p>The reason for restraint: this repository currently has only 7 commits. There is a clear gap between the 248 stars and the actual completion level of the repository. It is more like a carefully designed blueprint than a system that has been validated in large-scale production. The entire architecture assumes you are running Ubuntu/Debian VPS, and is not directly applicable to macOS local environments.</p>
         </div>
 
         <!-- 日文内容 -->
         <div class="lang-content lang-ja" style="display:none;">
-          <p>この2年間で、私たちは驚くべき変化を目の当たりにしてきた。強力な言語モデルが、もはや巨大なデータセンターに閉じ込められることはなくなった。今やノートPCやスマートフォン上で快適に動作する。これは単なる技術的な好奇心ではなく、知性・プライバシー・創造性に対する私たちの考え方を変える、静かな革命である。</p>
-          
-          <h2>クラウド独占の終わり</h2>
-          <p>この10年近く、AIには膨大な計算資源が必要だというのが主流の物語だった。クラウドが王者だった。しかし、新しい世代の量子化モデルと効率的な推論エンジンが、その方程式を変えた。今日では、適切に最適化された70億または130億パラメータのモデルが、コンシューマーハードウェア上で非常に一貫した応答を生成できる。</p>
-          
-          <p>この変化は深い意味を持つ。モデルがローカルで動作すれば、レイテンシはミリ秒単位にまで低下する。プライバシーは劇的に向上する — プロンプトがデバイスから出ることはない。そしておそらく最も重要なのは、実験へのハードルが崩壊することだ。まともなノートPCを持っていれば、誰でもファインチューニングやプロンプトエンジニアリング、小規模な専門モデルの訓練まで行えるようになった。</p>
+          <p>大多数人第一次使用AI Agent时的感受是惊喜，第二次是困惑，第三次以后则是混乱。</p>
+<p>惊喜来自于效率。困惑来自于它有时灵、有时不灵。混乱来自于——当你同时运行着三四个AI工具时，它们各自为政、互不知晓、没有协调，整个工作流开始变得比之前更难维护。</p>
+<p>这不是AI本身的问题。这是一个<strong>治理问题</strong>。</p>
+<p>最近我在研究一个GitHub仓库：<em>Hermes Agent Control Room</em>。它不是AI应用本身，也不是什么新模型，而是一套用来<strong>管理和编排AI Agent团队的方法论与文档体系</strong>。看完之后我意识到，这套思路值得认真写一篇文章。</p>
 
-          <h2>デザインへの示唆</h2>
-          <p>デザイナーや建築家にとって、ローカルAIは全く新しいワークフローを開く。実際に再設計している空間に座りながら、空間コンセプトを生成することを想像してみてほしい。あるいは、機密プロジェクトデータを第三者のサーバーにアップロードすることなく、素材の反復研究を行うことも可能になる。</p>
-          
-          <p>ツールはまだ若い。しかし方向性は明確だ。知性は再び「個人的なもの」になりつつある。</p>
+<h2>问题出在哪里？</h2>
+<p>先泼一盆冷水：大多数声称在"用AI工作"的人，本质上是在用AI<em>聊天</em>。</p>
+<p>聊天和工作的区别在于——工作需要记忆、角色分工、流程衔接，以及出了问题时能追溯的记录。当你的AI对话每次都从零开始，当不同Agent之间互不相识，当没有任何文档记录"这个AI负责什么"，你拥有的不是团队，而是一群健忘的临时工。</p>
+<p>"先搭控制室，再插Agent。避免把AI跑成一堆零散的机器人。"</p>
+<p>这句话看起来简单，但背后的逻辑却值得细品：它把AI Agent的管理问题，类比成了企业的人力资源问题。你不会直接招一批员工然后让他们自己协调，你需要岗位职责、汇报链条、任务分发系统。</p>
+
+<h2>Control Room是什么？</h2>
+<p>Control Room不是运行AI的地方，而是<strong>描述、规范和治理AI的地方</strong>。用技术语言说，这是一个"控制平面"，与实际运行的Agent实例分离。</p>
+<p>打个比方：Control Room类似一家公司的HR系统和内部Wiki——它记录每个人是谁、负责什么、有哪些规则、密码放在哪、出了问题找谁。但它本身不干活，干活的是下面的Agent。</p>
+
+<h2>四个成长级别</h2>
+<p>这套体系最有价值的部分之一，是它定义了一条从"个人玩具"到"团队基础设施"的成长路径，分为四个级别，每一级都有清晰的适用场景。</p>
+<p>对我自己而言，目前大概是Level 1.5——有多个工具在跑，但角色模糊、没有文档。这套分级让我意识到下一步应该做什么。</p>
+
+<h2>Task Bus：让Agent之间能"传话"</h2>
+<p>多Agent协作的核心问题是通讯：一个Agent完成了任务，结果怎么传给下一个？</p>
+<p>这个仓库的解法很工程化，也很朴素——用文件目录模拟消息队列。每个Agent有自己的收件箱（inbox）、处理中（working）、发件箱（outbox）和归档（archive）四个文件夹。</p>
+<p>这个设计的优雅之处在于：它不依赖任何中间件或第三方服务，文件系统本身就是消息队列。简单、可审计、出了问题打开文件夹就能看到状态。</p>
+
+<h2>安全问题：一条最容易犯错的铁律</h2>
+<p>在多Agent场景下，安全是个真实的问题，不是理论上的风险。当你有四五个Agent共享API Key，当密钥散落在各处的配置文件里，泄露或误用的概率会快速上升。</p>
+<p>这个仓库提出了一条分离原则：<strong>记录密钥的名称和位置，绝不记录密钥的值</strong>。</p>
+<p>这条规则的价值在于：Control Room的文档可以公开讨论、可以上传Git、可以多人协作——因为里面只有结构，没有秘密。</p>
+
+<h2>8个内置技能，拿来就能用</h2>
+<p>除了方法论，这个仓库还内置了8个可复用的"Skill"——每个Skill是一套标准操作手册，告诉Agent如何完成特定任务。</p>
+
+<h2>对我自己的启发与冷静评估</h2>
+<p>看完这个仓库，我的第一反应是兴奋，第二反应是克制。</p>
+<p>兴奋的原因是：这套思路帮我看清楚了我自己工作流的混乱根源——工具有，但治理没有。每个AI工具各自为政，没有角色定义，没有文档，没有统一的任务追踪。</p>
+<p>克制的原因是：这个仓库目前只有7次提交，248星的热度和仓库本身的完成度之间有明显落差。它更像一份精心设计的蓝图，而不是一套经过大量生产验证的系统。整个架构假设你在跑Ubuntu/Debian VPS，对macOS本地环境不直接适用。</p>
         </div>
 
       </div>
