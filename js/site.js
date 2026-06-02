@@ -38,6 +38,9 @@
   /*  SMOOTH SCROLL                                          */
   /* ------------------------------------------------------ */
   let smoother = null;
+  let workST    = null;   // ScrollTrigger ref for the products pin
+  let workOver  = false;  // true while mouse is inside .work
+
   function initSmooth() {
     if (prefersReduce) return;
     smoother = ScrollSmoother.create({
@@ -279,6 +282,7 @@
       },
     });
     const st = tween.scrollTrigger;
+    workST = st; // expose to the window-level scroll lock
 
     function setUI(p) {
       if (fill) fill.style.width = (p * 100) + '%';
@@ -354,22 +358,9 @@
       cardDrag = false; dragging = false; track.classList.remove('grabbing');
     });
 
-    // ── Scroll lock: capture phase so we run BEFORE ScrollSmoother's bubble
-    //    listener. stopPropagation() prevents GSAP from ever seeing the event.
-    //    We manually drive the pin progress with the wheel delta instead.
-    const workEl = document.querySelector('.work');
-    if (workEl) {
-      workEl.addEventListener('wheel', (e) => {
-        e.preventDefault();       // stop native browser vertical scroll
-        e.stopPropagation();      // stop ScrollSmoother (bubble phase on window)
-        const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-        const cur   = smoother ? smoother.scrollTop() : window.scrollY;
-        // Clamp within pin range so scroll cannot escape the section
-        const next  = Math.max(st.start, Math.min(st.end, cur + delta));
-        if (smoother) smoother.scrollTo(next, false);
-        else window.scrollTo({ top: next });
-      }, { passive: false, capture: true }); // capture: true = runs before bubble
-    }
+    // workST is already set above; mouseenter/leave tracking + wheel
+    // interception is handled by initWorkScrollLock (registered before GSAP).
+
 
     // block card link navigation when user was dragging (not just clicking)
     track.addEventListener('click', (e) => {
@@ -496,6 +487,54 @@
   }
 
   /* ------------------------------------------------------ */
+  /*  WORK SECTION SCROLL LOCK                               */
+  /*  Must be registered on window BEFORE GSAP's listeners  */
+  /*  so stopImmediatePropagation() fires first.             */
+  /* ------------------------------------------------------ */
+  function initWorkScrollLock() {
+    if (isMobile || prefersReduce) return;
+    const workEl = document.querySelector('.work');
+    if (!workEl) return;
+
+    workEl.addEventListener('mouseenter', () => { workOver = true; });
+    workEl.addEventListener('mouseleave', () => { workOver = false; });
+
+    // ── Layer 1: intercept wheel on window capture phase (before GSAP) ──
+    // Only block the event when it would push scroll past the pin boundaries.
+    window.addEventListener('wheel', (e) => {
+      if (!workOver || !workST) return;
+      const cur   = smoother ? smoother.scrollTop() : window.scrollY;
+      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      const atStart = cur <= workST.start + 2 && delta < 0;
+      const atEnd   = cur >= workST.end   - 2 && delta > 0;
+      if (atStart || atEnd) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return; // don't scroll at all at the boundary
+      }
+      // Within valid range: intercept and redirect to keep scroll clamped
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const next = Math.max(workST.start, Math.min(workST.end, cur + delta));
+      if (smoother) smoother.scrollTo(next, false);
+      else window.scrollTo(0, next);
+    }, { passive: false, capture: true });
+
+    // ── Layer 2: gsap.ticker safety net ──
+    // Fires every frame. If scroll escaped the boundary (e.g. via momentum/inertia),
+    // immediately clamp it back. Runs before GSAP renders tweens each frame.
+    gsap.ticker.add(() => {
+      if (!workOver || !workST) return;
+      const cur = smoother ? smoother.scrollTop() : window.scrollY;
+      if (cur < workST.start - 1) {
+        smoother ? smoother.scrollTo(workST.start, false) : window.scrollTo(0, workST.start);
+      } else if (cur > workST.end + 1) {
+        smoother ? smoother.scrollTo(workST.end, false) : window.scrollTo(0, workST.end);
+      }
+    });
+  }
+
+  /* ------------------------------------------------------ */
   /*  HAMBURGER mobile drawer                                */
   /* ------------------------------------------------------ */
   function initHamburger() {
@@ -524,6 +563,7 @@
   /* ------------------------------------------------------ */
   function boot() {
     const safe = (fn) => { try { fn(); } catch (e) { console.warn('[sky] init skipped:', e && e.message); } };
+    safe(initWorkScrollLock); // must run BEFORE initSmooth so our window listener is first
     safe(initSmooth);
     safe(initCursor);
     safe(initMagnetic);
