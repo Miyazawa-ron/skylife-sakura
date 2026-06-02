@@ -1,777 +1,453 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="no-js">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SKYライフ株式会社</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SKYライフ株式会社 — designing the region and the way we live</title>
 <meta name="description" content="a small studio for slow architecture, quiet hospitality, and considered design." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+SC:wght@300;400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #ffffff;
-    --fg: #000000;
-    --muted: #8a8a8a;
-    --line: #e5e5e5;
-    --accent: #E86020;
-    --nav-h: 88px;
-    --tiny: 11px;
-    --small: 12px;
-    --reg: 13px;
-    --med: 15px;
-    --type-sans: "Inter", "Helvetica Neue", "Noto Sans JP", helvetica, arial, sans-serif;
-    --type-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html {
-    background: var(--bg);
-    color: var(--fg);
-    scroll-padding-top: calc(var(--nav-h) + 8px);
-  }
-  body {
-    font-family: var(--type-sans);
-    font-weight: 300;
-    font-size: var(--reg);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    letter-spacing: 0.005em;
-  }
-  a { color: inherit; text-decoration: none; }
-  a:hover { color: var(--accent); }
-  img { display: block; max-width: 100%; }
-  button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
-
-  .row { display: flex; align-items: center; }
-  .between { justify-content: space-between; }
-
-  /* ── NAV ── */
-  .nav {
-    position: sticky; top: 0; z-index: 50;
-    background: var(--bg);
-    height: var(--nav-h);
-    border-bottom: 1px solid var(--line);
-    padding: 0 18px;
-    font-size: var(--tiny);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .brand-logo {
-    display: block;
-    height: 22px;
-    width: 210px;
-    background-color: var(--accent);
-    -webkit-mask: url('assets/skylogo.svg') no-repeat left center / contain;
-            mask: url('assets/skylogo.svg') no-repeat left center / contain;
-  }
-  .desktop-nav {
-    display: flex;
-    align-items: center;
-    gap: 0;
-  }
-  .desktop-nav ul {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-    font-size: var(--small);
-  }
-  .desktop-nav ul a { letter-spacing: 0.02em; }
-  .lang-ctrl {
-    display: flex;
-    gap: 10px;
-    margin-left: 28px;
-    color: var(--muted);
-  }
-  .lang-ctrl button { font-size: var(--tiny); letter-spacing: 0.04em; }
-  .lang-ctrl button.on { color: var(--fg); }
-
-  /* hamburger (mobile only) */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-    width: 36px;
-    height: 36px;
-    padding: 6px;
-  }
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 1.5px;
-    background: var(--fg);
-    transition: transform 220ms ease, opacity 180ms ease;
-  }
-  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-  /* mobile menu panel */
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: var(--nav-h);
-    left: 0; right: 0;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-    z-index: 49;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.07);
-  }
-  .mobile-menu.open { display: block; }
-  .mobile-menu ul { list-style: none; }
-  .mobile-menu ul li { border-bottom: 1px solid var(--line); }
-  .mobile-menu ul li a {
-    display: block;
-    padding: 16px 18px;
-    font-size: var(--small);
-    letter-spacing: 0.02em;
-  }
-  .mobile-menu ul li a:hover { color: var(--accent); }
-  .mobile-menu .mob-lang-row {
-    display: flex;
-    gap: 14px;
-    padding: 16px 18px 20px;
-    color: var(--muted);
-  }
-  .mobile-menu .mob-lang-row button { font-size: var(--tiny); letter-spacing: 0.04em; }
-  .mobile-menu .mob-lang-row button.on { color: var(--fg); }
-
-  /* ── HERO ── */
-  .hero { padding: 18px 18px 0; }
-  .hero-img {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #efece6;
-    overflow: hidden;
-  }
-  .hero-title {
-    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 18px;
-    padding: 16px 0 28px;
-    font-size: var(--reg);
-  }
-  .hero-title h1 {
-    grid-column: 1 / span 2;
-    font-size: var(--reg);
-    font-weight: 300;
-    letter-spacing: 0.005em;
-  }
-  .hero-title .arrow {
-    grid-column: 4;
-    text-align: right;
-    color: var(--muted);
-  }
-
-  /* ── SECTION HEADER ── */
-  .sec-head {
-    display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
-    gap: 18px;
-    padding: 14px 18px;
-    font-size: var(--tiny);
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    align-items: baseline;
-  }
-  .sec-head .num { color: var(--fg); }
-  .sec-head h2 { font-size: var(--tiny); font-weight: 400; color: var(--fg); letter-spacing: 0.04em; text-transform: lowercase; }
-  .sec-head .more { text-align: right; color: var(--muted); }
-
-  /* ── PRODUCT GRID ── */
-  .grid3 {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .card {
-    background: var(--bg);
-    padding: 18px 18px 22px;
-    display: flex; flex-direction: column; gap: 14px;
-    cursor: pointer;
-    transition: background 120ms linear;
-  }
-  .card:hover { background: #fafafa; }
-  .card .ph {
-    width: 100%; aspect-ratio: 4/3;
-    background: #f1efe9;
-    overflow: hidden;
-  }
-  .card-meta {
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 12px; align-items: baseline;
-    font-size: var(--tiny);
-    line-height: 1.4;
-  }
-  .card-meta .name { font-size: var(--small); }
-  .card-meta .sub { display: block; color: var(--muted); margin-top: 2px; }
-  .card-meta .price { font-family: var(--type-mono); font-size: var(--tiny); }
-  .card-meta .price.acc { color: var(--accent); }
-
-  /* ── MANIFESTO ── */
-  .manifesto {
-    display: grid;
-    grid-template-columns: 60px 1fr 1fr 1fr 80px;
-    gap: 18px;
-    padding: 60px 18px 80px;
-    border-top: 1px solid var(--line);
-  }
-  .manifesto .num { font-size: var(--tiny); color: var(--muted); }
-  .manifesto .lead {
-    grid-column: 2 / span 3;
-    font-size: 22px;
-    font-weight: 200;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-    text-wrap: pretty;
-    max-width: 70ch;
-  }
-  .manifesto .lead em { font-style: normal; color: var(--accent); }
-
-  /* ── INDEX LIST ── */
-  .indexlist { border-top: 1px solid var(--line); }
-  .indexlist .item {
-    display: grid; grid-template-columns: 60px 90px 1fr 120px 80px;
-    gap: 18px;
-    padding: 14px 18px;
-    font-size: var(--small);
-    border-bottom: 1px solid var(--line);
-    cursor: pointer;
-  }
-  .indexlist .item:hover { background: #fafafa; }
-  .indexlist .item:hover .arrow { color: var(--accent); }
-  .indexlist .item .num,
-  .indexlist .item .date,
-  .indexlist .item .tag,
-  .indexlist .item .arrow { color: var(--muted); font-size: var(--tiny); }
-  .indexlist .item .arrow { text-align: right; }
-
-  /* ── CONTACT ── */
-  .contact {
-    display: grid; grid-template-columns: 60px repeat(3, 1fr) 80px;
-    gap: 18px;
-    padding: 40px 18px 60px;
-    border-top: 1px solid var(--line);
-    font-size: var(--small);
-  }
-  .contact .label { font-size: var(--tiny); color: var(--muted); margin-bottom: 8px; letter-spacing: 0.04em; }
-  .contact .num { font-size: var(--tiny); color: var(--muted); }
-  .contact address { font-style: normal; line-height: 1.55; }
-
-  /* ── FOOTER ── */
-  .foot {
-    display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
-    gap: 18px;
-    padding: 28px 18px;
-    border-top: 1px solid var(--line);
-    font-size: var(--tiny);
-    color: var(--muted);
-  }
-  .foot .col h4 { font-size: var(--tiny); color: var(--fg); font-weight: 400; margin-bottom: 8px; letter-spacing: 0.04em; }
-  .foot ul { list-style: none; display: grid; gap: 4px; }
-  .foot .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
-
-  /* ── SCROLL PROGRESS ── */
-  .progress {
-    position: fixed; top: 0; left: 0; height: 2px; width: 0;
-    background: var(--accent); z-index: 100;
-    transition: width 80ms linear;
-  }
-
-  /* ── LANGUAGE SWITCHING ── */
-  .lang-ja { display: none; }
-  html[lang="ja"] .lang-ja { display: inline; }
-  html[lang="ja"] .lang-en { display: none; }
-
-  /* utility */
-  .acc { color: var(--accent); }
-  .mono { font-family: var(--type-mono); }
-  .muted { color: var(--muted); }
-
-  :focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 880px) {
-    .desktop-nav { display: none; }
-    .hamburger { display: flex; }
-
-    .hero-title { grid-template-columns: 1fr; }
-    .hero-title .arrow { display: none; }
-    .sec-head { grid-template-columns: 40px 1fr 80px; }
-    .sec-head > div:nth-child(3), .sec-head > div:nth-child(4) { display: none; }
-    .grid3 { grid-template-columns: 1fr 1fr; }
-    .manifesto { grid-template-columns: 40px 1fr; padding: 40px 18px 60px; }
-    .manifesto .lead { grid-column: 2; font-size: 18px; }
-    .indexlist .item { grid-template-columns: 40px 1fr 60px; }
-    .indexlist .item .date, .indexlist .item .tag { display: none; }
-    .contact { grid-template-columns: 40px 1fr; }
-    .foot { grid-template-columns: 40px 1fr 1fr; }
-  }
-  @media (max-width: 560px) {
-    .grid3 { grid-template-columns: 1fr; }
-  }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css?v=7" />
 </head>
-<body>
+<body data-page="home" data-lang="en">
 
-<div class="progress" id="progress"></div>
-
-<!-- NAV -->
-<header class="nav">
-  <a href="#" aria-label="SKYライフ株式会社">
-    <span class="brand-logo" role="img" aria-label="SKYライフ"></span>
-  </a>
-
-  <!-- Desktop navigation -->
-  <div class="desktop-nav" id="desktop-nav">
-    <ul>
-      <li><a href="#products">
-        <span class="lang-en">products</span>
-        <span class="lang-ja">製品・サービス</span>
-      </a></li>
-      <li><a href="store.html">store</a></li>
-      <li><a href="journal.html">
-        <span class="lang-en">contact</span>
-        <span class="lang-ja">お問い合わせ</span>
-      </a></li>
-      <li><a href="#about">
-        <span class="lang-en">about</span>
-        <span class="lang-ja">会社概要</span>
-      </a></li>
-      <li><a href="#contact">
-        <span class="lang-en">contact</span>
-        <span class="lang-ja">お問い合わせ</span>
-      </a></li>
-    </ul>
-    <div class="lang-ctrl">
-      <button data-lang="en" class="on">en</button>
-      <button data-lang="ja">日本語</button>
+  <!-- ░░ LOADER ░░ -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader__in">
+      <div class="loader__row"><span>SKY ライフ — 設計事務所</span><span>EST. 2014 · CHIBA</span></div>
+      <div class="loader__count"><span class="num">000</span><span class="accent">.</span></div>
+      <div class="loader__bar"><i></i></div>
+      <div class="loader__row" style="margin-top:14px"><span>loading blueprint</span><span>designing the region</span></div>
     </div>
   </div>
 
-  <!-- Hamburger button (mobile only) -->
-  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</header>
+  <!-- ░░ PAGE TRANSITION ░░ -->
+  <div class="pt" aria-hidden="true"><div class="pt__panel"></div></div>
+  <div class="pt__mark" aria-hidden="true">SKY</div>
 
-<!-- Mobile menu -->
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <ul>
-    <li><a href="#products" class="mob-link">
-      <span class="lang-en">products</span>
-      <span class="lang-ja">製品・サービス</span>
-    </a></li>
-    <li><a href="store.html" class="mob-link">store</a></li>
-    <li><a href="journal.html" class="mob-link">
-        <span class="lang-en">contact</span>
-        <span class="lang-ja">お問い合わせ</span>
-      </a></li>
-    <li><a href="#about" class="mob-link">
-      <span class="lang-en">about</span>
-      <span class="lang-ja">会社概要</span>
-    </a></li>
-    <li><a href="#contact" class="mob-link">
-      <span class="lang-en">contact</span>
-      <span class="lang-ja">お問い合わせ</span>
-    </a></li>
-  </ul>
-  <div class="mob-lang-row">
-    <button data-lang="en" class="on">en</button>
-    <button data-lang="ja">日本語</button>
+  <!-- ░░ CURSOR ░░ -->
+  <div class="cursor" aria-hidden="true">
+    <span class="cursor__ring"></span>
+    <span class="cursor__dot"></span>
+    <span class="cursor__label"></span>
   </div>
-</div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-img" role="img" aria-label="japanese guesthouse exterior"
-       style="background-image:url('assets/hero.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;">
-  </div>
-  <div class="hero-title">
-    <h1>
-      <span class="lang-en">a small studio for slow architecture, quiet hospitality, and considered design.</span>
-      <span class="lang-ja">建築・宿泊・デザインを静かに営む。</span>
-    </h1>
-    <div></div>
-    <div class="arrow">scroll ↓</div>
-  </div>
-</section>
+  <!-- ░░ HEADER ░░ -->
+  <header class="head">
+    <a class="brand" href="index.html" data-magnetic="0.25" aria-label="SKY Life home">
+      <img class="brand__logo" src="assets/sky-logo-c.svg" alt="SKY Life" />
+    </a>
+    <nav class="nav">
+      <a class="nav-link" href="#work" data-transition="false"><span class="lang-en">products</span><span class="lang-jp">プロダクト</span><span class="u"></span></a>
+      <a class="nav-link" href="store.html" data-transition><span class="lang-en">store</span><span class="lang-jp">ストア</span><span class="u"></span></a>
+      <a class="nav-link" href="journal.html" data-transition><span class="lang-en">blog</span><span class="lang-jp">ブログ</span><span class="u"></span></a>
+      <a class="nav-link" href="#studio"><span class="lang-en">about</span><span class="lang-jp">私たち</span><span class="u"></span></a>
+      <a class="nav-link" href="contact.html" data-transition><span class="lang-en">contact</span><span class="lang-jp">お問い合わせ</span><span class="u"></span></a>
+      <span class="lang">
+        <button class="on" data-lang="en">EN</button><span>/</span><button data-lang="jp">日本語</button>
+      </span>
+      <button class="hamburger" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
 
-<!-- ABOUT / MANIFESTO -->
-<section class="manifesto" id="about">
-  <div class="num mono">— 01</div>
-  <p class="lead">
-    <span class="lang-en">skyライフ co., ltd. redefines space — not as property, but as a place where people and communities <em>connect</em>. we breathe new life into existing buildings and overlooked spaces, turning them into homes for travelers, long-term residents, and the communities around them. design is at the heart of everything we do — not as decoration, but as a way of shaping how people live. our guiding principle: <em>designing the region and the way we live.</em></span>
-    <span class="lang-ja">SKYライフ株式会社は、空間を単なる不動産としてではなく、人とコミュニティが<em>つながる</em>場所として再定義します。既存の建物や見過ごされた空間に新たな命を吹き込み、旅行者・長期滞在者・地域の人々のための場所へと変えていきます。デザインは私たちの活動の核心にあります——装飾としてではなく、人々の暮らし方を形づくる手段として。私たちの指針：<em>地域と暮らしをデザインする。</em></span>
-  </p>
-</section>
-
-<!-- PRODUCTS / SERVICES -->
-<div class="sec-head" id="products">
-  <div class="num mono">— 02</div>
-  <h2>
-    <span class="lang-en">products &amp; services</span>
-    <span class="lang-ja">製品・サービス</span>
-  </h2>
-  <div></div>
-  <div></div>
-  <a class="more" href="#">
-    <span class="lang-en">all →</span>
-    <span class="lang-ja">すべて →</span>
-  </a>
-</div>
-
-<div class="grid3">
-  <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a01.jpg'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name">
-          <span class="lang-en">real estate &amp; guesthouse</span>
-          <span class="lang-ja">不動産・ゲストハウス</span>
+  <!-- ░░ MOBILE DRAWER ░░ -->
+  <div class="mob-menu" aria-hidden="true">
+    <div class="mob-menu__in">
+      <div class="mob-menu__top">
+        <a class="brand" href="index.html"><img class="brand__logo" src="assets/sky-logo-c.svg" alt="SKY Life" /></a>
+        <button class="mob-close" aria-label="close menu">✕</button>
+      </div>
+      <nav class="mob-nav">
+        <a class="mob-link" href="#work"><span class="mob-link__no">01</span><span class="lang-en">Products</span><span class="lang-jp">プロダクト</span></a>
+        <a class="mob-link" href="store.html" data-transition><span class="mob-link__no">02</span><span class="lang-en">Store</span><span class="lang-jp">ストア</span></a>
+        <a class="mob-link" href="journal.html" data-transition><span class="mob-link__no">03</span><span class="lang-en">Blog</span><span class="lang-jp">ブログ</span></a>
+        <a class="mob-link" href="#studio"><span class="mob-link__no">04</span><span class="lang-en">About</span><span class="lang-jp">私たち</span></a>
+        <a class="mob-link" href="contact.html" data-transition><span class="mob-link__no">05</span><span class="lang-en">Contact</span><span class="lang-jp">お問い合わせ</span></a>
+      </nav>
+      <div class="mob-foot">
+        <div class="mob-lang">
+          <button class="on" data-lang="en">EN</button><span>/</span><button data-lang="jp">日本語</button>
         </div>
-        <span class="sub">
-          <span class="lang-en">machiya restoration, leasing, hospitality operation across chiba and setouchi.</span>
-          <span class="lang-ja">町家再生・賃貸管理・宿泊運営。千葉・瀬戸内エリアを中心に展開。</span>
-        </span>
+        <div class="mob-info">skylife.sakura@gmail.com<br>千葉 · chiba · japan</div>
       </div>
     </div>
-  </article>
-
-  <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a02.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name">
-          <span class="lang-en">design &amp; creative</span>
-          <span class="lang-ja">設計・デザイン</span>
-        </div>
-        <span class="sub">
-          <span class="lang-en">architecture, interiors, identity, signage, print. small team, long projects.</span>
-          <span class="lang-ja">建築・インテリア・グラフィック・サイン・印刷。少数精鋭、長期プロジェクト。</span>
-        </span>
-      </div>
-    </div>
-  </article>
-
-  <article class="card" tabindex="0">
-    <div class="ph" style="background-image:url('assets/card-a03.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name">
-          <span class="lang-en">services &amp; quotation</span>
-          <span class="lang-ja">サービス・見積</span>
-        </div>
-        <span class="sub">
-          <span class="lang-en">property management, concierge, translation, permits + written quotations for all services.</span>
-          <span class="lang-ja">物件管理・コンシェルジュ・翻訳・許認可申請、見積依頼もこちらから。</span>
-        </span>
-      </div>
-    </div>
-  </article>
-
-  <a class="card" tabindex="0" href="store.html" style="color:inherit; text-decoration:none;">
-    <div class="ph" style="background-image:url('assets/card-a05.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name">
-          <span class="lang-en">store</span>
-          <span class="lang-ja">ストア</span>
-        </div>
-        <span class="sub">
-          <span class="lang-en">small editions: paper goods, bath salt, towels, ceramics — made for our guesthouses.</span>
-          <span class="lang-ja">少量製作の物販。紙製品・入浴剤・タオル・陶器など、宿のために作ったもの。</span>
-        </span>
-      </div>
-    </div>
-  </a>
-
-  <a class="card" href="blog.html">
-    <div class="ph" style="background-image:url('assets/blog-cover.jpg'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name">
-          <span class="lang-en">blog</span>
-          <span class="lang-ja">ブログ</span>
-        </div>
-        <span class="sub">
-          <span class="lang-en">latest insights on AI, design, architecture and creative technology.</span>
-          <span class="lang-ja">AI・デザイン・建築・クリエイティブテクノロジーの最新インサイト。</span>
-        </span>
-      </div>
-      <div class="price acc">
-        <span class="lang-en">read →</span>
-        <span class="lang-ja">読む →</span>
-      </div>
-    </div>
-  </a>
-
-  <a class="card" href="journal.html">
-    <div class="ph" style="background-image:url('assets/card-a06.png'); background-size:cover; background-position:center center; background-repeat:no-repeat;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name">
-          <span class="lang-en">contact</span>
-          <span class="lang-ja">お問い合わせ</span>
-        </div>
-        <span class="sub">
-          <span class="lang-en">leave us a message, or send us an email. no registration needed.</span>
-          <span class="lang-ja">メッセージをどうぞ。メールかゲストブックでお気軽にお問い合わせください。</span>
-        </span>
-      </div>
-      <div class="price acc">
-        <span class="lang-en">enter →</span>
-        <span class="lang-ja">入る →</span>
-      </div>
-    </div>
-  </a>
-</div>
-
-<!-- JOURNAL -->
-<div class="sec-head" id="journal">
-  <div class="num mono">— 03</div>
-  <h2>
-    <span class="lang-en">contact</span>
-    <span class="lang-ja">お問い合わせ</span>
-  </h2>
-  <div></div>
-  <div></div>
-  <a class="more" href="journal.html">
-    <span class="lang-en">messages →</span>
-    <span class="lang-ja">メッセージ →</span>
-  </a>
-</div>
-
-<div class="indexlist">
-  <a class="item" href="#">
-    <span class="num mono">001</span>
-    <span class="date mono">2026.04.18</span>
-    <span class="title">
-      <span class="lang-en">on the door height of an old chiba townhouse</span>
-      <span class="lang-ja">京町家の鴨居について</span>
-    </span>
-    <span class="tag mono">
-      <span class="lang-en">[ field note ]</span>
-      <span class="lang-ja">[ フィールドノート ]</span>
-    </span>
-    <span class="arrow">→</span>
-  </a>
-  <a class="item" href="#">
-    <span class="num mono">002</span>
-    <span class="date mono">2026.03.30</span>
-    <span class="title">
-      <span class="lang-en">a guesthouse for two — naoshima, march</span>
-      <span class="lang-ja">直島の小さな宿</span>
-    </span>
-    <span class="tag mono">
-      <span class="lang-en">[ project ]</span>
-      <span class="lang-ja">[ プロジェクト ]</span>
-    </span>
-    <span class="arrow">→</span>
-  </a>
-  <a class="item" href="#">
-    <span class="num mono">003</span>
-    <span class="date mono">2026.03.11</span>
-    <span class="title">
-      <span class="lang-en">we made a kettle. it weighs 480 grams.</span>
-      <span class="lang-ja">薬缶をひとつ</span>
-    </span>
-    <span class="tag mono">
-      <span class="lang-en">[ store ]</span>
-      <span class="lang-ja">[ ストア ]</span>
-    </span>
-    <span class="arrow">→</span>
-  </a>
-  <a class="item" href="#">
-    <span class="num mono">004</span>
-    <span class="date mono">2026.02.27</span>
-    <span class="title">
-      <span class="lang-en">a winter site visit, nishijin</span>
-      <span class="lang-ja">西陣・冬の現場</span>
-    </span>
-    <span class="tag mono">
-      <span class="lang-en">[ field note ]</span>
-      <span class="lang-ja">[ フィールドノート ]</span>
-    </span>
-    <span class="arrow">→</span>
-  </a>
-  <a class="item" href="#">
-    <span class="num mono">005</span>
-    <span class="date mono">2026.02.04</span>
-    <span class="title">
-      <span class="lang-en">five years of the same towel</span>
-      <span class="lang-ja">五年使った手拭い</span>
-    </span>
-    <span class="tag mono">
-      <span class="lang-en">[ essay ]</span>
-      <span class="lang-ja">[ エッセイ ]</span>
-    </span>
-    <span class="arrow">→</span>
-  </a>
-</div>
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="num mono">— 04</div>
-  <div>
-    <div class="label">
-      <span class="lang-en">studio · chiba</span>
-      <span class="lang-ja">スタジオ · 千葉</span>
-    </div>
-    <address>
-      SKYライフ株式会社<br/>
-      <a href="mailto:skylife.sakura@gmail.com">skylife.sakura@gmail.com</a><br/>
-      <span class="lang-en">mon – fri · 10:00 – 18:00 jst</span>
-      <span class="lang-ja">月〜金 · 10:00 – 18:00 JST</span>
-    </address>
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
-</section>
 
-<!-- FOOTER -->
-<footer class="foot">
-  <div class="num mono">— 05</div>
-  <div class="col">
-    <h4>
-      <span class="lang-en">studio</span>
-      <span class="lang-ja">スタジオ</span>
-    </h4>
-    <ul>
-      <li><a href="#about">
-        <span class="lang-en">about</span>
-        <span class="lang-ja">会社概要</span>
-      </a></li>
-      <li><a href="#">
-        <span class="lang-en">team</span>
-        <span class="lang-ja">チーム</span>
-      </a></li>
-      <li><a href="#">
-        <span class="lang-en">careers</span>
-        <span class="lang-ja">採用情報</span>
-      </a></li>
-      <li><a href="#">
-        <span class="lang-en">press</span>
-        <span class="lang-ja">プレス</span>
-      </a></li>
-    </ul>
-  </div>
-  <div class="col">
-    <h4>
-      <span class="lang-en">products</span>
-      <span class="lang-ja">製品</span>
-    </h4>
-    <ul>
-      <li><a href="#products">
-        <span class="lang-en">guesthouses</span>
-        <span class="lang-ja">ゲストハウス</span>
-      </a></li>
-      <li><a href="#products">
-        <span class="lang-en">design</span>
-        <span class="lang-ja">デザイン</span>
-      </a></li>
-      <li><a href="#products">
-        <span class="lang-en">services</span>
-        <span class="lang-ja">サービス</span>
-      </a></li>
-      <li><a href="store.html">
-        <span class="lang-en">store</span>
-        <span class="lang-ja">ストア</span>
-      </a></li>
-    </ul>
-  </div>
-  <div class="col">
-    <h4>
-      <span class="lang-en">elsewhere</span>
-      <span class="lang-ja">その他</span>
-    </h4>
-    <ul>
-      <li><a href="#">
-        <span class="lang-en">instagram</span>
-        <span class="lang-ja">インスタグラム</span>
-      </a></li>
-      <li><a href="#">are.na</a></li>
-      <li><a href="#">
-        <span class="lang-en">newsletter</span>
-        <span class="lang-ja">ニュースレター</span>
-      </a></li>
-      <li><a href="#">RSS</a></li>
-    </ul>
-  </div>
-  <div></div>
-  <div class="legal">
-    <span>© 2014 – 2026 SKYライフ株式会社.
-      <span class="lang-en">all rights reserved.</span>
-      <span class="lang-ja">無断転載禁止。</span>
-    </span>
-  </div>
-</footer>
+  <div id="smooth-wrapper">
+  <div id="smooth-content">
 
-<script>
-(function () {
-  /* scroll progress */
-  var p = document.getElementById('progress');
-  function onScroll() {
-    var h = document.documentElement;
-    var max = h.scrollHeight - h.clientHeight;
-    p.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
-  }
-  document.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-})();
+  <!-- ░░ HERO ░░ -->
+  <section class="hero section theme-dark" data-screen-label="hero">
+    <div class="grid-bg"></div>
 
-(function () {
-  /* language switching — handles all [data-lang] buttons in both desktop and mobile menus */
-  function setLang(lang) {
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-lang]').forEach(function (b) {
-      b.classList.toggle('on', b.getAttribute('data-lang') === lang);
-    });
-  }
+    <!-- blueprint -->
+    <div class="hero__blue">
+      <svg viewBox="0 0 760 620" aria-hidden="true">
+        <!-- ground line -->
+        <path class="bp dim" d="M40 540 H720" />
+        <!-- house gable -->
+        <path class="bp" d="M150 540 V300 L400 150 L650 300 V540" />
+        <!-- roof eaves -->
+        <path class="bp" d="M120 318 L400 150 L680 318" />
+        <!-- floor 1 / 2 -->
+        <path class="bp dim" d="M150 420 H650" />
+        <!-- courtyard void -->
+        <path class="bp" d="M350 540 V360 H470 V540" />
+        <!-- windows -->
+        <path class="bp dim" d="M200 350 h70 v55 h-70 z" />
+        <path class="bp dim" d="M530 350 h70 v55 h-70 z" />
+        <path class="bp dim" d="M200 455 h70 v55 h-70 z" />
+        <path class="bp dim" d="M530 455 h70 v55 h-70 z" />
+        <!-- vertical dimension right -->
+        <path class="bp dim" d="M700 150 V540 M694 150 H706 M694 540 H706" />
+        <!-- horizontal dimension top -->
+        <path class="bp dim" d="M150 110 H650 M150 104 V116 M400 104 V116 M650 104 V116" />
+        <!-- annotations -->
+        <text class="anno hl" x="270" y="98">3,640</text>
+        <text class="anno hl" x="520" y="98">5,460</text>
+        <text class="anno" x="712" y="350">12,740mm</text>
+        <text class="anno hl" x="396" y="138">∠30°</text>
+        <text class="anno" x="660" y="305">2FL +6,400</text>
+        <text class="anno" x="660" y="425">1FL +3,200</text>
+        <text class="anno" x="660" y="545">GL ±0</text>
+        <text class="anno" x="356" y="380" transform="rotate(0)">中庭 / void</text>
+        <circle class="bp dim" cx="400" cy="150" r="9" />
+      </svg>
+    </div>
 
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-lang]');
-    if (b) setLang(b.getAttribute('data-lang'));
-  });
+    <!-- corner readout -->
+    <div class="hero__readout" data-speed="1.08">
+      <div>N 35°36′ · E 140°07′</div>
+      <div>SITE — <b>千葉 / setouchi</b></div>
+      <div>PRJ — <span data-count="128">0</span> built</div>
+      <div>SINCE — 2014</div>
+    </div>
 
-  /* hamburger menu */
-  var hamburger = document.getElementById('hamburger');
-  var mobileMenu = document.getElementById('mobile-menu');
+    <div class="hero__inner wrap">
+      <div class="hero__kbar">
+        <span class="idx">001 / studio</span>
+        <span class="ln"></span>
+        <span class="mono">slow architecture</span>
+      </div>
+      <h1>
+        <span class="lang-en">
+          <span class="row">designing</span>
+          <span class="row">the region,</span>
+          <span class="row">the way</span>
+          <span class="row"><span class="accent">we live.</span></span>
+        </span>
+        <span class="lang-jp">
+          <span class="row">地域と</span>
+          <span class="row">くらしを</span>
+          <span class="row"><span class="accent">デザインする。</span></span>
+        </span>
+      </h1>
+      <div class="hero__sub">
+        <p class="lead">
+          <span class="en-copy">a small studio for slow architecture, quiet hospitality, and considered design.</span>
+          <span class="jp">ゆっくりとした建築、静かなもてなし、考え抜かれたデザインのための小さなスタジオ。</span>
+        </p>
+        <div class="hero__scroll mono">
+          <span>scroll</span><span class="dotline"></span><span>探す ↓</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    mobileMenu.classList.remove('open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-  }
+  <!-- ░░ 01 PHILOSOPHY (paper) ░░ -->
+  <section class="philo section theme-paper" id="philo" data-screen-label="01 philosophy">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">— 01</span>
+        <h2><span class="lang-en">philosophy</span><span class="lang-jp">理念</span></h2>
+        <span class="mono">designing the region</span>
+      </div>
+      <div class="philo__body">
+        <p class="philo__lead" data-lines>
+          we redefine space — not as property, but as a place where people and communities <span class="accent">connect.</span>
+        </p>
+        <div class="philo__cols" data-stagger>
+          <p>
+            <span class="en-copy">sky ライフ co., ltd. breathes new life into existing buildings and overlooked spaces, turning them into homes for travelers, long-term residents, and the communities around them.</span>
+          </p>
+          <p>
+            <span class="en-copy">design is at the heart of everything we do — not as decoration, but as a way of shaping how people live. our guiding principle: <span class="accent">designing the region and the way we live.</span></span>
+            <span class="jp" style="display:block;margin-top:1em;">わたしたちは空間を「所有」ではなく、人とまちがつながる「場所」として捉え直します。設計は装飾ではなく、暮らしのかたちそのものです。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  hamburger.addEventListener('click', function () {
-    var opening = !mobileMenu.classList.contains('open');
-    if (opening) {
-      hamburger.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      mobileMenu.classList.add('open');
-      mobileMenu.setAttribute('aria-hidden', 'false');
-    } else {
-      closeMenu();
-    }
-  });
+  <!-- ░░ 02 PRODUCTS — pinned horizontal ░░ -->
+  <section class="work section theme-dark" id="work" data-screen-label="02 products">
+    <div class="work__head">
+      <div>
+        <span class="idx">— 02</span>
+        <h2><span class="lang-en">products<br />&amp; services</span><span class="lang-jp">事業と<br />サービス</span></h2>
+      </div>
+      <div class="meta"><span class="lang-en">06 — drag, scroll or use ↹ below</span><span class="lang-jp">06 — ドラッグ・スクロール・下の矢印で操作</span></div>
+    </div>
 
-  /* close on mobile link tap */
-  mobileMenu.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', closeMenu);
-  });
+    <div class="pin">
+      <div class="track">
 
-  /* close when resizing to desktop */
-  window.addEventListener('resize', function () {
-    if (window.innerWidth > 880) closeMenu();
-  });
-})();
-</script>
+        <a class="card" href="contact.html" data-transition data-cursor="view">
+          <div class="card__no">01 / 06</div>
+          <span class="card__hovertag">→ chiba · setouchi</span>
+          <div class="card__svg">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path class="cl" d="M20 130 V70 L100 25 L180 70 V130 Z" />
+              <path class="cl" d="M10 78 L100 25 L190 78" />
+              <path class="cl" d="M70 130 V90 H130 V130" />
+              <path class="cl" d="M40 95 h22 v20 h-22 z" />
+              <path class="cl" d="M138 95 h22 v20 h-22 z" />
+            </svg>
+          </div>
+          <div class="card__ft">
+            <h3>real estate &amp; guesthouse <span class="jp">不動産・宿</span></h3>
+            <p><span class="en-copy">machiya restoration, leasing, hospitality operation across chiba and setouchi.</span></p>
+          </div>
+        </a>
 
+        <a class="card" href="contact.html" data-transition data-cursor="view">
+          <div class="card__no">02 / 06</div>
+          <span class="card__hovertag">→ studio</span>
+          <div class="card__svg">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path class="cl" d="M30 130 L100 20 L170 130 Z" />
+              <path class="cl" d="M100 20 V130" />
+              <circle class="cl" cx="100" cy="92" r="34" />
+              <path class="cl" d="M66 92 H134" />
+            </svg>
+          </div>
+          <div class="card__ft">
+            <h3>design &amp; creative <span class="jp">設計・制作</span></h3>
+            <p><span class="en-copy">architecture, interiors, identity, signage, print. small team, long projects.</span></p>
+          </div>
+        </a>
+
+        <a class="card" href="contact.html" data-transition data-cursor="view">
+          <div class="card__no">03 / 06</div>
+          <span class="card__hovertag">→ quote</span>
+          <div class="card__svg">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path class="cl" d="M55 20 H125 L150 45 V130 H55 Z" />
+              <path class="cl" d="M125 20 V45 H150" />
+              <path class="cl" d="M70 70 H135 M70 88 H135 M70 106 H110" />
+              <circle class="cl" cx="128" cy="112" r="14" />
+            </svg>
+          </div>
+          <div class="card__ft">
+            <h3>services &amp; quotation <span class="jp">運営・見積</span></h3>
+            <p><span class="en-copy">property management, concierge, translation, permits + written quotations for all services.</span></p>
+          </div>
+        </a>
+
+        <a class="card" href="store.html" data-transition data-cursor="view">
+          <div class="card__no">04 / 06</div>
+          <span class="card__hovertag">→ shop</span>
+          <div class="card__svg">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path class="cl" d="M55 55 H145 L155 130 H45 Z" />
+              <path class="cl" d="M78 55 V40 a22 22 0 0 1 44 0 V55" />
+              <path class="cl" d="M70 80 H130" />
+            </svg>
+          </div>
+          <div class="card__ft">
+            <h3>store <span class="jp">小商い</span></h3>
+            <p><span class="en-copy">small editions: paper goods, bath salt, towels, ceramics — made for our guesthouses.</span></p>
+          </div>
+        </a>
+
+        <a class="card" href="journal.html" data-transition data-cursor="read">
+          <div class="card__no">05 / 06</div>
+          <span class="card__hovertag">→ blog</span>
+          <div class="card__svg">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path class="cl" d="M100 35 C75 22 50 25 35 30 V120 C50 115 75 112 100 125" />
+              <path class="cl" d="M100 35 C125 22 150 25 165 30 V120 C150 115 125 112 100 125" />
+              <path class="cl" d="M100 35 V125" />
+              <path class="cl" d="M50 55 H82 M50 72 H82 M118 55 H150 M118 72 H150" />
+            </svg>
+          </div>
+          <div class="card__ft">
+            <h3>blog <span class="jp">ブログ</span></h3>
+            <p><span class="en-copy">field notes on ai, design, architecture and creative technology.</span></p>
+          </div>
+        </a>
+
+        <a class="card" href="contact.html" data-transition data-cursor="say hi">
+          <div class="card__no">06 / 06</div>
+          <span class="card__hovertag">→ contact</span>
+          <div class="card__svg">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path class="cl" d="M40 40 H160 V120 H40 Z" />
+              <path class="cl" d="M40 45 L100 92 L160 45" />
+            </svg>
+          </div>
+          <div class="card__ft">
+            <h3>contact <span class="jp">連絡</span></h3>
+            <p><span class="en-copy">leave us a message, or send us an email. no registration needed.</span></p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+      <div class="work__nav" aria-label="products navigation">
+        <button class="work__btn" data-nav="prev" aria-label="previous card">←</button>
+        <div class="work__scrub" role="slider" aria-label="scroll products" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+          <span class="work__track-line"></span>
+          <span class="work__scrub-fill"></span>
+          <span class="work__scrub-knob"></span>
+        </div>
+        <button class="work__btn" data-nav="next" aria-label="next card">→</button>
+      </div>
+  </section>
+
+  <!-- ░░ 03 JOURNAL list ░░ -->
+  <section class="journal section theme-dark" id="journal" data-screen-label="03 journal">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">— 03</span>
+        <h2><span class="lang-en">blog</span><span class="lang-jp">ブログ</span></h2>
+        <a class="mono" href="journal.html" data-transition data-magnetic="0.3">all posts →</a>
+      </div>
+      <div class="jlist">
+
+        <a class="jrow" href="journal.html" data-transition data-cursor="read">
+          <span class="fill"></span>
+          <span class="no">001</span>
+          <span class="date">2026.04.18</span>
+          <span class="ttl">on the door height of an old chiba townhouse<span class="jp">古い千葉の町家、その戸の高さについて</span></span>
+          <span class="tag">field note</span>
+          <span class="arr">→</span>
+        </a>
+
+        <a class="jrow" href="journal.html" data-transition data-cursor="read">
+          <span class="fill"></span>
+          <span class="no">002</span>
+          <span class="date">2026.03.30</span>
+          <span class="ttl">a guesthouse for two — naoshima, march<span class="jp">二人のための宿 — 直島、三月</span></span>
+          <span class="tag">project</span>
+          <span class="arr">→</span>
+        </a>
+
+        <a class="jrow" href="journal.html" data-transition data-cursor="read">
+          <span class="fill"></span>
+          <span class="no">003</span>
+          <span class="date">2026.03.11</span>
+          <span class="ttl">we made a kettle. it weighs 480 grams.<span class="jp">薬缶をつくった。重さは480グラム。</span></span>
+          <span class="tag">store</span>
+          <span class="arr">→</span>
+        </a>
+
+        <a class="jrow" href="journal.html" data-transition data-cursor="read">
+          <span class="fill"></span>
+          <span class="no">004</span>
+          <span class="date">2026.02.27</span>
+          <span class="ttl">a winter site visit, nishijin<span class="jp">冬の現場、西陣にて</span></span>
+          <span class="tag">field note</span>
+          <span class="arr">→</span>
+        </a>
+
+        <a class="jrow" href="journal.html" data-transition data-cursor="read">
+          <span class="fill"></span>
+          <span class="no">005</span>
+          <span class="date">2026.02.04</span>
+          <span class="ttl">five years of the same towel<span class="jp">同じタオルと五年</span></span>
+          <span class="tag">essay</span>
+          <span class="arr">→</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ 04 STUDIO (paper) ░░ -->
+  <section class="studio section theme-paper" id="studio" data-screen-label="04 studio">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">— 04</span>
+        <h2><span class="lang-en">studio</span><span class="lang-jp">スタジオ</span></h2>
+        <span class="mono">mon – fri · 10–18 jst</span>
+      </div>
+      <div class="studio__grid">
+        <div class="studio__big" data-lines>let's design<br />the region.</div>
+        <div class="studio__meta">
+          <strong class="jp">SKYライフ株式会社</strong>
+          <span class="k">mail</span>
+          <a class="mail" href="mailto:skylife.sakura@gmail.com" data-magnetic="0.3">skylife.sakura@gmail.com</a>
+          <span class="k">studio</span>
+          千葉 chiba · setouchi
+          <span class="k">hours</span>
+          mon – fri · 10:00 – 18:00 jst
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ 05 FOOTER ░░ -->
+  <footer class="foot section theme-dark" data-screen-label="05 footer">
+    <div class="wrap">
+      <div class="foot__cols">
+        <div class="foot__cta">
+          <div class="lab mono"><span class="lang-en">start a project</span><span class="lang-jp">プロジェクトを始める</span></div>
+          <a href="contact.html" data-transition data-magnetic="0.25"><span class="lang-en">say <span class="accent">hello →</span></span><span class="lang-jp">ご相談は<span class="accent">こちら →</span></span></a>
+        </div>
+        <div class="fcol">
+          <h4>studio</h4>
+          <ul>
+            <li><a href="#studio">about<span class="u"></span></a></li>
+            <li><a href="#studio">team<span class="u"></span></a></li>
+            <li><a href="#studio">careers<span class="u"></span></a></li>
+            <li><a href="#studio">press<span class="u"></span></a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h4>products</h4>
+          <ul>
+            <li><a href="#work">guesthouses<span class="u"></span></a></li>
+            <li><a href="#work">design<span class="u"></span></a></li>
+            <li><a href="#work">services<span class="u"></span></a></li>
+            <li><a href="#work">store<span class="u"></span></a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h4>elsewhere</h4>
+          <ul>
+            <li><a href="#" data-cursor="↗">instagram<span class="u"></span></a></li>
+            <li><a href="#" data-cursor="↗">are.na<span class="u"></span></a></li>
+            <li><a href="#" data-cursor="↗">newsletter<span class="u"></span></a></li>
+            <li><a href="journal.html" data-transition>blog<span class="u"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot__word">
+      <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet">
+        <text x="600" y="160" text-anchor="middle" font-size="220">SKY ライフ</text>
+      </svg>
+    </div>
+    <div class="wrap">
+      <div class="foot__base">
+        <span>© 2014 – 2026 SKYライフ株式会社. all rights reserved.</span>
+        <span>blueprint in motion · gsap</span>
+      </div>
+    </div>
+  </footer>
+
+  </div><!-- /smooth-content -->
+  </div><!-- /smooth-wrapper -->
+
+  <!-- GSAP core + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+  <script src="js/site.js?v=7"></script>
 </body>
 </html>

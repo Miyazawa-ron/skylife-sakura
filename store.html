@@ -1,286 +1,289 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="no-js">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>store · SKYライフ株式会社</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Store — SKYライフ株式会社</title>
 <meta name="description" content="sky life store — ai creative studio, print shop, and more." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+SC:wght@300;400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css?v=7" />
 <style>
-  :root {
-    --bg: #ffffff; --fg: #000000; --muted: #8a8a8a; --line: #e5e5e5; --accent: #E86020;
-    --nav-h: 88px;
-    --tiny: 11px; --small: 12px; --reg: 13px;
-    --type-sans: "Inter", "Helvetica Neue", "Noto Sans JP", helvetica, arial, sans-serif;
-    --type-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  .store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(260px, 32vw, 420px), 1fr));
+    gap: 1px;
+    margin-top: clamp(48px, 8vh, 80px);
+    border: 1px solid var(--line);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { background: var(--bg); color: var(--fg); scroll-padding-top: calc(var(--nav-h) + 8px); }
-  body {
-    font-family: var(--type-sans); font-weight: 300; font-size: var(--reg);
-    line-height: 1.5; -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility; letter-spacing: 0.005em;
+  .s-card {
+    position: relative;
+    background: var(--ink-3);
+    padding: clamp(28px, 4vw, 52px);
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: clamp(280px, 38vh, 400px);
+    overflow: hidden;
+    text-decoration: none; color: var(--bone);
+    transition: background .35s var(--ease);
   }
-  a { color: inherit; text-decoration: none; }
-  a:hover { color: var(--accent); }
-  button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
-
-  /* ── NAV ── */
-  .nav {
-    position: sticky; top: 0; z-index: 50;
-    background: var(--bg); height: var(--nav-h);
-    border-bottom: 1px solid var(--line); padding: 0 18px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: var(--tiny);
+  .s-card::after {
+    content: ""; position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 2px; background: var(--orange);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .5s var(--ease);
   }
-  .brand-logo {
-    display: block; height: 22px; width: 210px; background-color: var(--accent);
-    -webkit-mask: url('assets/skylogo.svg') no-repeat left center / contain;
-            mask: url('assets/skylogo.svg') no-repeat left center / contain;
+  a.s-card:hover { background: var(--ink-2); }
+  a.s-card:hover::after { transform: scaleX(1); }
+  .s-card.is-soon { opacity: .5; cursor: default; pointer-events: none; }
+
+  .s-card__no { font-family: var(--mono); font-size: .78rem; letter-spacing: .2em; color: var(--orange); }
+  .s-card__ico { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; margin: auto 0; }
+  .s-card__tag {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: .6em;
   }
-  .desktop-nav { display: flex; align-items: center; }
-  .desktop-nav ul { display: flex; gap: 24px; list-style: none; font-size: var(--small); }
-  .desktop-nav ul a { letter-spacing: 0.02em; }
-  .desktop-nav ul a.current { color: var(--accent); }
-  .lang-ctrl { display: flex; gap: 10px; margin-left: 28px; color: var(--muted); }
-  .lang-ctrl button { font-size: var(--tiny); letter-spacing: 0.04em; }
-  .lang-ctrl button.on { color: var(--fg); }
-
-  .hamburger { display: none; flex-direction: column; justify-content: center; gap: 6px; width: 36px; height: 36px; padding: 6px; }
-  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--fg); transition: transform 220ms ease, opacity 180ms ease; }
-  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-  .mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 49; box-shadow: 0 6px 16px rgba(0,0,0,0.07); }
-  .mobile-menu.open { display: block; }
-  .mobile-menu ul { list-style: none; }
-  .mobile-menu ul li { border-bottom: 1px solid var(--line); }
-  .mobile-menu ul li a { display: block; padding: 16px 18px; font-size: var(--small); letter-spacing: 0.02em; }
-  .mobile-menu ul li a.current, .mobile-menu ul li a:hover { color: var(--accent); }
-  .mob-lang-row { display: flex; gap: 14px; padding: 16px 18px 20px; color: var(--muted); }
-  .mob-lang-row button { font-size: var(--tiny); letter-spacing: 0.04em; }
-  .mob-lang-row button.on { color: var(--fg); }
-
-  /* language switching */
-  .lang-ja { display: none; }
-  html[lang="ja"] .lang-ja { display: inline; }
-  html[lang="ja"] .lang-en { display: none; }
-
-  /* ── SECTION HEADER ── */
-  .sec-head {
-    display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
-    gap: 18px; padding: 14px 18px; font-size: var(--tiny);
-    border-top: 1px solid var(--line); color: var(--muted); align-items: baseline;
+  .s-card__tag.muted { color: var(--bone-dim); }
+  .s-card__name {
+    font-weight: 800; letter-spacing: -.02em; line-height: 1.02;
+    font-size: clamp(1.4rem, 2.6vw, 2.2rem); text-transform: lowercase; margin-bottom: .5em;
   }
-  .sec-head .num { color: var(--fg); font-family: var(--type-mono); }
-  .sec-head h2 { font-size: var(--tiny); font-weight: 400; color: var(--fg); letter-spacing: 0.04em; text-transform: lowercase; }
-
-  /* ── CARD GRID ── */
-  .grid3 {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; background: var(--line);
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  .s-card__desc { font-size: clamp(.88rem, 1vw, 1rem); color: var(--bone-dim); max-width: 36ch; line-height: 1.6; }
+  .s-card__cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: .74rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--orange); margin-top: 1.4em;
   }
-  .card {
-    background: var(--bg); padding: 18px 18px 22px;
-    display: flex; flex-direction: column; gap: 14px;
-    transition: background 120ms, transform 150ms ease, box-shadow 150ms ease;
+  .soon-badge {
+    position: absolute; top: clamp(18px, 2.5vw, 32px); right: clamp(18px, 2.5vw, 32px);
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; padding: 4px 10px;
+    border: 1px solid var(--line-strong); color: var(--bone-dim);
   }
-  a.card { cursor: pointer; }
-  a.card:hover { background: #fafafa; transform: translateY(-1px); box-shadow: 0 2px 10px rgba(0,0,0,0.06); color: inherit; }
-  a.card:hover .price.acc { transform: translateX(3px); }
-  .card--soon { opacity: 0.4; cursor: default; pointer-events: none; }
-  .card .ph { width: 100%; aspect-ratio: 4/3; background: #f1efe9; overflow: hidden; }
-  .card--soon .ph { background: #f5f4f1; }
-  .card-meta { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; font-size: var(--tiny); line-height: 1.4; }
-  .card-meta .name { font-size: var(--small); }
-  .card-meta .sub { display: block; color: var(--muted); margin-top: 2px; }
-  .card-meta .price { font-family: var(--type-mono); font-size: var(--tiny); transition: transform 150ms; }
-  .card-meta .price.acc { color: var(--accent); }
-
-  /* ── FOOTER ── */
-  .foot { display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px; gap: 18px; padding: 28px 18px; border-top: 1px solid var(--line); font-size: var(--tiny); color: var(--muted); }
-  .foot .col h4 { font-size: var(--tiny); color: var(--fg); font-weight: 400; margin-bottom: 8px; letter-spacing: 0.04em; }
-  .foot ul { list-style: none; display: grid; gap: 4px; }
-  .foot .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
-
-  .mono { font-family: var(--type-mono); }
-  .muted { color: var(--muted); }
-  .acc { color: var(--accent); }
-
-  @media (max-width: 880px) {
-    .desktop-nav { display: none; }
-    .hamburger { display: flex; }
-    .sec-head { grid-template-columns: 40px 1fr 80px; }
-    .sec-head > div:nth-child(3), .sec-head > div:nth-child(4) { display: none; }
-    .grid3 { grid-template-columns: 1fr 1fr; }
-    .foot { grid-template-columns: 30px 1fr 1fr; }
+  .store-notice {
+    margin-top: clamp(32px, 5vh, 56px);
+    border-left: 3px solid var(--orange);
+    padding: clamp(16px, 2.5vw, 26px) clamp(20px, 3vw, 36px);
+    font-family: var(--mono); font-size: .78rem;
+    letter-spacing: .06em; color: var(--bone-dim); line-height: 1.9;
   }
-  @media (max-width: 560px) {
-    .grid3 { grid-template-columns: 1fr; }
-  }
+  .store-notice strong { color: var(--orange); }
 </style>
 </head>
-<body>
+<body data-page="store" data-lang="en">
 
-<!-- NAV -->
-<header class="nav">
-  <a href="index.html" aria-label="SKYライフ株式会社">
-    <span class="brand-logo" role="img" aria-label="SKYライフ"></span>
-  </a>
-  <div class="desktop-nav" id="desktop-nav">
-    <ul>
-      <li><a href="index.html#products"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
-      <li><a href="store.html" class="current">store</a></li>
-      <li><a href="index.html#journal"><span class="lang-en">journal</span><span class="lang-ja">ジャーナル</span></a></li>
-      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
-      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-    </ul>
-    <div class="lang-ctrl">
-      <button data-lang="en" class="on">en</button>
-      <button data-lang="ja">日本語</button>
-    </div>
-  </div>
-  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</header>
+  <!-- PAGE TRANSITION -->
+  <div class="pt" aria-hidden="true"><div class="pt__panel"></div></div>
+  <div class="pt__mark" aria-hidden="true">SKY</div>
 
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <ul>
-    <li><a href="index.html#products" class="mob-link"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
-    <li><a href="store.html" class="mob-link current">store</a></li>
-    <li><a href="index.html#journal" class="mob-link"><span class="lang-en">journal</span><span class="lang-ja">ジャーナル</span></a></li>
-    <li><a href="index.html#about" class="mob-link"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
-    <li><a href="index.html#contact" class="mob-link"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-  </ul>
-  <div class="mob-lang-row">
-    <button data-lang="en" class="on">en</button>
-    <button data-lang="ja">日本語</button>
-  </div>
-</div>
+  <!-- HEADER -->
+  <header class="head">
+    <a class="brand" href="index.html" data-transition data-magnetic="0.25" aria-label="SKY Life home">
+      <img class="brand__logo" src="assets/sky-logo-c.svg" alt="SKY Life" />
+    </a>
+    <nav class="nav">
+      <a class="nav-link" href="index.html" data-transition><span class="lang-en">home</span><span class="lang-jp">ホーム</span><span class="u"></span></a>
+      <a class="nav-link" href="index.html#work" data-transition><span class="lang-en">products</span><span class="lang-jp">プロダクト</span><span class="u"></span></a>
+      <a class="nav-link" href="store.html"><span class="lang-en">store</span><span class="lang-jp">ストア</span><span class="u"></span></a>
+      <a class="nav-link" href="journal.html" data-transition><span class="lang-en">blog</span><span class="lang-jp">ブログ</span><span class="u"></span></a>
+      <a class="nav-link" href="contact.html" data-transition><span class="lang-en">contact</span><span class="lang-jp">お問い合わせ</span><span class="u"></span></a>
+      <span class="lang">
+        <button class="on" data-lang="en">EN</button><span>/</span><button data-lang="jp">日本語</button>
+      </span>
+      <button class="hamburger" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
 
-<!-- STORE LOBBY -->
-<div class="sec-head">
-  <div class="num">— 00</div>
-  <h2>store</h2>
-  <div></div><div></div><div></div>
-</div>
-
-<div class="grid3">
-
-  <!-- AI Creative Studio -->
-  <a class="card" href="store-studio.html">
-    <div class="ph" style="background-image:url('assets/card-a05.png'); background-size:cover; background-position:center;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name"><span class="lang-en">AI creative studio</span><span class="lang-ja">AIクリエイティブスタジオ</span></div>
-        <span class="sub"><span class="lang-en">generate images and short video clips from text prompts.</span><span class="lang-ja">テキストから画像・短編動画を生成するスタジオ。</span></span>
+  <!-- ░░ MOBILE DRAWER ░░ -->
+  <div class="mob-menu" aria-hidden="true">
+    <div class="mob-menu__in">
+      <div class="mob-menu__top">
+        <a class="brand" href="index.html" data-transition><img class="brand__logo" src="assets/sky-logo-c.svg" alt="SKY Life" /></a>
+        <button class="mob-close" aria-label="close menu">✕</button>
       </div>
-      <div class="price acc"><span class="lang-en">enter →</span><span class="lang-ja">入る →</span></div>
-    </div>
-  </a>
-
-  <!-- Print shop (coming soon) -->
-  <div class="card card--soon">
-    <div class="ph" style="background-image:url('assets/card-placeholder.jpg'); background-size:cover; background-position:center;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name"><span class="lang-en">print shop</span><span class="lang-ja">プリントショップ</span></div>
-        <span class="sub"><span class="lang-en">editions and printed matter. coming soon.</span><span class="lang-ja">エディションと印刷物。近日公開。</span></span>
+      <nav class="mob-nav">
+        <a class="mob-link" href="index.html" data-transition><span class="mob-link__no">00</span><span class="lang-en">Home</span><span class="lang-jp">ホーム</span></a>
+        <a class="mob-link" href="index.html#work" data-transition><span class="mob-link__no">01</span><span class="lang-en">Products</span><span class="lang-jp">プロダクト</span></a>
+        <a class="mob-link" href="store.html"><span class="mob-link__no">02</span><span class="lang-en">Store</span><span class="lang-jp">ストア</span></a>
+        <a class="mob-link" href="journal.html" data-transition><span class="mob-link__no">03</span><span class="lang-en">Blog</span><span class="lang-jp">ブログ</span></a>
+        <a class="mob-link" href="contact.html" data-transition><span class="mob-link__no">04</span><span class="lang-en">Contact</span><span class="lang-jp">お問い合わせ</span></a>
+      </nav>
+      <div class="mob-foot">
+        <div class="mob-lang">
+          <button class="on" data-lang="en">EN</button><span>/</span><button data-lang="jp">日本語</button>
+        </div>
+        <div class="mob-info">skylife.sakura@gmail.com<br>千葉 · chiba · japan</div>
       </div>
-      <div class="price muted"><span class="lang-en">soon</span><span class="lang-ja">近日公開</span></div>
     </div>
   </div>
 
-  <!-- Objects (coming soon) -->
-  <div class="card card--soon">
-    <div class="ph" style="background-image:url('assets/card-placeholder.jpg'); background-size:cover; background-position:center;"></div>
-    <div class="card-meta">
-      <div>
-        <div class="name"><span class="lang-en">objects</span><span class="lang-ja">物販</span></div>
-        <span class="sub"><span class="lang-en">ceramics, textiles, and things made for our guesthouses. coming soon.</span><span class="lang-ja">陶器・テキスタイルなど、宿のために作ったもの。近日公開。</span></span>
+  <div id="smooth-wrapper">
+  <div id="smooth-content">
+
+  <!-- ░░ STORE HEAD ░░ -->
+  <section class="section theme-dark page-pad" style="padding-bottom:clamp(60px,10vh,100px)">
+    <div class="grid-bg"></div>
+    <div class="wrap" style="position:relative;z-index:2">
+
+      <div class="hero__kbar">
+        <span class="idx">— store</span>
+        <span class="ln" style="background:var(--line-strong)"></span>
+        <span class="mono"><span class="lang-en">online shop</span><span class="lang-jp">オンラインショップ</span></span>
       </div>
-      <div class="price muted"><span class="lang-en">soon</span><span class="lang-ja">近日公開</span></div>
+      <h1 style="font-weight:800;letter-spacing:-.035em;line-height:.9;text-transform:uppercase;font-size:clamp(3rem,11vw,10rem)">
+        <span class="lang-en"><span class="row">store</span></span>
+        <span class="lang-jp"><span class="row">ストア</span></span>
+      </h1>
+      <p data-reveal style="max-width:54ch;margin-top:clamp(20px,3vh,34px);font-size:clamp(1.05rem,1.5vw,1.4rem)">
+        <span class="en-copy">tools, print editions, objects — things made for the way we live.</span>
+        <span class="jp">ツール、印刷物、プロダクト——わたしたちの暮らしのために作ったもの。</span>
+      </p>
+
+      <!-- ── STORE CARDS ── -->
+      <div class="store-grid">
+
+        <!-- 01 · AI Creative Studio — LIVE -->
+        <a class="s-card" href="store-studio.html" data-reveal>
+          <div class="s-card__no">01 / 04</div>
+          <div class="s-card__ico">✦</div>
+          <div class="s-card__ft">
+            <div class="s-card__tag"><span class="lang-en">live now</span><span class="lang-jp">利用可能</span></div>
+            <div class="s-card__name">
+              <span class="lang-en">AI creative studio</span>
+              <span class="lang-jp">AIクリエイティブスタジオ</span>
+            </div>
+            <p class="s-card__desc">
+              <span class="en-copy">generate images and short video clips from text prompts using the latest AI models.</span>
+              <span class="jp">最新のAIモデルでテキストから画像・短編動画を生成するスタジオ。</span>
+            </p>
+            <div class="s-card__cta"><span class="lang-en">enter studio →</span><span class="lang-jp">スタジオへ →</span></div>
+          </div>
+        </a>
+
+        <!-- 02 · Online Shop — Coming Soon -->
+        <div class="s-card is-soon" data-reveal>
+          <div class="soon-badge"><span class="lang-en">coming soon</span><span class="lang-jp">近日公開</span></div>
+          <div class="s-card__no">02 / 04</div>
+          <div class="s-card__ico">🛍</div>
+          <div class="s-card__ft">
+            <div class="s-card__tag muted"><span class="lang-en">in development</span><span class="lang-jp">開発中</span></div>
+            <div class="s-card__name">
+              <span class="lang-en">online shop</span>
+              <span class="lang-jp">オンラインショップ</span>
+            </div>
+            <p class="s-card__desc">
+              <span class="en-copy">ceramics, textiles, bath goods, and small editions made for our guesthouses.</span>
+              <span class="jp">陶器・テキスタイル・入浴剤など、宿のために作った小物。</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- 03 · Print Shop — Coming Soon -->
+        <div class="s-card is-soon" data-reveal>
+          <div class="soon-badge"><span class="lang-en">coming soon</span><span class="lang-jp">近日公開</span></div>
+          <div class="s-card__no">03 / 04</div>
+          <div class="s-card__ico">◻</div>
+          <div class="s-card__ft">
+            <div class="s-card__tag muted"><span class="lang-en">in development</span><span class="lang-jp">開発中</span></div>
+            <div class="s-card__name">
+              <span class="lang-en">print shop</span>
+              <span class="lang-jp">プリントショップ</span>
+            </div>
+            <p class="s-card__desc">
+              <span class="en-copy">limited print editions — posters, zines, and architectural drawings.</span>
+              <span class="jp">限定印刷物——ポスター、ZINE、建築図面。</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- 04 · Guesthouse Goods — Coming Soon -->
+        <div class="s-card is-soon" data-reveal>
+          <div class="soon-badge"><span class="lang-en">coming soon</span><span class="lang-jp">近日公開</span></div>
+          <div class="s-card__no">04 / 04</div>
+          <div class="s-card__ico">⌂</div>
+          <div class="s-card__ft">
+            <div class="s-card__tag muted"><span class="lang-en">in development</span><span class="lang-jp">開発中</span></div>
+            <div class="s-card__name">
+              <span class="lang-en">guesthouse goods</span>
+              <span class="lang-jp">宿グッズ</span>
+            </div>
+            <p class="s-card__desc">
+              <span class="en-copy">original towels, bath salts, and handcrafted objects from our chiba guesthouse.</span>
+              <span class="jp">千葉の宿オリジナルタオル・入浴剤・手工芸品。</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="store-notice" data-reveal>
+        <strong><span class="lang-en">Shop launching soon.</span><span class="lang-jp">ショップ近日オープン。</span></strong>
+        <span class="lang-en"> Online shopping is currently in development. The AI Creative Studio is available now — register to start generating images and video clips.</span>
+        <span class="jp"> オンラインショッピング機能は現在開発中です。AIクリエイティブスタジオは今すぐご利用可能です。</span>
+      </div>
+
     </div>
-  </div>
+  </section>
 
-</div>
+  <!-- FOOTER -->
+  <footer class="foot section theme-dark" style="padding-top:clamp(56px,9vh,110px)">
+    <div class="wrap">
+      <div class="foot__cols">
+        <div class="foot__cta">
+          <div class="lab mono"><span class="lang-en">start a project</span><span class="lang-jp">プロジェクトを始める</span></div>
+          <a href="contact.html" data-transition data-magnetic="0.25">
+            <span class="lang-en">say <span class="accent">hello →</span></span>
+            <span class="lang-jp">ご相談は<span class="accent">こちら →</span></span>
+          </a>
+        </div>
+        <div class="fcol">
+          <h4>store</h4>
+          <ul>
+            <li><a href="store-studio.html">ai creative studio<span class="u"></span></a></li>
+            <li><a href="#">online shop<span class="u"></span></a></li>
+            <li><a href="#">print shop<span class="u"></span></a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h4>studio</h4>
+          <ul>
+            <li><a href="index.html#studio" data-transition>about<span class="u"></span></a></li>
+            <li><a href="journal.html" data-transition>blog<span class="u"></span></a></li>
+            <li><a href="contact.html" data-transition>contact<span class="u"></span></a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h4>elsewhere</h4>
+          <ul>
+            <li><a href="#" data-cursor="↗">instagram<span class="u"></span></a></li>
+            <li><a href="#" data-cursor="↗">are.na<span class="u"></span></a></li>
+            <li><a href="#" data-cursor="↗">newsletter<span class="u"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot__word">
+      <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet">
+        <text x="600" y="160" text-anchor="middle" font-size="220">SKY ライフ</text>
+      </svg>
+    </div>
+    <div class="wrap">
+      <div class="foot__base">
+        <span>© 2014 – 2026 SKYライフ株式会社. all rights reserved.</span>
+        <span>blueprint in motion · gsap</span>
+      </div>
+    </div>
+  </footer>
 
-<!-- FOOTER -->
-<footer class="foot">
-  <div class="num mono">— 99</div>
-  <div class="col">
-    <h4><span class="lang-en">studio</span><span class="lang-ja">スタジオ</span></h4>
-    <ul>
-      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
-      <li><a href="index.html#journal"><span class="lang-en">journal</span><span class="lang-ja">ジャーナル</span></a></li>
-      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-    </ul>
-  </div>
-  <div class="col">
-    <h4>store</h4>
-    <ul>
-      <li><a href="store-studio.html"><span class="lang-en">AI creative studio</span><span class="lang-ja">AIクリエイティブスタジオ</span></a></li>
-      <li><a href="#"><span class="lang-en">terms of use</span><span class="lang-ja">利用規約</span></a></li>
-      <li><a href="#"><span class="lang-en">credits &amp; billing</span><span class="lang-ja">クレジット・請求</span></a></li>
-    </ul>
-  </div>
-  <div class="col">
-    <h4><span class="lang-en">elsewhere</span><span class="lang-ja">その他</span></h4>
-    <ul>
-      <li><a href="#"><span class="lang-en">instagram</span><span class="lang-ja">インスタグラム</span></a></li>
-      <li><a href="#">are.na</a></li>
-      <li><a href="#"><span class="lang-en">newsletter</span><span class="lang-ja">ニュースレター</span></a></li>
-    </ul>
-  </div>
-  <div></div>
-  <div class="legal">
-    <span>© 2014 – 2026 SKYライフ株式会社. <span class="lang-en">all rights reserved.</span><span class="lang-ja">無断転載禁止。</span></span>
-  </div>
-</footer>
+  </div><!-- /smooth-content -->
+  </div><!-- /smooth-wrapper -->
 
-<script>
-(function () {
-  // language switching
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-lang]');
-    if (b) {
-      var l = b.getAttribute('data-lang');
-      document.documentElement.lang = l;
-      document.querySelectorAll('[data-lang]').forEach(function (x) {
-        x.classList.toggle('on', x.getAttribute('data-lang') === l);
-      });
-    }
-  });
-
-  // hamburger
-  var hamburger = document.getElementById('hamburger');
-  var mobileMenu = document.getElementById('mobile-menu');
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    mobileMenu.classList.remove('open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-  }
-  hamburger.addEventListener('click', function () {
-    var opening = !mobileMenu.classList.contains('open');
-    if (opening) {
-      hamburger.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      mobileMenu.classList.add('open');
-      mobileMenu.setAttribute('aria-hidden', 'false');
-    } else {
-      closeMenu();
-    }
-  });
-  mobileMenu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
-  window.addEventListener('resize', function () { if (window.innerWidth > 880) closeMenu(); });
-})();
-</script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+  <script src="js/site.js?v=7"></script>
 </body>
 </html>

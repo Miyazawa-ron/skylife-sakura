@@ -1,674 +1,431 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="no-js">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>contact us · SKYライフ株式会社</title>
-<meta name="description" content="contact us — write us an email, or leave a note in the guestbook." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+SC:wght@300;400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #ffffff; --fg: #000000; --muted: #8a8a8a; --line: #e5e5e5; --accent: #E86020;
-    --nav-h: 88px;
-    --tiny: 11px; --small: 12px; --reg: 13px;
-    --type-sans: "Inter", "Helvetica Neue", "Noto Sans JP", helvetica, arial, sans-serif;
-    --type-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { background: var(--bg); color: var(--fg); scroll-padding-top: calc(var(--nav-h) + 8px); }
-  body {
-    font-family: var(--type-sans); font-weight: 300; font-size: var(--reg);
-    line-height: 1.5; -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility; letter-spacing: 0.005em;
-  }
-  a { color: inherit; text-decoration: none; }
-  a:hover { color: var(--accent); }
-  button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
-
-  /* ── NAV ── */
-  .nav {
-    position: sticky; top: 0; z-index: 50;
-    background: var(--bg); height: var(--nav-h);
-    border-bottom: 1px solid var(--line); padding: 0 18px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: var(--tiny);
-  }
-  .brand-logo {
-    display: block; height: 22px; width: 210px; background-color: var(--accent);
-    -webkit-mask: url('assets/skylogo.svg') no-repeat left center / contain;
-            mask: url('assets/skylogo.svg') no-repeat left center / contain;
-  }
-  .desktop-nav { display: flex; align-items: center; }
-  .desktop-nav ul { display: flex; gap: 24px; list-style: none; font-size: var(--small); }
-  .desktop-nav ul a { letter-spacing: 0.02em; }
-  .desktop-nav ul a.current { color: var(--accent); }
-  .lang-ctrl { display: flex; gap: 10px; margin-left: 28px; color: var(--muted); }
-  .lang-ctrl button { font-size: var(--tiny); letter-spacing: 0.04em; }
-  .lang-ctrl button.on { color: var(--fg); }
-
-  .hamburger { display: none; flex-direction: column; justify-content: center; gap: 6px; width: 36px; height: 36px; padding: 6px; }
-  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--fg); transition: transform 220ms ease, opacity 180ms ease; }
-  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-  .mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 49; box-shadow: 0 6px 16px rgba(0,0,0,0.07); }
-  .mobile-menu.open { display: block; }
-  .mobile-menu ul { list-style: none; }
-  .mobile-menu ul li { border-bottom: 1px solid var(--line); }
-  .mobile-menu ul li a { display: block; padding: 16px 18px; font-size: var(--small); letter-spacing: 0.02em; }
-  .mobile-menu ul li a.current, .mobile-menu ul li a:hover { color: var(--accent); }
-  .mob-lang-row { display: flex; gap: 14px; padding: 16px 18px 20px; color: var(--muted); }
-  .mob-lang-row button { font-size: var(--tiny); letter-spacing: 0.04em; }
-  .mob-lang-row button.on { color: var(--fg); }
-
-  /* language switching */
-  .lang-ja { display: none; }
-  html[lang="ja"] .lang-ja { display: inline; }
-  html[lang="ja"] .lang-en { display: none; }
-
-  /* ── SECTION HEADER ── */
-  .sec-head {
-    display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px;
-    gap: 18px; padding: 14px 18px; font-size: var(--tiny);
-    border-top: 1px solid var(--line); color: var(--muted); align-items: baseline;
-  }
-  .sec-head .num { color: var(--fg); font-family: var(--type-mono); }
-  .sec-head h2 { font-size: var(--tiny); font-weight: 400; color: var(--fg); letter-spacing: 0.04em; text-transform: lowercase; }
-
-  /* ── PAGE LAYOUT ── */
-  .page-body {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 48px 18px 60px;
-  }
-  .page-body h1 {
-    font-size: 22px;
-    font-weight: 300;
-    letter-spacing: 0.01em;
-    margin-bottom: 6px;
-  }
-  .page-body .page-desc {
-    color: var(--muted);
-    font-size: var(--small);
-    margin-bottom: 48px;
-  }
-
-  /* ── FORM SECTION ── */
-  .section-block {
-    margin-bottom: 60px;
-  }
-  .section-block h3 {
-    font-size: var(--small);
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    color: var(--accent);
-    margin-bottom: 18px;
-  }
-
-  .form-group {
-    margin-bottom: 16px;
-  }
-  .form-group label {
-    display: block;
-    font-size: var(--tiny);
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    font-family: var(--type-sans);
-    font-size: var(--reg);
-    font-weight: 300;
-    border: 1px solid var(--line);
-    border-radius: 0;
-    background: var(--bg);
-    color: var(--fg);
-    outline: none;
-    transition: border-color 150ms;
-  }
-  .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--accent);
-  }
-  .form-group textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-
-  .char-count {
-    text-align: right;
-    font-size: var(--tiny);
-    color: var(--muted);
-    font-family: var(--type-mono);
-    margin-top: 4px;
-  }
-  .char-count.over {
-    color: #d32f2f;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 10px 28px;
-    font-size: var(--small);
-    font-family: var(--type-sans);
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    border: 1px solid var(--fg);
-    background: var(--fg);
-    color: var(--bg);
-    cursor: pointer;
-    transition: background 150ms, color 150ms;
-  }
-  .btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-  .btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-  .btn--outline {
-    background: transparent;
-    color: var(--fg);
-  }
-  .btn--outline:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-
-  .form-feedback {
-    margin-top: 10px;
-    font-size: var(--tiny);
-    color: var(--muted);
-  }
-  .form-feedback.error {
-    color: #d32f2f;
-  }
-  .form-feedback.success {
-    color: #2e7d32;
-  }
-
-  /* ── DIVIDER ── */
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 48px 0;
-    color: var(--line);
-    font-size: var(--tiny);
-    font-family: var(--type-mono);
-  }
-  .divider::before,
-  .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--line);
-  }
-
-  /* ── MESSAGE LIST ── */
-  .msg-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .msg-item {
-    padding: 18px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .msg-item:last-child {
-    border-bottom: none;
-  }
-  .msg-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 6px;
-  }
-  .msg-name {
-    font-size: var(--small);
-    font-weight: 400;
-    color: var(--fg);
-  }
-  .msg-date {
-    font-size: var(--tiny);
-    color: var(--muted);
-    font-family: var(--type-mono);
-  }
-  .msg-body {
-    font-size: var(--reg);
-    line-height: 1.6;
-    color: var(--fg);
-    word-break: break-word;
-  }
-  .msg-empty {
-    color: var(--muted);
-    font-size: var(--small);
-    font-style: italic;
-    padding: 24px 0;
-  }
-  .msg-loading {
-    color: var(--muted);
-    font-size: var(--small);
-    padding: 24px 0;
-  }
-
-  /* ── FOOTER ── */
-  .foot { display: grid; grid-template-columns: 60px 1fr 1fr 1fr 80px; gap: 18px; padding: 28px 18px; border-top: 1px solid var(--line); font-size: var(--tiny); color: var(--muted); }
-  .foot .col h4 { font-size: var(--tiny); color: var(--fg); font-weight: 400; margin-bottom: 8px; letter-spacing: 0.04em; }
-  .foot ul { list-style: none; display: grid; gap: 4px; }
-  .foot .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
-
-  .mono { font-family: var(--type-mono); }
-  .muted { color: var(--muted); }
-  .acc { color: var(--accent); }
-
-  @media (max-width: 880px) {
-    .desktop-nav { display: none; }
-    .hamburger { display: flex; }
-    .sec-head { grid-template-columns: 40px 1fr 80px; }
-    .sec-head > div:nth-child(3), .sec-head > div:nth-child(4) { display: none; }
-    .foot { grid-template-columns: 30px 1fr 1fr; }
-    .page-body { padding: 32px 18px 40px; }
-    .page-body h1 { font-size: 19px; }
-  }
-  @media (max-width: 560px) {
-    .foot { grid-template-columns: 1fr 1fr; }
-    .foot .num { display: none; }
-  }
-</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Journal — SKYライフ株式会社</title>
+<meta name="description" content="thoughts on design, technology, and the spaces we inhabit." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css?v=7" />
 </head>
-<body>
+<body data-page="journal" data-lang="en">
 
-<!-- NAV -->
-<header class="nav">
-  <a href="index.html" aria-label="SKYライフ株式会社">
-    <span class="brand-logo" role="img" aria-label="SKYライフ"></span>
-  </a>
-  <div class="desktop-nav" id="desktop-nav">
-    <ul>
-      <li><a href="index.html#products"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
-      <li><a href="store.html">store</a></li>
-      <li><a href="journal.html" class="current"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
-      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-    </ul>
-    <div class="lang-ctrl">
-      <button data-lang="en" class="on">en</button>
-      <button data-lang="ja">日本語</button>
+  <!-- PAGE TRANSITION -->
+  <div class="pt" aria-hidden="true"><div class="pt__panel"></div></div>
+  <div class="pt__mark" aria-hidden="true">SKY</div>
+
+  <!-- CURSOR -->
+  <div class="cursor" aria-hidden="true">
+    <span class="cursor__ring"></span>
+    <span class="cursor__dot"></span>
+    <span class="cursor__label"></span>
+  </div>
+
+  <!-- HEADER -->
+  <header class="head">
+    <a class="brand" href="index.html" data-transition data-magnetic="0.25" aria-label="SKY Life home">
+      <img class="brand__logo" src="assets/sky-logo-c.svg" alt="SKY Life" />
+    </a>
+    <nav class="nav">
+      <a class="nav-link" href="index.html" data-transition><span class="lang-en">home</span><span class="lang-jp">ホーム</span><span class="u"></span></a>
+      <a class="nav-link" href="index.html#work" data-transition><span class="lang-en">products</span><span class="lang-jp">プロダクト</span><span class="u"></span></a>
+      <a class="nav-link" href="contact.html" data-transition><span class="lang-en">contact</span><span class="lang-jp">お問い合わせ</span><span class="u"></span></a>
+      <span class="lang">
+        <button class="on" data-lang="en">EN</button><span>/</span><button data-lang="jp">日本語</button>
+      </span>
+      <button class="hamburger" aria-label="open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ░░ MOBILE DRAWER ░░ -->
+  <div class="mob-menu" aria-hidden="true">
+    <div class="mob-menu__in">
+      <div class="mob-menu__top">
+        <a class="brand" href="index.html" data-transition><img class="brand__logo" src="assets/sky-logo-c.svg" alt="SKY Life" /></a>
+        <button class="mob-close" aria-label="close menu">✕</button>
+      </div>
+      <nav class="mob-nav">
+        <a class="mob-link" href="index.html" data-transition><span class="mob-link__no">00</span><span class="lang-en">Home</span><span class="lang-jp">ホーム</span></a>
+        <a class="mob-link" href="index.html#work" data-transition><span class="mob-link__no">01</span><span class="lang-en">Products</span><span class="lang-jp">プロダクト</span></a>
+        <a class="mob-link" href="store.html" data-transition><span class="mob-link__no">02</span><span class="lang-en">Store</span><span class="lang-jp">ストア</span></a>
+        <a class="mob-link" href="journal.html"><span class="mob-link__no">03</span><span class="lang-en">Blog</span><span class="lang-jp">ブログ</span></a>
+        <a class="mob-link" href="contact.html" data-transition><span class="mob-link__no">03</span><span class="lang-en">Contact</span><span class="lang-jp">お問い合わせ</span></a>
+      </nav>
+      <div class="mob-foot">
+        <div class="mob-lang">
+          <button class="on" data-lang="en">EN</button><span>/</span><button data-lang="jp">日本語</button>
+        </div>
+        <div class="mob-info">skylife.sakura@gmail.com<br>千葉 · chiba · japan</div>
+      </div>
     </div>
   </div>
-  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</header>
 
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <ul>
-    <li><a href="index.html#products" class="mob-link"><span class="lang-en">products</span><span class="lang-ja">製品・サービス</span></a></li>
-    <li><a href="store.html" class="mob-link">store</a></li>
-    <li><a href="journal.html" class="mob-link current"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-    <li><a href="index.html#about" class="mob-link"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
-    <li><a href="index.html#contact" class="mob-link"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-  </ul>
-  <div class="mob-lang-row">
-    <button data-lang="en" class="on">en</button>
-    <button data-lang="ja">日本語</button>
-  </div>
-</div>
+  <div id="smooth-wrapper">
+  <div id="smooth-content">
 
-<!-- PAGE BODY -->
-<div class="page-body">
-
-  <h1>
-    <span class="lang-en">contact us</span>
-    <span class="lang-ja">お問い合わせ</span>
-  </h1>
-  <p class="page-desc">
-    <span class="lang-en">write us an email, or leave a note in the guestbook.</span>
-    <span class="lang-ja">メールを送るか、ゲストブックにメッセージをお書きください。</span>
-  </p>
-
-  <!-- ── EMAIL SECTION ── -->
-  <div class="section-block">
-    <h3>
-      <span class="lang-en">✉ send us an email</span>
-      <span class="lang-ja">✉ メールを送る</span>
-    </h3>
-    <form id="emailForm">
-      <div class="form-group">
-        <label for="emailName">
-          <span class="lang-en">your name</span>
-          <span class="lang-ja">お名前</span>
-        </label>
-        <input type="text" id="emailName" name="name" required />
+  <!-- HEADER BLOCK -->
+  <section class="section theme-dark page-pad" data-screen-label="journal head">
+    <div class="grid-bg"></div>
+    <div class="wrap" style="position:relative;z-index:2;padding-bottom:clamp(40px,7vh,90px)">
+      <div class="hero__kbar">
+        <span class="idx">— journal</span>
+        <span class="ln" style="background:var(--line-strong)"></span>
+        <span class="mono">記録 · field notes</span>
       </div>
-      <div class="form-group">
-        <label for="emailAddr">
-          <span class="lang-en">your email</span>
-          <span class="lang-ja">メールアドレス</span>
-        </label>
-        <input type="email" id="emailAddr" name="email" required />
-      </div>
-      <div class="form-group">
-        <label for="emailSubj">
-          <span class="lang-en">subject</span>
-          <span class="lang-ja">件名</span>
-        </label>
-        <input type="text" id="emailSubj" name="subject" />
-      </div>
-      <div class="form-group">
-        <label for="emailMsg">
-          <span class="lang-en">message</span>
-          <span class="lang-ja">本文</span>
-        </label>
-        <textarea id="emailMsg" name="message" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn--outline">
-        <span class="lang-en">send email</span>
-        <span class="lang-ja">メールを送信</span>
-      </button>
-      <div class="form-feedback" id="emailFeedback"></div>
-    </form>
-  </div>
+      <h1 style="font-weight:800;letter-spacing:-.035em;line-height:.9;text-transform:uppercase;font-size:clamp(3rem,11vw,10rem)">
+        <span class="lang-en"><span class="row">journal</span></span>
+        <span class="lang-jp"><span class="row">記録</span></span>
+      </h1>
+      <p class="lead" data-reveal style="max-width:60ch;margin-top:clamp(20px,3vh,34px);font-size:clamp(1.05rem,1.5vw,1.4rem)">
+        <span class="en-copy">thoughts on design, technology, and the spaces we inhabit.</span>
+        <span class="jp" style="display:block;color:var(--bone-dim);margin-top:.5em;font-size:.85em">デザイン、技術、そして私たちが暮らす空間についての考察。</span>
+      </p>
+    </div>
+  </section>
 
-  <!-- DIVIDER -->
-  <div class="divider">
-    <span class="lang-en">— or —</span>
-    <span class="lang-ja">— または —</span>
-  </div>
+  <!-- FEATURE ARTICLES -->
+  <section class="section theme-dark" style="padding:clamp(20px,5vh,60px) 0 clamp(70px,11vh,140px)">
+    <div class="wrap">
 
-  <!-- ── GUESTBOOK SECTION ── -->
-  <div class="section-block">
-    <h3>
-      <span class="lang-en">💬 guestbook</span>
-      <span class="lang-ja">💬 ゲストブック</span>
-    </h3>
-    <p style="color:var(--muted); font-size:var(--tiny); margin-bottom:16px;">
-      <span class="lang-en">leave a public message. no registration needed. max 200 characters.</span>
-      <span class="lang-ja">公開メッセージをどうぞ。登録不要。200字以内。</span>
-    </p>
-
-    <form id="guestbookForm">
-      <div class="form-group">
-        <label for="gbName">
-          <span class="lang-en">your name</span>
-          <span class="lang-ja">お名前</span>
-        </label>
-        <input type="text" id="gbName" name="name" maxlength="50" required />
+      <!-- Article 1 -->
+      <div class="art art-toggle" data-art="1" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>April 18, 2026</div>
+          <div>12 min read</div>
+          <div style="color:var(--orange)">essay</div>
+          <div class="jp" style="margin-top:1em">2026年4月18日<br />読了12分</div>
+        </div>
+        <h3>
+          <span class="lang-en">When You Have Your First AI Employee, How Do You Manage It?</span>
+          <span class="lang-jp">最初のAI社員ができたら、どう管理するのか？</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
       </div>
-      <div class="form-group">
-        <label for="gbMsg">
-          <span class="lang-en">message</span>
-          <span class="lang-ja">メッセージ</span>
-        </label>
-        <textarea id="gbMsg" name="message" rows="3" maxlength="200" required></textarea>
-        <div class="char-count" id="charCount">
-          <span id="charCountNum">0</span> / 200
+      <div class="art-body theme-paper" id="art-body-1">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>Most people feel surprised the first time they use an AI Agent, confused the second time, and chaotic after the third.</p>
+            <p>The surprise comes from efficiency. The confusion comes from it sometimes working, sometimes not. The chaos comes from running three or four AI tools at the same time — each operating independently, unaware of each other, with no coordination. The entire workflow becomes harder to maintain than before.</p>
+            <p>This is not a problem with AI itself. It is a <strong>governance problem</strong>.</p>
+            <p>Recently I studied a GitHub repository: <em>Hermes Agent Control Room</em>. It is not an AI application itself, nor a new model, but a methodology and documentation system for <strong>managing and orchestrating teams of AI Agents</strong>. After reading it, I realized this approach deserves a serious article.</p>
+            <h2>Where Does the Problem Lie?</h2>
+            <p>Let me pour some cold water: most people who claim to be "working with AI" are essentially just chatting with AI.</p>
+            <p>The difference between chatting and working is that work requires memory, role division, process handoff, and traceable records when problems arise. When every AI conversation starts from zero, when different Agents don't know each other, and when there is no documentation recording "what this AI is responsible for", what you have is not a team — but a group of forgetful temporary workers.</p>
+            <p>"Build the Control Room first, then plug in Agents. Avoid turning AI into a bunch of scattered robots."</p>
+            <p>This sentence seems simple, but the logic behind it is worth pondering: it analogizes the management of AI Agents to human resource management in a company. You wouldn't hire a bunch of employees and let them coordinate themselves. You need job responsibilities, reporting chains, and task distribution systems.</p>
+            <h2>What is Control Room?</h2>
+            <p>Control Room is not where AI runs, but where AI is <strong>described, regulated, and governed</strong>. In technical terms, it is a "control plane" separated from the actual running Agent instances.</p>
+            <p>For example: Control Room is like a company's HR system and internal Wiki — it records who everyone is, what they are responsible for, what rules exist, where passwords are stored, and who to contact when problems arise. But it doesn't do the work itself. The Agents below do the actual work.</p>
+            <h2>Four Growth Levels</h2>
+            <p>One of the most valuable parts of this system is that it defines a growth path from "personal toy" to "team infrastructure", divided into four levels, each with clear applicable scenarios.</p>
+            <p>For myself, I am currently around Level 1.5 — multiple tools are running, but roles are vague and there is no documentation. This grading made me realize what I should do next.</p>
+            <h2>Task Bus: Enabling Agents to "Talk" to Each Other</h2>
+            <p>The core problem of multi-Agent collaboration is communication: when one Agent completes a task, how does the result get passed to the next?</p>
+            <p>The solution in this repository is very engineering-oriented and simple — using file directories to simulate a message queue. Each Agent has four folders: inbox, working, outbox, and archive.</p>
+            <p>The elegance of this design lies in the fact that it does not rely on any middleware or third-party services. The file system itself becomes the message queue. It is simple, auditable, and when problems occur, you can open the folder to see the status.</p>
+            <h2>Security: The Easiest Rule to Break</h2>
+            <p>In multi-Agent scenarios, security is a real issue, not a theoretical risk. When you have four or five Agents sharing API Keys, and keys are scattered across configuration files, the probability of leakage or misuse rises rapidly.</p>
+            <p>This repository proposes a separation principle: <strong>Record the name and location of keys, never record the value of the keys</strong>.</p>
+            <p>The value of this rule is that the Control Room documentation can be discussed publicly, uploaded to Git, and collaborated on by multiple people — because it only contains structure, not secrets.</p>
+            <h2>8 Built-in Skills, Ready to Use</h2>
+            <p>In addition to the methodology, this repository also includes 8 reusable "Skills" — each Skill is a standard operating manual that tells Agents how to complete specific tasks.</p>
+            <h2>My Inspiration and Calm Assessment</h2>
+            <p>After reading this repository, my first reaction was excitement, and my second reaction was restraint.</p>
+            <p>The reason for excitement: this approach helped me clearly see the root of chaos in my own workflow — I had tools, but no governance. Each AI tool operated independently, with no role definitions, no documentation, and no unified task tracking.</p>
+            <p>The reason for restraint: this repository currently has only 7 commits. There is a clear gap between the 248 stars and the actual completion level of the repository. It is more like a carefully designed blueprint than a system that has been validated in large-scale production. The entire architecture assumes you are running Ubuntu/Debian VPS, and is not directly applicable to macOS local environments.</p>
+          </div>
+          <div class="lang-jp">
+            <p>多くの人がAI Agentを初めて使ったときの感想は「驚き」、2回目は「混乱」、3回目以降は「カオス」になる。</p>
+            <p>驚きは効率から来る。混乱は「時々うまくいくが、時々うまくいかない」ことから来る。カオスは、3〜4つのAIツールを同時に動かしているときに起こる。それぞれが独立して動き、互いを知らず、調整もないため、全体のワークフローが以前より管理しにくくなる。</p>
+            <p>これはAI自体の問題ではない。これは<strong>ガバナンスの問題</strong>である。</p>
+            <p>最近、私はあるGitHubリポジトリを研究した：<em>Hermes Agent Control Room</em>。これはAIアプリケーションそのものではなく、新しいモデルでもない。<strong>AI Agentチームを管理・編成するための方法論とドキュメント体系</strong>である。</p>
+            <h2>問題はどこにあるのか？</h2>
+            <p>まず冷や水を浴びせよう。「AIで仕事をしている」と主張する人のほとんどは、実際にはAIと「チャット」しているだけだ。</p>
+            <p>チャットと仕事の違いは、仕事には記憶、役割分担、プロセスのつながり、そして問題が発生したときに追跡可能な記録が必要だということだ。AIとの会話が毎回ゼロから始まり、異なるAgent同士が互いを知らず、「このAIは何を担当しているか」というドキュメントもない場合、あなたが持っているのはチームではなく、忘れっぽい派遣社員の集まりである。</p>
+            <p>「まずControl Roomを構築し、それからAgentを接続せよ。AIを散らばったロボットの集まりにしないために。」</p>
+            <h2>Control Roomとは何か？</h2>
+            <p>Control RoomはAIが実際に動く場所ではない。AIを<strong>記述し、規制し、統治する場所</strong>である。技術的な言葉で言えば、それは実際のAgentインスタンスから分離された「コントロールプレーン」である。</p>
+            <h2>4つの成長レベル</h2>
+            <p>このシステムのもっとも価値のある部分の一つは、「個人の玩具」から「チームのインフラ」への成長パスを定義していることだ。4つのレベルに分かれており、それぞれに明確な適用シーンがある。</p>
+            <h2>Task Bus：Agent同士が「話せる」ようにする</h2>
+            <p>マルチAgent協調の核心的な問題はコミュニケーションである。あるAgentがタスクを完了したとき、その結果を次のAgentにどう渡すのか？</p>
+            <p>このリポジトリの解決策は非常に工学的で、かつシンプルだ——ファイルディレクトリを使ってメッセージキューをシミュレートする。各Agentはinbox、working、outbox、archiveの4つのフォルダを持つ。</p>
+            <h2>セキュリティ：最も犯しやすい鉄則</h2>
+            <p>マルチAgentのシナリオでは、セキュリティは現実的な問題であり、理論上のリスクではない。このリポジトリは一つの分離原則を提案している：<strong>鍵の名前と場所は記録するが、鍵の値自体は絶対に記録しない</strong>。</p>
+            <h2>私自身のインスピレーションと冷静な評価</h2>
+            <p>このリポジトリを読んだ後、私の最初の反応は興奮、2番目の反応は抑制だった。興奮の理由：このアプローチは、私自身のワークフローのカオスな根本原因を明確に示してくれた。抑制の理由：このリポジトリは現在コミット数が7回しかなく、大規模な本番環境で検証されたシステムというより、丁寧に設計された青写真に近い。</p>
+          </div>
         </div>
       </div>
-      <button type="submit" class="btn" id="gbSubmit">
-        <span class="lang-en">post message</span>
-        <span class="lang-ja">メッセージを投稿</span>
-      </button>
-      <div class="form-feedback" id="gbFeedback"></div>
-    </form>
-  </div>
 
-  <!-- ── MESSAGE LIST ── -->
-  <div class="section-block">
-    <h3>
-      <span class="lang-en">📝 messages</span>
-      <span class="lang-ja">📝 みなさんのメッセージ</span>
-    </h3>
-    <div class="msg-list" id="msgList">
-      <div class="msg-loading" id="msgLoading">
-        <span class="lang-en">loading messages…</span>
-        <span class="lang-ja">メッセージを読み込み中…</span>
+      <!-- Article 2 -->
+      <div class="art art-toggle" data-art="2" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>May 18, 2026</div>
+          <div>18 min read</div>
+          <div style="color:var(--orange)">report</div>
+          <div class="jp" style="margin-top:1em">2026年5月18日<br />読了18分</div>
+        </div>
+        <h3>
+          <span class="lang-en">Japan's Business Manager Visa Applications Plummeted 96%: How It Happened and Who Got Hurt</span>
+          <span class="lang-jp">経営・管理ビザの申請数が96%減少：日本はどうやって実現したのか、そして誰が傷ついたのか</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-2">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>In October 2025, Japan quietly changed one immigration rule.</p>
+            <p>Half a year later, the number of new applications for the Business Manager visa had dropped by 96%.</p>
+            <p>This figure was exclusively obtained by TBS News23 reporters from sources within the Ministry of Justice in May this year. Before that, many people were not even aware that this had happened.</p>
+            <h2>The Starting Point Was Not the Government, But Members of Parliament</h2>
+            <p>In spring 2025, during a Budget Committee session in the House of Councillors, a member of the Japan Innovation Party publicly stated: "The Business Manager visa is very well-known in China. There are specialized intermediaries online promoting it: by opening a company in Japan, one can enjoy high-cost medical care almost for free."</p>
+            <p>Then-Prime Minister Shigeru Ishiba responded: "The Japanese people have long cherished the spirit of social solidarity and mutual assistance. Exploiting this virtue to game the system is absolutely not permitted."</p>
+            <h2>How the Administration Turned Political Will into Regulation</h2>
+            <p>On October 16, 2025, the new rules officially took effect. The key changes were:</p>
+            <ul>
+              <li>Capital requirement: raised from ¥5 million to ¥30 million</li>
+              <li>Full-time employees: must have at least one (mandatory)</li>
+              <li>Manager qualifications: now require at least three years of experience or a master's degree or higher</li>
+              <li>Business plan: must be verified by a certified public accountant or small and medium enterprise diagnostician</li>
+            </ul>
+            <p>From parliamentary questioning to regulatory implementation took less than half a year.</p>
+            <h2>Immigration Enforcement: Step Out in the Morning, and They Already Know Your Details by Afternoon</h2>
+            <p>After the policy was implemented, the Immigration Services Agency immediately began on-site inspections. There have already been real cases: a restaurant was denied visa renewal because the kitchen was on the first floor and the family residence on the second, which was deemed "business premises mixed with residence."</p>
+            <h2>What Role Did the Media Play?</h2>
+            <p>TBS News23's reporting focused on Gopal (50), from Ichikawa City, Chiba Prefecture. Originally from Nepal, he came to Japan 19 years ago as a chef. He now runs two Indian-Nepalese curry restaurants, pays taxes and insurance on time, and is well-liked by local regular customers.</p>
+            <p>His current capital: ¥5 million. He is short ¥25 million from the new ¥30 million requirement. "I pay insurance and taxes, and have lived in Japan for a long time. But ¥30 million... honestly, it's really difficult."</p>
+            <h2>Who Got Hurt, and Who Did Not?</h2>
+            <ul>
+              <li><strong>The group that was rightly removed:</strong> Those who exploited the system through paper companies.</li>
+              <li><strong>The group that was collateral damage:</strong> People like Gopal — rooted in Japan for nearly 20 years, law-abiding, but lacking the new ¥30 million capital.</li>
+            </ul>
+            <h2>Practical Advice for Foreign Business Owners in Japan</h2>
+            <ul>
+              <li>Pay attention to Diet committee questioning related to residence status.</li>
+              <li>Regularly check the Immigration Services Agency website for public comment periods on ordinance amendments.</li>
+              <li>Conduct an annual "residence status health check" with an administrative scrivener.</li>
+              <li>Maintain proper accounting, insurance, and employee contracts.</li>
+              <li>Clearly separate business premises from residence.</li>
+            </ul>
+            <p>Japan's system is not perfect, but it is transparent and traceable. When operating here, the most important thing is to read the signals of rule changes, rather than panicking only after the rules have already fallen.</p>
+          </div>
+          <div class="lang-jp">
+            <p>2025年10月、日本は移民ルールを静かに変更した。半年後、経営・管理ビザの新規申請数は96%減少した。</p>
+            <p>この数字は、今年5月にTBS News23の記者が法務省関係者から独占取材したものだ。</p>
+            <h2>起点は政府ではなく、国会議員だった</h2>
+            <p>2025年春、参議院予算委員会で、日本維新の会の議員が公にこう述べた：「経営・管理ビザは中国で非常に有名だ。ネットには専門の仲介業者がいる。外国人は日本に3ヶ月滞在するだけで国民健康保険に入れ、高額療養費制度も利用可能。これは制度の抜け穴だ。」</p>
+            <p>当時の石破茂首相：「日本人は長年、社会連帯と相互扶助の精神を大切にしてきた。この美徳を利用して制度を悪用することは、絶対に許されない。」</p>
+            <h2>行政はどのように「政治的意思」を法規に変えたのか</h2>
+            <p>2025年10月16日、新ルールが正式に施行された。主な変更点：</p>
+            <ul>
+              <li>資本金要件：500万円 → 3,000万円</li>
+              <li>常勤従業員：1名以上（必須）</li>
+              <li>経営者資格：3年以上の経験または修士以上の学位</li>
+              <li>事業計画：公認会計士または中小企業診断士による確認が必要</li>
+            </ul>
+            <h2>入管の執行力</h2>
+            <p>政策施行後、入管庁はすぐに実地調査を開始した。すでに実例がある。ある飲食店は、1階が厨房、2階が家族の居住スペースだったため「事業所と住所の混同」と認定され、ビザ更新を拒否された。</p>
+            <h2>メディアはここで何をしたのか</h2>
+            <p>TBS News23の報道は、千葉県市川市在住のゴパルさん（50歳）に焦点を当てた。ネパール出身で19年前にコックとして来日し、現在はインド・ネパールカレーの店を2店舗経営している。</p>
+            <p>現在の資本金：500万円。新要件の3,000万円まで、あと2,500万円足りない。「保険も税金も払っているし、日本で長く暮らしてきた。でも3,000万円は、正直本当に厳しい。」</p>
+            <h2>今回は誰が傷つき、誰は傷つかなかったのか</h2>
+            <ul>
+              <li><strong>当然排除されるべきグループ</strong>：ペーパーカンパニーで制度の抜け穴を悪用していた人々。</li>
+              <li><strong>巻き添えを食らったグループ</strong>：ゴパルさんのような人々。日本に20年近く根を張り、法を守りながら生活してきたが、資本金が3,000万円に届かない。</li>
+            </ul>
+            <h2>在日経営者への実務的アドバイス</h2>
+            <ul>
+              <li>国会委員会で在留資格に関する質疑に注目する。</li>
+              <li>入管庁のウェブサイトで省令改正に関するパブリックコメント募集を定期的に確認する。</li>
+              <li>行政書士と年に一度、在留資格の「健康診断」を行う。</li>
+              <li>会計、保険、従業員契約の規律を保つ。</li>
+              <li>事業所と住所を明確に分離する。</li>
+            </ul>
+            <p>日本の制度は完璧ではないが、透明性があり、追跡可能だ。ルール変更のシグナルを読み取ることが最も重要だ。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FIELD NOTES LIST -->
+  <section class="journal section theme-dark" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">— more</span>
+        <h2>field notes <span class="jp">／ 記録</span></h2>
+        <span class="mono">005 entries</span>
+      </div>
+      <div class="jlist">
+        <a class="jrow" href="#" data-cursor="read">
+          <span class="fill"></span><span class="no">001</span><span class="date">2026.04.18</span>
+          <span class="ttl">on the door height of an old chiba townhouse<span class="jp">古い千葉の町家、その戸の高さについて</span></span>
+          <span class="tag">field note</span><span class="arr">→</span>
+        </a>
+        <a class="jrow" href="#" data-cursor="read">
+          <span class="fill"></span><span class="no">002</span><span class="date">2026.03.30</span>
+          <span class="ttl">a guesthouse for two — naoshima, march<span class="jp">二人のための宿 — 直島、三月</span></span>
+          <span class="tag">project</span><span class="arr">→</span>
+        </a>
+        <a class="jrow" href="#" data-cursor="read">
+          <span class="fill"></span><span class="no">003</span><span class="date">2026.03.11</span>
+          <span class="ttl">we made a kettle. it weighs 480 grams.<span class="jp">薬缶をつくった。重さは480グラム。</span></span>
+          <span class="tag">store</span><span class="arr">→</span>
+        </a>
+        <a class="jrow" href="#" data-cursor="read">
+          <span class="fill"></span><span class="no">004</span><span class="date">2026.02.27</span>
+          <span class="ttl">a winter site visit, nishijin<span class="jp">冬の現場、西陣にて</span></span>
+          <span class="tag">field note</span><span class="arr">→</span>
+        </a>
+        <a class="jrow" href="#" data-cursor="read">
+          <span class="fill"></span><span class="no">005</span><span class="date">2026.02.04</span>
+          <span class="ttl">five years of the same towel<span class="jp">同じタオルと五年</span></span>
+          <span class="tag">essay</span><span class="arr">→</span>
+        </a>
+      </div>
+
+      <div style="margin-top:clamp(48px,8vh,90px)">
+        <a class="mono" href="index.html" data-transition data-magnetic="0.3" style="color:var(--orange)">← back to home / ホームに戻る</a>
       </div>
     </div>
-  </div>
+  </section>
 
-</div>
+  <!-- ░░ GUESTBOOK MESSAGES ░░ -->
+  <section class="section theme-dark" style="padding:clamp(60px,10vh,120px) 0 clamp(80px,12vh,160px)">
+    <div class="wrap">
+      <div class="sec-head" style="padding-bottom:clamp(28px,4vh,48px)">
+        <span class="idx">— messages</span>
+        <h2><span class="lang-en">guestbook</span><span class="lang-jp">芳名帳</span></h2>
+        <a class="mono" href="contact.html" data-transition data-magnetic="0.3">
+          <span class="lang-en">leave a message →</span><span class="lang-jp">メッセージを残す →</span>
+        </a>
+      </div>
+      <div id="jMsgList">
+        <div class="msg"><div class="msg__body" style="color:var(--bone-dim)">loading…</div></div>
+      </div>
+    </div>
+  </section>
 
-<!-- FOOTER -->
-<footer class="foot">
-  <div class="num mono">—</div>
-  <div class="col">
-    <h4><span class="lang-en">studio</span><span class="lang-ja">スタジオ</span></h4>
-    <ul>
-      <li><a href="index.html#about"><span class="lang-en">about</span><span class="lang-ja">会社概要</span></a></li>
-      <li><a href="journal.html"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-      <li><a href="index.html#contact"><span class="lang-en">contact</span><span class="lang-ja">お問い合わせ</span></a></li>
-    </ul>
-  </div>
-  <div class="col">
-    <h4>store</h4>
-    <ul>
-      <li><a href="store-studio.html"><span class="lang-en">AI creative studio</span><span class="lang-ja">AIクリエイティブスタジオ</span></a></li>
-      <li><a href="#"><span class="lang-en">terms of use</span><span class="lang-ja">利用規約</span></a></li>
-      <li><a href="#"><span class="lang-en">credits &amp; billing</span><span class="lang-ja">クレジット・請求</span></a></li>
-    </ul>
-  </div>
-  <div class="col">
-    <h4><span class="lang-en">elsewhere</span><span class="lang-ja">その他</span></h4>
-    <ul>
-      <li><a href="#">instagram</a></li>
-      <li><a href="#">are.na</a></li>
-      <li><a href="#"><span class="lang-en">newsletter</span><span class="lang-ja">ニュースレター</span></a></li>
-    </ul>
-  </div>
-  <div></div>
-  <div class="legal">
-    <span>© 2014 – 2026 SKYライフ株式会社. <span class="lang-en">all rights reserved.</span><span class="lang-ja">無断転載禁止。</span></span>
-  </div>
-</footer>
+  <!-- FOOTER -->
+  <footer class="foot section theme-dark" style="padding-top:clamp(40px,6vh,70px)">
+    <div class="foot__word">
+      <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet">
+        <text x="600" y="160" text-anchor="middle" font-size="220">SKY ライフ</text>
+      </svg>
+    </div>
+    <div class="wrap">
+      <div class="foot__base">
+        <span>© 2014 – 2026 SKYライフ株式会社. all rights reserved.</span>
+        <span>blueprint in motion · gsap</span>
+      </div>
+    </div>
+  </footer>
 
-<script>
-(function () {
-  /* ── language switching ── */
-  function setLang(lang) {
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-lang]').forEach(function (b) {
-      b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+  </div><!-- /smooth-content -->
+  </div><!-- /smooth-wrapper -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+  <style>
+    /* article body expand/collapse */
+    .art-toggle { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .art-toggle:hover .art-arr,
+    .art-toggle.is-open .art-arr { color: var(--orange); }
+    .art-toggle.is-open .art-arr { transform: rotate(180deg); }
+    .art-arr { transition: transform .4s var(--ease), color .3s; display: inline-block; }
+
+    .art-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .7s cubic-bezier(.22,.61,.36,1);
+    }
+    .art-body.is-open { max-height: 9999px; }
+    .art-body__in {
+      padding: clamp(40px,7vh,80px) 0;
+      font-size: clamp(1rem,1.25vw,1.18rem);
+      line-height: 1.85;
+      color: var(--ink);
+    }
+    .art-body__in p { margin-bottom: 1.2em; max-width: 72ch; }
+    .art-body__in h2 {
+      font-weight: 800; letter-spacing: -.02em; line-height: 1.1;
+      font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+      margin: 2em 0 .7em; color: var(--ink);
+    }
+    .art-body__in h2::before {
+      content: '—'; color: var(--orange); margin-right: .5em; font-weight: 400;
+    }
+    .art-body__in ul { padding-left: 1.4em; margin-bottom: 1.2em; max-width: 72ch; }
+    .art-body__in ul li { margin-bottom: .5em; }
+    .art-body__in strong { color: var(--ink); font-weight: 700; }
+    .art-body__in em { font-style: italic; }
+  </style>
+
+  <script src="js/site.js?v=7"></script>
+  <script>
+  (function () {
+    /* ── article expand/collapse ── */
+    document.querySelectorAll('.art-toggle').forEach(function (tog) {
+      tog.addEventListener('click', function () {
+        var id   = tog.dataset.art;
+        var body = document.getElementById('art-body-' + id);
+        var open = tog.classList.contains('is-open');
+        /* close all */
+        document.querySelectorAll('.art-toggle').forEach(function (t) { t.classList.remove('is-open'); });
+        document.querySelectorAll('.art-body').forEach(function (b) { b.classList.remove('is-open'); });
+        /* open this one if it was closed */
+        if (!open) {
+          tog.classList.add('is-open');
+          body.classList.add('is-open');
+          setTimeout(function () {
+            tog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        }
+      });
     });
-  }
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-lang]');
-    if (b) setLang(b.getAttribute('data-lang'));
-  });
+  })();
 
-  /* ── hamburger menu ── */
-  var hamburger = document.getElementById('hamburger');
-  var mobileMenu = document.getElementById('mobile-menu');
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    mobileMenu.classList.remove('open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-  }
-  hamburger.addEventListener('click', function () {
-    var opening = !mobileMenu.classList.contains('open');
-    if (opening) {
-      hamburger.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      mobileMenu.classList.add('open');
-      mobileMenu.setAttribute('aria-hidden', 'false');
-    } else { closeMenu(); }
-  });
-  mobileMenu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
-  window.addEventListener('resize', function () { if (window.innerWidth > 880) closeMenu(); });
-
-  /* ── GUESTBOOK: char counter ── */
-  var gbMsg = document.getElementById('gbMsg');
-  var charCountNum = document.getElementById('charCountNum');
-  var charCountWrap = document.getElementById('charCount');
-  gbMsg.addEventListener('input', function () {
-    var len = gbMsg.value.length;
-    charCountNum.textContent = len;
-    charCountWrap.classList.toggle('over', len > 200);
-  });
-
-  /* ── EMAIL FORM: mailto fallback ── */
-  var emailForm = document.getElementById('emailForm');
-  var emailFeedback = document.getElementById('emailFeedback');
-  emailForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name   = document.getElementById('emailName').value.trim();
-    var email  = document.getElementById('emailAddr').value.trim();
-    var subj   = document.getElementById('emailSubj').value.trim();
-    var msg    = document.getElementById('emailMsg').value.trim();
-
-    if (!name || !email || !msg) {
-      emailFeedback.textContent = 'please fill in name, email, and message.';
-      emailFeedback.className = 'form-feedback error';
-      return;
-    }
-
-    // mailto fallback
-    var body = 'from: ' + name + ' (' + email + ')\n\n' + msg;
-    window.location.href = 'mailto:skylife.sakura@gmail.com?subject='
-      + encodeURIComponent(subj || 'contact inquiry')
-      + '&body=' + encodeURIComponent(body);
-
-    emailFeedback.textContent = 'opening your email client…';
-    emailFeedback.className = 'form-feedback success';
-  });
-
-  /* ── GUESTBOOK: post message ── */
-  var gbForm = document.getElementById('guestbookForm');
-  var gbSubmit = document.getElementById('gbSubmit');
-  var gbFeedback = document.getElementById('gbFeedback');
-  var gbName = document.getElementById('gbName');
-
-  gbForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = gbName.value.trim();
-    var msg  = gbMsg.value.trim();
-
-    if (!name || !msg) {
-      gbFeedback.textContent = 'please enter your name and message.';
-      gbFeedback.className = 'form-feedback error';
-      return;
-    }
-
-    if (msg.length > 200) {
-      gbFeedback.textContent = 'message exceeds 200 characters.';
-      gbFeedback.className = 'form-feedback error';
-      return;
-    }
-
-    gbSubmit.disabled = true;
-    gbFeedback.textContent = 'posting…';
-    gbFeedback.className = 'form-feedback';
-
-    fetch('/api/journal/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, message: msg })
-    })
-    .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
-    .then(function (res) {
-      if (res.status === 201 || res.status === 200) {
-        gbFeedback.textContent = 'message posted!';
-        gbFeedback.className = 'form-feedback success';
-        gbName.value = '';
-        gbMsg.value = '';
-        charCountNum.textContent = '0';
-        charCountWrap.classList.remove('over');
-        loadMessages(); // refresh list
-      } else {
-        gbFeedback.textContent = res.data.error || 'something went wrong.';
-        gbFeedback.className = 'form-feedback error';
-      }
-    })
-    .catch(function () {
-      gbFeedback.textContent = 'could not reach the server. try again later.';
-      gbFeedback.className = 'form-feedback error';
-    })
-    .finally(function () {
-      gbSubmit.disabled = false;
-    });
-  });
-
-  /* ── LOAD MESSAGES ── */
-  var msgList = document.getElementById('msgList');
-  var msgLoading = document.getElementById('msgLoading');
-
-  function loadMessages() {
-    msgLoading.style.display = 'block';
-
+  (function () {
+    var list = document.getElementById('jMsgList');
+    function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function hasJP(t) { return /[぀-ヿ㐀-鿿]/.test(t); }
     fetch('/api/journal/messages')
-      .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
-      .then(function (res) {
-        msgLoading.style.display = 'none';
-        msgList.innerHTML = '';
-
-        var messages = res.data.messages || res.data || [];
-
-        if (!messages || messages.length === 0) {
-          var empty = document.createElement('div');
-          empty.className = 'msg-empty';
-          empty.innerHTML = '<span class="lang-en">no messages yet. be the first!</span><span class="lang-ja">まだメッセージがありません。最初に投稿しましょう！</span>';
-          msgList.appendChild(empty);
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var msgs = d.messages || [];
+        if (!msgs.length) {
+          list.innerHTML = '<div class="msg"><div class="msg__body" style="color:var(--bone-dim)">no messages yet.</div></div>';
           return;
         }
-
-        messages.forEach(function (m) {
-          var item = document.createElement('div');
-          item.className = 'msg-item';
-
-          var head = document.createElement('div');
-          head.className = 'msg-head';
-
-          var nameEl = document.createElement('span');
-          nameEl.className = 'msg-name';
-          nameEl.textContent = m.name;
-
-          var dateEl = document.createElement('span');
-          dateEl.className = 'msg-date';
-          dateEl.textContent = formatDate(m.created_at);
-
-          head.appendChild(nameEl);
-          head.appendChild(dateEl);
-
-          var bodyEl = document.createElement('div');
-          bodyEl.className = 'msg-body';
-          bodyEl.textContent = m.message;
-
-          item.appendChild(head);
-          item.appendChild(bodyEl);
-          msgList.appendChild(item);
+        list.innerHTML = '';
+        msgs.forEach(function (m) {
+          var name = m.name || 'anonymous';
+          var body = m.message || '';
+          var jp   = hasJP(body) || hasJP(name);
+          var date = (m.created_at || '').replace('T', ' ').slice(0, 16);
+          var el   = document.createElement('div');
+          el.className = 'msg';
+          el.innerHTML =
+            '<div class="msg__top">' +
+              '<span class="who' + (hasJP(name) ? ' jp' : '') + '">' + esc(name) + '</span>' +
+              '<span class="when">' + esc(date) + '</span>' +
+            '</div>' +
+            '<div class="msg__body' + (jp ? ' jp' : '') + '">' + esc(body) + '</div>';
+          list.appendChild(el);
         });
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
       })
       .catch(function () {
-        msgLoading.style.display = 'none';
-        msgList.innerHTML = '<div class="msg-empty" style="color:#d32f2f;">could not load messages.</div>';
+        list.innerHTML = '<div class="msg"><div class="msg__body" style="color:var(--bone-dim)">messages unavailable.</div></div>';
       });
-  }
-
-  function formatDate(dateStr) {
-    if (!dateStr) return '';
-    var d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    var y = d.getFullYear();
-    var m = String(d.getMonth() + 1).padStart(2, '0');
-    var day = String(d.getDate()).padStart(2, '0');
-    return y + '.' + m + '.' + day;
-  }
-
-  // load on page init
-  loadMessages();
-})();
-</script>
-
+  })();
+  </script>
 </body>
 </html>

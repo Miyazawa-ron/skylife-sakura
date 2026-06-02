@@ -1,0 +1,50 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(arp -a)",
+      "Bash(ping -c 3 -t 3 192.168.10.113)",
+      "Bash(mkdir -p /Users/hinodeimac/Desktop/skylife-sakura/css /Users/hinodeimac/Desktop/skylife-sakura/js)",
+      "Bash(cp /Users/hinodeimac/Desktop/HTML/SKY2th/css/site.css /Users/hinodeimac/Desktop/skylife-sakura/css/site.css)",
+      "Bash(cp /Users/hinodeimac/Desktop/HTML/SKY2th/js/site.js /Users/hinodeimac/Desktop/skylife-sakura/js/site.js)",
+      "Bash(cp /Users/hinodeimac/Desktop/HTML/SKY2th/index.html /Users/hinodeimac/Desktop/skylife-sakura/index.html)",
+      "Bash(cp /Users/hinodeimac/Desktop/HTML/SKY2th/journal.html /Users/hinodeimac/Desktop/skylife-sakura/journal.html)",
+      "Bash(sed -i '' 's|href=\"css/site\\\\.css\"|href=\"css/site.css?v=3\"|g' /Users/hinodeimac/Desktop/skylife-sakura/index.html /Users/hinodeimac/Desktop/skylife-sakura/journal.html /Users/hinodeimac/Desktop/skylife-sakura/contact.html)",
+      "Bash(sed -i '' 's|src=\"js/site\\\\.js\"|src=\"js/site.js?v=3\"|g' /Users/hinodeimac/Desktop/skylife-sakura/index.html /Users/hinodeimac/Desktop/skylife-sakura/journal.html /Users/hinodeimac/Desktop/skylife-sakura/contact.html)",
+      "Bash(crontab -l)",
+      "Bash(hermes update *)",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main --help)",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway setup --help)",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway restart)",
+      "Bash(lsof -nP -iTCP:8888 -sTCP:LISTEN)",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main memory --help)",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main insights --help)",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main memory status)",
+      "Bash(pkill -f 'hindsight-api --host')",
+      "Bash(nohup bash /Users/hinodeimac/.hermes/hindsight/start.sh)",
+      "Bash(disown)",
+      "Bash(echo \"已发起启动，PID\\(后台shell\\)=$!\")",
+      "Bash(/Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main memory setup --help)",
+      "Bash(python3 -c ' *)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main memory status)",
+      "Bash(rm -f /tmp/weixin_qr.log)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes PYTHONPATH=/Users/hinodeimac/.hermes/hermes-agent /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python /tmp/weixin_relogin.py)",
+      "Bash(echo \"QR 登录进程已后台启动 PID=$!\")",
+      "Bash(break)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway restart)",
+      "Bash(awk '{print $NF}')",
+      "Bash(grep -vE '^\\\\.$|^\\\\.\\\\.$')",
+      "Bash(awk '$1==\"2026-06-01\" && $2 > \"16:08:40\"')",
+      "Bash(awk '$1==\"2026-06-01\" && $2 > \"16:01:19\"')",
+      "Bash(sed -n '210,235p' gateway/platforms/weixin.py)",
+      "Bash(sed -n '370,410p' gateway/platforms/weixin.py)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes PYTHONPATH=/Users/hinodeimac/.hermes/hermes-agent /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python /tmp/weixin_probe.py)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main cron list)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main cron --help)",
+      "Bash(HERMES_HOME=/Users/hinodeimac/.hermes /Users/hinodeimac/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main cron run 678946eb8f67)"
+    ],
+    "additionalDirectories": [
+      "/Users/hinodeimac/Library/LaunchAgents",
+      "/Users/hinodeimac/.hermes/workfiles"
+    ]
+  }
+}
