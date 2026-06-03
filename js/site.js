@@ -39,7 +39,6 @@
   /* ------------------------------------------------------ */
   let smoother = null;
   let workST    = null;   // ScrollTrigger ref for the products pin
-  let workOver  = false;  // true while mouse is inside .work
 
   function initSmooth() {
     if (prefersReduce) return;
@@ -456,20 +455,6 @@
     });
   }
 
-  /* entry reveal (orange panel slides up & away) */
-  function entryReveal() {
-    const pt = document.querySelector('.pt');
-    const panel = pt && pt.querySelector('.pt__panel');
-    if (!pt || !panel) return;
-    const mark = document.querySelector('.pt__mark');
-    gsap.set(panel, { yPercent: 0 });
-    gsap.set(mark, { opacity: 1 });
-    const tl = gsap.timeline({ delay: 0.05 });
-    tl.to(mark, { opacity: 0, duration: 0.3 })
-      .to(panel, { yPercent: -101, duration: 0.8, ease: 'power4.inOut' }, '-=0.1')
-      .set(panel, { yPercent: 101 });   // park below for any future leave()
-  }
-
   /* ------------------------------------------------------ */
   /*  LANGUAGE toggle (EN / JP emphasis)                     */
   /* ------------------------------------------------------ */
@@ -501,41 +486,55 @@
     const workEl = document.querySelector('.work');
     if (!workEl) return;
 
-    workEl.addEventListener('mouseenter', () => { workOver = true; });
-    workEl.addEventListener('mouseleave', () => { workOver = false; });
+    // Hit-test the pointer against .work's live bounding rect on every wheel
+    // event instead of trusting mouseenter/mouseleave. While the section is
+    // pinned, ScrollTrigger shifts the element exactly at the pin boundaries,
+    // which fired a spurious mouseleave and dropped the lock right when the
+    // user reached the left/right end — letting the page escape into vertical
+    // scroll. Geometry never lies.
+    let mx = -1, my = -1;
+    window.addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    const pointerOverWork = () => {
+      if (my < 0) return false;
+      const r = workEl.getBoundingClientRect();
+      return my >= r.top && my <= r.bottom && mx >= r.left && mx <= r.right;
+    };
+
+    const getScroll = () => (smoother ? smoother.scrollTop() : window.scrollY);
+    const setScroll = (v) => { smoother ? smoother.scrollTo(v, false) : window.scrollTo(0, v); };
+
+    // `target` is the single source of truth for the locked scroll position.
+    // Reading the (smoothed, lagging) scrollTop back each frame and writing it
+    // again created a feedback loop that let momentum leak past the boundary.
+    // This is driven purely by wheel delta and hard-clamped to the pin range.
+    let target = null;
 
     // ── Layer 1: intercept wheel on window capture phase (before GSAP) ──
-    // Only block the event when it would push scroll past the pin boundaries.
     window.addEventListener('wheel', (e) => {
-      if (!workOver || !workST) return;
-      const cur   = smoother ? smoother.scrollTop() : window.scrollY;
-      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      const atStart = cur <= workST.start + 2 && delta < 0;
-      const atEnd   = cur >= workST.end   - 2 && delta > 0;
-      if (atStart || atEnd) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return; // don't scroll at all at the boundary
+      const cur = getScroll();
+      // Engage only while inside the pin band AND the pointer is over the
+      // section; otherwise scroll normally so the section can be reached/left.
+      if (!workST || cur < workST.start - 2 || cur > workST.end + 2 || !pointerOverWork()) {
+        target = null;
+        return;
       }
-      // Within valid range: intercept and redirect to keep scroll clamped
       e.preventDefault();
       e.stopImmediatePropagation();
-      const next = Math.max(workST.start, Math.min(workST.end, cur + delta));
-      if (smoother) smoother.scrollTo(next, false);
-      else window.scrollTo(0, next);
+      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      // (Re)sync if drag / prev-next / scrubber moved the scroll out from under us.
+      if (target === null || Math.abs(cur - target) > 8) target = cur;
+      target = Math.max(workST.start, Math.min(workST.end, target + delta));
+      setScroll(target);
     }, { passive: false, capture: true });
 
     // ── Layer 2: gsap.ticker safety net ──
-    // Fires every frame. If scroll escaped the boundary (e.g. via momentum/inertia),
-    // immediately clamp it back. Runs before GSAP renders tweens each frame.
+    // While the lock is engaged, clamp any escape (momentum / inertia) back
+    // every frame. Only runs when locked, so it never snaps the page in/out.
     gsap.ticker.add(() => {
-      if (!workOver || !workST) return;
-      const cur = smoother ? smoother.scrollTop() : window.scrollY;
-      if (cur < workST.start - 1) {
-        smoother ? smoother.scrollTo(workST.start, false) : window.scrollTo(0, workST.start);
-      } else if (cur > workST.end + 1) {
-        smoother ? smoother.scrollTo(workST.end, false) : window.scrollTo(0, workST.end);
-      }
+      if (target === null || !workST) return;
+      const cur = getScroll();
+      if (cur < workST.start - 1) setScroll(workST.start);
+      else if (cur > workST.end + 1) setScroll(workST.end);
     });
   }
 
@@ -623,7 +622,11 @@
         bootOnce();
       }, 5000);
     } else {
-      entryReveal();
+      // Secondary pages have no loader. Skip the orange entry-reveal wipe:
+      // GSAP loads late, so it used to paint the orange panel over already-
+      // rendered content and read as a full-screen orange flash. Just park the
+      // transition overlay hidden so the page content shows immediately.
+      resetOverlay();
       bootOnce();
     }
   }

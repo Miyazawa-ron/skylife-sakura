@@ -344,14 +344,22 @@
 
     .art-body {
       max-height: 0; overflow: hidden;
+      border-radius: clamp(10px,1.4vw,22px);
       transition: max-height .7s cubic-bezier(.22,.61,.36,1);
     }
     .art-body.is-open { max-height: 9999px; }
     .art-body__in {
-      padding: clamp(40px,7vh,80px) 0;
+      /* comfortable symmetric padding so the text never touches the edges of
+         the white paper box */
+      padding: clamp(40px,7vh,80px) clamp(32px,5vw,72px);
       font-size: clamp(1rem,1.25vw,1.18rem);
       line-height: 1.85;
       color: var(--ink);
+    }
+    @media (max-width:760px){
+      /* mobile: the title is not indented (meta stacks above), so give the
+         body symmetric, comfortable padding instead of the title-aligned indent */
+      .art-body__in { padding: clamp(28px,6vh,56px) clamp(22px,6vw,36px); }
     }
     .art-body__in p { margin-bottom: 1.2em; max-width: 72ch; }
     .art-body__in h2 {
@@ -368,7 +376,7 @@
     .art-body__in em { font-style: italic; }
   </style>
 
-  <script src="js/site.js?v=7"></script>
+  <script src="js/site.js?v=9"></script>
   <script>
   (function () {
     /* ── article expand/collapse ── */
