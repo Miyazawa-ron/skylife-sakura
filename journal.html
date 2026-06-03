@@ -94,70 +94,63 @@
       <!-- Article 1 -->
       <div class="art art-toggle" data-art="1" role="button" tabindex="0" data-reveal>
         <div class="meta">
-          <div>April 18, 2026</div>
-          <div>12 min read</div>
-          <div style="color:var(--orange)">essay</div>
-          <div class="jp" style="margin-top:1em">2026年4月18日<br />読了12分</div>
+          <div>June 2, 2026</div>
+          <div>8 min read</div>
+          <div style="color:var(--orange)">real estate</div>
+          <div class="jp" style="margin-top:1em">2026年6月2日<br />読了8分</div>
         </div>
         <h3>
-          <span class="lang-en">When You Have Your First AI Employee, How Do You Manage It?</span>
-          <span class="lang-jp">最初のAI社員ができたら、どう管理するのか？</span>
+          <span class="lang-en">Japan's Housing Policy Revolution: What the "Basic Plan for Housing" Really Means</span>
+          <span class="lang-jp">住宅政策の大転換——「住生活基本計画」が描く、これからの25年</span>
         </h3>
         <span class="arr art-arr">↓</span>
       </div>
       <div class="art-body theme-paper" id="art-body-1">
         <div class="art-body__in wrap">
           <div class="lang-en">
-            <p>Most people feel surprised the first time they use an AI Agent, confused the second time, and chaotic after the third.</p>
-            <p>The surprise comes from efficiency. The confusion comes from it sometimes working, sometimes not. The chaos comes from running three or four AI tools at the same time — each operating independently, unaware of each other, with no coordination. The entire workflow becomes harder to maintain than before.</p>
-            <p>This is not a problem with AI itself. It is a <strong>governance problem</strong>.</p>
-            <p>Recently I studied a GitHub repository: <em>Hermes Agent Control Room</em>. It is not an AI application itself, nor a new model, but a methodology and documentation system for <strong>managing and orchestrating teams of AI Agents</strong>. After reading it, I realized this approach deserves a serious article.</p>
-            <h2>Where Does the Problem Lie?</h2>
-            <p>Let me pour some cold water: most people who claim to be "working with AI" are essentially just chatting with AI.</p>
-            <p>The difference between chatting and working is that work requires memory, role division, process handoff, and traceable records when problems arise. When every AI conversation starts from zero, when different Agents don't know each other, and when there is no documentation recording "what this AI is responsible for", what you have is not a team — but a group of forgetful temporary workers.</p>
-            <p>"Build the Control Room first, then plug in Agents. Avoid turning AI into a bunch of scattered robots."</p>
-            <p>This sentence seems simple, but the logic behind it is worth pondering: it analogizes the management of AI Agents to human resource management in a company. You wouldn't hire a bunch of employees and let them coordinate themselves. You need job responsibilities, reporting chains, and task distribution systems.</p>
-            <h2>What is Control Room?</h2>
-            <p>Control Room is not where AI runs, but where AI is <strong>described, regulated, and governed</strong>. In technical terms, it is a "control plane" separated from the actual running Agent instances.</p>
-            <p>For example: Control Room is like a company's HR system and internal Wiki — it records who everyone is, what they are responsible for, what rules exist, where passwords are stored, and who to contact when problems arise. But it doesn't do the work itself. The Agents below do the actual work.</p>
-            <h2>Four Growth Levels</h2>
-            <p>One of the most valuable parts of this system is that it defines a growth path from "personal toy" to "team infrastructure", divided into four levels, each with clear applicable scenarios.</p>
-            <p>For myself, I am currently around Level 1.5 — multiple tools are running, but roles are vague and there is no documentation. This grading made me realize what I should do next.</p>
-            <h2>Task Bus: Enabling Agents to "Talk" to Each Other</h2>
-            <p>The core problem of multi-Agent collaboration is communication: when one Agent completes a task, how does the result get passed to the next?</p>
-            <p>The solution in this repository is very engineering-oriented and simple — using file directories to simulate a message queue. Each Agent has four folders: inbox, working, outbox, and archive.</p>
-            <p>The elegance of this design lies in the fact that it does not rely on any middleware or third-party services. The file system itself becomes the message queue. It is simple, auditable, and when problems occur, you can open the folder to see the status.</p>
-            <h2>Security: The Easiest Rule to Break</h2>
-            <p>In multi-Agent scenarios, security is a real issue, not a theoretical risk. When you have four or five Agents sharing API Keys, and keys are scattered across configuration files, the probability of leakage or misuse rises rapidly.</p>
-            <p>This repository proposes a separation principle: <strong>Record the name and location of keys, never record the value of the keys</strong>.</p>
-            <p>The value of this rule is that the Control Room documentation can be discussed publicly, uploaded to Git, and collaborated on by multiple people — because it only contains structure, not secrets.</p>
-            <h2>8 Built-in Skills, Ready to Use</h2>
-            <p>In addition to the methodology, this repository also includes 8 reusable "Skills" — each Skill is a standard operating manual that tells Agents how to complete specific tasks.</p>
-            <h2>My Inspiration and Calm Assessment</h2>
-            <p>After reading this repository, my first reaction was excitement, and my second reaction was restraint.</p>
-            <p>The reason for excitement: this approach helped me clearly see the root of chaos in my own workflow — I had tools, but no governance. Each AI tool operated independently, with no role definitions, no documentation, and no unified task tracking.</p>
-            <p>The reason for restraint: this repository currently has only 7 commits. There is a clear gap between the 248 stars and the actual completion level of the repository. It is more like a carefully designed blueprint than a system that has been validated in large-scale production. The entire architecture assumes you are running Ubuntu/Debian VPS, and is not directly applicable to macOS local environments.</p>
+            <p>In March 2026, Japan's Cabinet quietly approved a document that will reshape the country's housing landscape for the next 25 years. The revised "Basic Plan for Housing Life" (住生活基本計画) may sound bureaucratic, but its implications are anything but routine. This is the most fundamental shift in Japan's housing policy since the postwar era of mass construction.</p>
+            <h2>From "Build More" to "Use What's There"</h2>
+            <p>For decades, Japan's answer to housing demand was simple: build more. That approach delivered high-quality housing stock, but it also created a troubling legacy — approximately 9 million vacant homes (空き家), representing 13.8% of all residential properties, the highest rate ever recorded.</p>
+            <p>The new plan's central message is clear: <strong>building new homes is no longer the default answer.</strong></p>
+            <p>The plan is organized around six key pillars:</p>
+            <p><strong>① Revitalizing the Used Home Market</strong><br />Tax deductions for used home purchases have been expanded — the loan ceiling for the mortgage deduction now rises to ¥35 million (¥45 million for households with children), with the deduction period extended to 13 years, matching new construction for the first time.</p>
+            <p><strong>② Clearing Out Pre-1981 Seismic Standard Homes</strong><br />The plan sets a timeline for retrofitting or removing homes built before Japan's 1981 earthquake resistance standard. This is the first time government policy has explicitly put an "exit timeline" on older housing stock.</p>
+            <p><strong>③ Right-Sizing Living Spaces</strong><br />The plan acknowledges the trend toward smaller homes — a family of three in 50㎡ — and shifts the policy framing from "bigger is better" to "well-designed is better."</p>
+            <p><strong>④ Putting Empty Homes Back Into Circulation</strong><br />With 3.85 million truly abandoned homes (the "other" category of vacant properties), the government is tightening enforcement of the new property registration requirement and strengthening the framework for forced demolition of dangerous structures.</p>
+            <p><strong>⑤ Expanded Energy Efficiency Subsidies</strong><br />Retrofit programs including "Window Renovation 2026" and "Hot Water Heater Efficiency 2026" continue, with subsidies of up to ¥1 million available.</p>
+            <p><strong>⑥ Financial Infrastructure for Existing Homes</strong><br />Loan screening for used homes and renovation projects is being made more flexible, creating a better financial ecosystem for the secondary housing market.</p>
+            <h2>What This Means for Buyers</h2>
+            <p>Four practical takeaways:</p>
+            <ul>
+              <li><strong>Buying used is now backed by better policy</strong> — tax benefits, subsidies, and loan terms are converging</li>
+              <li><strong>New supply won't meaningfully increase</strong> — cost pressures and regulations limit new construction</li>
+              <li><strong>Older, pre-1981 homes carry growing risk</strong> — consider resale value and retrofit costs carefully</li>
+              <li><strong>Energy efficiency is the new benchmark for property value</strong> — non-compliant homes will face headwinds in financing and resale</li>
+            </ul>
+            <p>Understanding where housing policy is heading is the first step toward making decisions you won't regret.</p>
           </div>
           <div class="lang-jp">
-            <p>多くの人がAI Agentを初めて使ったときの感想は「驚き」、2回目は「混乱」、3回目以降は「カオス」になる。</p>
-            <p>驚きは効率から来る。混乱は「時々うまくいくが、時々うまくいかない」ことから来る。カオスは、3〜4つのAIツールを同時に動かしているときに起こる。それぞれが独立して動き、互いを知らず、調整もないため、全体のワークフローが以前より管理しにくくなる。</p>
-            <p>これはAI自体の問題ではない。これは<strong>ガバナンスの問題</strong>である。</p>
-            <p>最近、私はあるGitHubリポジトリを研究した：<em>Hermes Agent Control Room</em>。これはAIアプリケーションそのものではなく、新しいモデルでもない。<strong>AI Agentチームを管理・編成するための方法論とドキュメント体系</strong>である。</p>
-            <h2>問題はどこにあるのか？</h2>
-            <p>まず冷や水を浴びせよう。「AIで仕事をしている」と主張する人のほとんどは、実際にはAIと「チャット」しているだけだ。</p>
-            <p>チャットと仕事の違いは、仕事には記憶、役割分担、プロセスのつながり、そして問題が発生したときに追跡可能な記録が必要だということだ。AIとの会話が毎回ゼロから始まり、異なるAgent同士が互いを知らず、「このAIは何を担当しているか」というドキュメントもない場合、あなたが持っているのはチームではなく、忘れっぽい派遣社員の集まりである。</p>
-            <p>「まずControl Roomを構築し、それからAgentを接続せよ。AIを散らばったロボットの集まりにしないために。」</p>
-            <h2>Control Roomとは何か？</h2>
-            <p>Control RoomはAIが実際に動く場所ではない。AIを<strong>記述し、規制し、統治する場所</strong>である。技術的な言葉で言えば、それは実際のAgentインスタンスから分離された「コントロールプレーン」である。</p>
-            <h2>4つの成長レベル</h2>
-            <p>このシステムのもっとも価値のある部分の一つは、「個人の玩具」から「チームのインフラ」への成長パスを定義していることだ。4つのレベルに分かれており、それぞれに明確な適用シーンがある。</p>
-            <h2>Task Bus：Agent同士が「話せる」ようにする</h2>
-            <p>マルチAgent協調の核心的な問題はコミュニケーションである。あるAgentがタスクを完了したとき、その結果を次のAgentにどう渡すのか？</p>
-            <p>このリポジトリの解決策は非常に工学的で、かつシンプルだ——ファイルディレクトリを使ってメッセージキューをシミュレートする。各Agentはinbox、working、outbox、archiveの4つのフォルダを持つ。</p>
-            <h2>セキュリティ：最も犯しやすい鉄則</h2>
-            <p>マルチAgentのシナリオでは、セキュリティは現実的な問題であり、理論上のリスクではない。このリポジトリは一つの分離原則を提案している：<strong>鍵の名前と場所は記録するが、鍵の値自体は絶対に記録しない</strong>。</p>
-            <h2>私自身のインスピレーションと冷静な評価</h2>
-            <p>このリポジトリを読んだ後、私の最初の反応は興奮、2番目の反応は抑制だった。興奮の理由：このアプローチは、私自身のワークフローのカオスな根本原因を明確に示してくれた。抑制の理由：このリポジトリは現在コミット数が7回しかなく、大規模な本番環境で検証されたシステムというより、丁寧に設計された青写真に近い。</p>
+            <p>2026年3月、日本政府は静かに、しかし確実に時代を変える一枚の文書を閣議決定した。「住生活基本計画（全国計画）」の改定版——今後25年間にわたる日本の住まいのグランドデザインだ。</p>
+            <p>この計画は、単なる政策文書ではない。戦後80年にわたって続いた「とにかく新しい家を建てる」という住宅政策の基本姿勢を、根本から見直す歴史的な転換点である。</p>
+            <h2>「新築至上主義」から「ストック活用」へ</h2>
+            <p>日本はこれまで、住宅問題を「供給」で解決してきた。高度経済成長期に大量の住宅が建設され、良質なものも多かった反面、膨大な空き家という負の遺産も生み出した。現在、全国の空き家は約900万戸、空き家率は13.8%に達し、過去最多を更新し続けている。</p>
+            <p>新計画の核心メッセージは明快だ——「もう新しく建てることだけが答えではない」。</p>
+            <p>計画が示す六つの柱を整理しよう。</p>
+            <p><strong>① 中古住宅の流通活性化</strong><br />中古住宅の住宅ローン控除額が引き上げられ（一般世帯3,500万円、子育て・若者世帯は最大4,500万円）、控除期間も13年へ延長。新築との政策格差が大幅に縮小された。</p>
+            <p><strong>② 旧耐震住宅の解消</strong><br />1981年以前の旧耐震基準で建てられた住宅について、期限を設けた改修・除却の推進が明記された。初めて「退場のタイムライン」が政策に組み込まれた。</p>
+            <p><strong>③ 居住面積の適正化</strong><br />3人世帯50㎡という小型化の現実を政策として受け入れ、「小さくても豊かな住まい」へのシフトが明確化された。</p>
+            <p><strong>④ 空き家の再生と活用</strong><br />「その他空き家」（385万戸）を流通に戻すため、登記義務化（2024年施行）や特定空き家制度と組み合わせた施策が強化された。</p>
+            <p><strong>⑤ 省エネ改修支援の拡充</strong><br />窓リノベ2026、給湯省エネ2026などの補助制度が継続・拡充。最大100万円の補助が受けられる。</p>
+            <p><strong>⑥ 金融環境の整備</strong><br />中古住宅・リノベーション向けの融資審査の合理化が進められ、既存住宅の市場流通を後押しする金融インフラが整いつつある。</p>
+            <h2>買い手・借り手への実際のメッセージ</h2>
+            <p>この計画が個人に伝えていることは、次の四点に要約できる。</p>
+            <ul>
+              <li><strong>中古住宅を選ぶことが、政策的にもお得になっている</strong>（減税・補助金の充実）</li>
+              <li><strong>新築の供給はこれ以上増えにくい</strong>（コスト・規制の二重制約）</li>
+              <li><strong>旧耐震物件はリスクを再評価すべき時</strong>（流通性・改修コストの変化）</li>
+              <li><strong>省エネ性能は、これからの資産価値を左右する最重要指標になる</strong></li>
+            </ul>
+            <p>住宅政策の「時代の節目」を読めるかどうかが、これからの住まい選びの質を大きく左右する。</p>
           </div>
         </div>
       </div>
@@ -165,88 +158,522 @@
       <!-- Article 2 -->
       <div class="art art-toggle" data-art="2" role="button" tabindex="0" data-reveal>
         <div class="meta">
-          <div>May 18, 2026</div>
-          <div>18 min read</div>
+          <div>June 5, 2026</div>
+          <div>7 min read</div>
           <div style="color:var(--orange)">report</div>
-          <div class="jp" style="margin-top:1em">2026年5月18日<br />読了18分</div>
+          <div class="jp" style="margin-top:1em">2026年6月5日<br />読了7分</div>
         </div>
         <h3>
-          <span class="lang-en">Japan's Business Manager Visa Applications Plummeted 96%: How It Happened and Who Got Hurt</span>
-          <span class="lang-jp">経営・管理ビザの申請数が96%減少：日本はどうやって実現したのか、そして誰が傷ついたのか</span>
+          <span class="lang-en">Tokyo Used Condos Hit ¥188 Million: Who's Still Buying, and Why?</span>
+          <span class="lang-jp">東京の中古マンションが1億8,822万円——それでも買う人がいる理由</span>
         </h3>
         <span class="arr art-arr">↓</span>
       </div>
       <div class="art-body theme-paper" id="art-body-2">
         <div class="art-body__in wrap">
           <div class="lang-en">
-            <p>In October 2025, Japan quietly changed one immigration rule.</p>
-            <p>Half a year later, the number of new applications for the Business Manager visa had dropped by 96%.</p>
-            <p>This figure was exclusively obtained by TBS News23 reporters from sources within the Ministry of Justice in May this year. Before that, many people were not even aware that this had happened.</p>
-            <h2>The Starting Point Was Not the Government, But Members of Parliament</h2>
-            <p>In spring 2025, during a Budget Committee session in the House of Councillors, a member of the Japan Innovation Party publicly stated: "The Business Manager visa is very well-known in China. There are specialized intermediaries online promoting it: by opening a company in Japan, one can enjoy high-cost medical care almost for free."</p>
-            <p>Then-Prime Minister Shigeru Ishiba responded: "The Japanese people have long cherished the spirit of social solidarity and mutual assistance. Exploiting this virtue to game the system is absolutely not permitted."</p>
-            <h2>How the Administration Turned Political Will into Regulation</h2>
-            <p>On October 16, 2025, the new rules officially took effect. The key changes were:</p>
+            <p>In April 2026, the average resale condominium price in central Tokyo's six premium wards reached <strong>¥188.22 million</strong> (approx. USD 1.3 million), according to Tokyo Kantei. It's a number that stops most people cold. Yet the transactions keep happening. Who is buying, and what does the data actually tell us?</p>
+            <h2>The Map Is Splitting</h2>
+            <p>The headline number masks a more nuanced picture. While prices in the six central wards are still rising (+0.5%), that rate has slowed sharply. More interesting is what's happening at the edges:</p>
+            <table>
+              <thead><tr><th>Area</th><th>Price Change</th></tr></thead>
+              <tbody>
+                <tr><td>Central 6 wards (overall)</td><td>+0.5% (decelerating)</td></tr>
+                <tr><td>Setagaya Ward</td><td>+4.1%</td></tr>
+                <tr><td>Edogawa Ward</td><td>+3.2%</td></tr>
+                <tr><td>Chuo Ward</td><td>-1.2%</td></tr>
+                <tr><td>Shinjuku Ward</td><td>-1.7%</td></tr>
+              </tbody>
+            </table>
+            <p>Demand is spilling outward. Some ultra-premium central wards are actually declining, while middle-ring areas are accelerating. This is a classic sign of a market reaching its natural ceiling in the core and redistributing outward.</p>
+            <h2>Three Buyer Profiles</h2>
+            <p><strong>High-income dual-income Japanese households</strong><br />Japan's 2025 wage negotiations produced the largest pay increases in 30 years — an average of over 5%. Rising incomes, combined with inflation anxiety, are pushing more of Japan's middle-upper class toward tangible assets. Real estate is a primary beneficiary.</p>
+            <p><strong>International investment capital</strong><br />Despite the yen strengthening somewhat from its historic lows, Tokyo real estate remains relatively affordable compared to London, New York, Sydney, or Singapore. Capital from Hong Kong, Singapore, and mainland China continues to flow into high-end properties in Minato and Shibuya wards.</p>
+            <p><strong>Inflation-hedging buyers</strong><br />With savings rates negative in real terms, converting cash into property has become a logical defensive move for asset-holding individuals and families. This behavior has deep historical roots in Japan and has resurfaced with current inflation levels.</p>
+            <h2>The Three Structural Forces</h2>
+            <p><strong>Supply constraint:</strong> New condo supply in the greater Tokyo area hit a historic low of 21,962 units in 2025 — down 35% from 2022. When new inventory shrinks, used inventory gets more pricing power.</p>
+            <p><strong>Cost floor:</strong> Construction materials and labor costs remain elevated, meaning new builds are expensive to produce. If new condos are expensive, used condos look relatively reasonable by comparison.</p>
+            <p><strong>Concentration of demand:</strong> Tokyo's share of Japan's high-income workforce continues to grow. The city is smaller in absolute population terms but denser in economic activity and purchasing power.</p>
+            <h2>For Buyers Weighing Their Options</h2>
+            <p>You don't need to chase the headline numbers. Consider:</p>
             <ul>
-              <li>Capital requirement: raised from ¥5 million to ¥30 million</li>
-              <li>Full-time employees: must have at least one (mandatory)</li>
-              <li>Manager qualifications: now require at least three years of experience or a master's degree or higher</li>
-              <li>Business plan: must be verified by a certified public accountant or small and medium enterprise diagnostician</li>
+              <li><strong>Middle-ring wards</strong> (Setagaya, Nerima, Edogawa) offer better value with good transit access</li>
+              <li><strong>Renovation-ready used condos</strong> remain a rational entry point in a high-priced market</li>
+              <li><strong>Rising mortgage rates</strong> (fixed-rate loans now above 3.21%) must be factored into affordability calculations</li>
             </ul>
-            <p>From parliamentary questioning to regulatory implementation took less than half a year.</p>
-            <h2>Immigration Enforcement: Step Out in the Morning, and They Already Know Your Details by Afternoon</h2>
-            <p>After the policy was implemented, the Immigration Services Agency immediately began on-site inspections. There have already been real cases: a restaurant was denied visa renewal because the kitchen was on the first floor and the family residence on the second, which was deemed "business premises mixed with residence."</p>
-            <h2>What Role Did the Media Play?</h2>
-            <p>TBS News23's reporting focused on Gopal (50), from Ichikawa City, Chiba Prefecture. Originally from Nepal, he came to Japan 19 years ago as a chef. He now runs two Indian-Nepalese curry restaurants, pays taxes and insurance on time, and is well-liked by local regular customers.</p>
-            <p>His current capital: ¥5 million. He is short ¥25 million from the new ¥30 million requirement. "I pay insurance and taxes, and have lived in Japan for a long time. But ¥30 million... honestly, it's really difficult."</p>
-            <h2>Who Got Hurt, and Who Did Not?</h2>
-            <ul>
-              <li><strong>The group that was rightly removed:</strong> Those who exploited the system through paper companies.</li>
-              <li><strong>The group that was collateral damage:</strong> People like Gopal — rooted in Japan for nearly 20 years, law-abiding, but lacking the new ¥30 million capital.</li>
-            </ul>
-            <h2>Practical Advice for Foreign Business Owners in Japan</h2>
-            <ul>
-              <li>Pay attention to Diet committee questioning related to residence status.</li>
-              <li>Regularly check the Immigration Services Agency website for public comment periods on ordinance amendments.</li>
-              <li>Conduct an annual "residence status health check" with an administrative scrivener.</li>
-              <li>Maintain proper accounting, insurance, and employee contracts.</li>
-              <li>Clearly separate business premises from residence.</li>
-            </ul>
-            <p>Japan's system is not perfect, but it is transparent and traceable. When operating here, the most important thing is to read the signals of rule changes, rather than panicking only after the rules have already fallen.</p>
+            <p>High prices reflect real structural pressures. The key question is always: does the price make sense for your purpose and timeline?</p>
           </div>
           <div class="lang-jp">
-            <p>2025年10月、日本は移民ルールを静かに変更した。半年後、経営・管理ビザの新規申請数は96%減少した。</p>
-            <p>この数字は、今年5月にTBS News23の記者が法務省関係者から独占取材したものだ。</p>
-            <h2>起点は政府ではなく、国会議員だった</h2>
-            <p>2025年春、参議院予算委員会で、日本維新の会の議員が公にこう述べた：「経営・管理ビザは中国で非常に有名だ。ネットには専門の仲介業者がいる。外国人は日本に3ヶ月滞在するだけで国民健康保険に入れ、高額療養費制度も利用可能。これは制度の抜け穴だ。」</p>
-            <p>当時の石破茂首相：「日本人は長年、社会連帯と相互扶助の精神を大切にしてきた。この美徳を利用して制度を悪用することは、絶対に許されない。」</p>
-            <h2>行政はどのように「政治的意思」を法規に変えたのか</h2>
-            <p>2025年10月16日、新ルールが正式に施行された。主な変更点：</p>
+            <p>東京都心6区の中古マンション平均成約価格が、2026年4月時点で<strong>1億8,822万円</strong>に達した（東京カンテイ調べ）。バブル期を超えたとも言われるこの数字は、果たして「異常」なのか、それとも新しい「普通」なのか。</p>
+            <p>データを丁寧に読むと、単純な「高騰」では説明しきれない構造が見えてくる。</p>
+            <h2>都心と周辺で分かれる明暗</h2>
+            <p>都心6区全体の価格上昇率は+0.5%と、上昇は続いているものの大幅に鈍化している。一方で注目すべきは周辺区の動きだ。</p>
+            <table>
+              <thead><tr><th>エリア</th><th>価格変化</th></tr></thead>
+              <tbody>
+                <tr><td>都心6区（全体）</td><td>+0.5%（鈍化）</td></tr>
+                <tr><td>世田谷区</td><td>+4.1%</td></tr>
+                <tr><td>江戸川区</td><td>+3.2%</td></tr>
+                <tr><td>中央区</td><td>-1.2%</td></tr>
+                <tr><td>新宿区</td><td>-1.7%</td></tr>
+              </tbody>
+            </table>
+            <p>都心の一部では実際に価格が下落しており、需要が外側へと「溢れ出している」ことが読み取れる。</p>
+            <h2>誰が買っているのか</h2>
+            <p><strong>高収入の共働き世帯</strong><br />2025年の春闘では平均賃上げ率が5%を超え、30年ぶりの高水準となった。インフレ下での実物資産保有という意識が中産層に広がり、購買力のある層が都心の不動産に流れている。</p>
+            <p><strong>海外投資マネー</strong><br />円安が修正局面に入りつつあるとはいえ、東京の不動産は欧米・アジアの主要都市と比べて依然として割安感がある。香港・シンガポール・中国資本が港区・渋谷区の高級物件を中心に継続的に流入している。</p>
+            <p><strong>インフレ対応型の資産保全需要</strong><br />現金や預金の実質価値が目減りする中、不動産を「インフレヘッジ資産」として位置づける動きが加速している。</p>
+            <h2>価格を支える三つの構造的な力</h2>
+            <p><strong>供給の壁：</strong>首都圏の新築マンション供給は4年連続減少、2025年は21,962戸と過去最少。中古市場の需給がタイトになるのは当然の帰結だ。</p>
+            <p><strong>コストの壁：</strong>建材・人件費の上昇で新築の建設コストは高止まり。新築が高ければ中古の相対的な価値も上がる。</p>
+            <p><strong>立地の壁：</strong>東京への人口・雇用集中は続いており、特に高収入層の都心回帰トレンドが止まっていない。</p>
+            <h2>購入を考えている方へ</h2>
+            <p>都心の超高額物件に無理して手を出す必要はない。むしろ注目したいのは：</p>
             <ul>
-              <li>資本金要件：500万円 → 3,000万円</li>
-              <li>常勤従業員：1名以上（必須）</li>
-              <li>経営者資格：3年以上の経験または修士以上の学位</li>
-              <li>事業計画：公認会計士または中小企業診断士による確認が必要</li>
+              <li><strong>世田谷・江戸川・葛飾</strong>などの「都心溢れ出し」エリアの相対的な割安感</li>
+              <li><strong>リノベーション済み中古物件</strong>での高コスパ入手ルート</li>
+              <li><strong>金利上昇（フラット35は3.21%超）</strong>を踏まえた資金計画の再設計</li>
             </ul>
-            <h2>入管の執行力</h2>
-            <p>政策施行後、入管庁はすぐに実地調査を開始した。すでに実例がある。ある飲食店は、1階が厨房、2階が家族の居住スペースだったため「事業所と住所の混同」と認定され、ビザ更新を拒否された。</p>
-            <h2>メディアはここで何をしたのか</h2>
-            <p>TBS News23の報道は、千葉県市川市在住のゴパルさん（50歳）に焦点を当てた。ネパール出身で19年前にコックとして来日し、現在はインド・ネパールカレーの店を2店舗経営している。</p>
-            <p>現在の資本金：500万円。新要件の3,000万円まで、あと2,500万円足りない。「保険も税金も払っているし、日本で長く暮らしてきた。でも3,000万円は、正直本当に厳しい。」</p>
-            <h2>今回は誰が傷つき、誰は傷つかなかったのか</h2>
+            <p>高い価格には、それなりの理由がある。大切なのは、その理由が「自分の購入目的」と合致しているかを見極めることだ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 3 -->
+      <div class="art art-toggle" data-art="3" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>June 8, 2026</div>
+          <div>7 min read</div>
+          <div style="color:var(--orange)">real estate</div>
+          <div class="jp" style="margin-top:1em">2026年6月8日<br />読了7分</div>
+        </div>
+        <h3>
+          <span class="lang-en">Tokyo New Condo Supply at a Historic Low — Welcome to the "Less, More Expensive" Era</span>
+          <span class="lang-jp">首都圏の新築マンション供給、過去最少——「少なく、高く」の時代へ</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-3">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>Two numbers tell the entire story of Tokyo's new condominium market in 2025:</p>
+            <p><strong>21,962</strong> — units supplied in the greater Tokyo area, the lowest on record, down from 33,636 just three years earlier.</p>
+            <p><strong>¥91.82 million</strong> — the average transaction price, surpassing ¥90 million for the first time in history.</p>
+            <p>Supply collapses. Prices soar. It sounds like a paradox. It isn't.</p>
+            <h2>Why Can't They Build More?</h2>
+            <p><strong>Land scarcity</strong><br />Premium developable land in central Tokyo is essentially exhausted. What remains tends to be irregularly shaped, constrained by floor-area ratios, or complicated by road width regulations. Large developers have shifted focus to massive mixed-use redevelopment projects — but those take longer and cost more per unit.</p>
+            <p><strong>Construction cost inflation</strong><br />Core building materials — steel, concrete, timber — have increased over 30% since 2020. The combination of post-pandemic supply chain disruption, energy cost pass-through from the Ukraine conflict, and yen weakness on import costs has created a persistent floor on construction costs.</p>
+            <p><strong>Labor shortages</strong><br />Japan's construction workforce is shrinking. Skilled tradespeople now earn near white-collar wages, and young people are choosing other industries. Bureau of Labor statistics show that construction worker hourly wages have risen approximately 45% since 2015 — and the labor market remains tight.</p>
+            <p><strong>Building code changes</strong><br />The 2025 revision to Building Standards Law expanded the requirement for structural calculations to include smaller buildings previously exempt. This increases design cost, review time, and overall project lead time, particularly for small and mid-size developers.</p>
+            <h2>Why Prices Keep Climbing</h2>
+            <p>When supply contracts and demand doesn't collapse, prices move in one direction. But there's a more calculated dynamic at work.</p>
+            <p>Large developers have learned that maintaining high prices protects brand equity and future resale values. Selling fewer units at higher prices is more profitable — and less risky from a reputational standpoint — than flooding the market. Scarcity is, to some extent, managed.</p>
+            <p>The structural side effect: buyers who can't afford new construction are flowing into the used market, pushing those prices up too. The two markets are connected.</p>
+            <h2>What Should Buyers Do?</h2>
+            <p>The near-term outlook is clear: new supply won't bounce back quickly. Costs don't drop overnight. Good land doesn't appear by magic.</p>
+            <p>Practical implications:</p>
             <ul>
-              <li><strong>当然排除されるべきグループ</strong>：ペーパーカンパニーで制度の抜け穴を悪用していた人々。</li>
-              <li><strong>巻き添えを食らったグループ</strong>：ゴパルさんのような人々。日本に20年近く根を張り、法を守りながら生活してきたが、資本金が3,000万円に届かない。</li>
+              <li><strong>Used homes + renovation</strong> is no longer a fallback — it's a smart, often superior, strategy</li>
+              <li><strong>Suburban and semi-suburban markets</strong> still offer relative value before prices fully converge</li>
+              <li><strong>Waiting for new supply to return</strong> is a losing strategy — prices are more likely to rise than fall over a 3–5 year horizon</li>
             </ul>
-            <h2>在日経営者への実務的アドバイス</h2>
+            <p>The "less, more expensive" era isn't a temporary blip. It's the new structural baseline of Japan's new housing market.</p>
+          </div>
+          <div class="lang-jp">
+            <p>2025年、首都圏で供給された新築マンションはわずか<strong>21,962戸</strong>。4年連続の減少で、統計史上最少の記録を更新した。2022年の33,636戸と比べると、わずか3年で約35%も減少した計算になる。</p>
+            <p>それなのに価格は<strong>9,182万円</strong>（平均）と初の9,000万円台を突破。供給が絞られ、価格が上がる——この「逆説」には、深い構造的な理由がある。</p>
+            <h2>なぜ、もう建てられないのか</h2>
+            <p><strong>① 土地の枯渇</strong><br />都心の優良な開発用地はほぼ使い尽くされた。残っている土地は不整形、接道不備、容積率制限など問題を抱えるものが多く、大規模開発には向かない。デベロッパーは大型再開発に軸足を移しているが、そちらはコストと期間が格段に大きくなる。</p>
+            <p><strong>② 建材費の高騰</strong><br />木材・鉄筋・コンクリートなど主要建材のコストは、2020年比で30%以上上昇している。ウクライナ情勢に端を発した国際的なエネルギーコストの上昇と、円安による輸入コスト増が重なった。</p>
+            <p><strong>③ 深刻な人手不足</strong><br />建設業の職人不足は日本の構造的な問題だ。熟練工の賃金はホワイトカラー並みに上昇しているにもかかわらず、若者の建設業離れは止まらない。2025年の建設労働統計では、現場作業員の時給が2015年比で約45%上昇している。</p>
+            <p><strong>④ 建築基準法改正の影響</strong><br />2025年の4号特例縮小により、木造2階建て住宅にも構造計算が義務付けられた。設計・審査期間が延び、中小規模の開発意欲がさらに削がれている。</p>
+            <h2>なぜ、高くなり続けるのか</h2>
+            <p>供給が細れば、需要が大きく崩れない限り価格は上がる。それだけではない。</p>
+            <p>大手デベロッパーは意図的に「価格を維持する」戦略をとっている。安売りは将来の物件価値を毀損し、ブランドイメージを傷つける。供給量を絞って価格を高く保つ方が、長期的な利益につながる——これは市場の失敗ではなく、合理的なビジネス判断だ。</p>
+            <p>構造的な副作用もある。新築に手が届かない一次取得者が中古市場に流入し、それが中古の価格を押し上げる連鎖が起きている。</p>
+            <h2>これから住宅を考える人へ</h2>
+            <p>短期的に首都圏の新築供給が大幅に回復する見込みはない。建材価格も人件費もすぐには下がらない。</p>
+            <p>だからこそ：</p>
             <ul>
-              <li>国会委員会で在留資格に関する質疑に注目する。</li>
-              <li>入管庁のウェブサイトで省令改正に関するパブリックコメント募集を定期的に確認する。</li>
-              <li>行政書士と年に一度、在留資格の「健康診断」を行う。</li>
-              <li>会計、保険、従業員契約の規律を保つ。</li>
-              <li>事業所と住所を明確に分離する。</li>
+              <li><strong>中古＋リノベーション</strong>は、もはや「妥協の選択」ではなく「賢い入口」</li>
+              <li><strong>郊外・近郊の割安感</strong>が残っている間に選択肢を広げておく価値がある</li>
+              <li><strong>「新築待ち」戦略はリスク</strong>——待つほどに価格が上がり、選択肢が減る</li>
             </ul>
-            <p>日本の制度は完璧ではないが、透明性があり、追跡可能だ。ルール変更のシグナルを読み取ることが最も重要だ。</p>
+            <p>「少なく、高く」——これは、これからの日本の住宅市場の新常態だと思って備えておく必要がある。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 4 -->
+      <div class="art art-toggle" data-art="4" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>June 11, 2026</div>
+          <div>8 min read</div>
+          <div style="color:var(--orange)">real estate</div>
+          <div class="jp" style="margin-top:1em">2026年6月11日<br />読了8分</div>
+        </div>
+        <h3>
+          <span class="lang-en">Fixed Mortgage Rates Break 3% — How Should You Borrow in 2026?</span>
+          <span class="lang-jp">フラット35が3%超え——2026年、住宅ローンの「正解」はどれか</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-4">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>Japan's mortgage market has crossed a threshold that seemed impossible just a few years ago.</p>
+            <p>Flat 35 — Japan's signature government-backed fixed-rate mortgage — has exceeded <strong>3.21% interest</strong>, the first time it has cleared the 3% mark since the product was introduced. Variable-rate loans remain far lower at <strong>0.85%–1.40%</strong>, but the Bank of Japan's ongoing rate normalization means that gap will continue to narrow.</p>
+            <p>This creates the most consequential mortgage choice environment Japan has seen in a generation.</p>
+            <h2>The Current Gap in Hard Numbers</h2>
+            <p>For a ¥50 million loan over 35 years:</p>
+            <table>
+              <thead><tr><th>Loan Type</th><th>Rate</th><th>Monthly Payment</th></tr></thead>
+              <tbody>
+                <tr><td>Flat 35 (fixed)</td><td>3.21%</td><td>~¥199,000</td></tr>
+                <tr><td>Variable rate</td><td>1.0% (mid-range)</td><td>~¥141,000</td></tr>
+              </tbody>
+            </table>
+            <p>That's roughly ¥58,000 per month — or about ¥700,000 per year — in difference. Over 35 years, assuming rates stay the same, that's roughly ¥24.5 million. The "same rate forever" assumption, of course, is the critical variable.</p>
+            <h2>The Hidden Risk in Variable Rates</h2>
+            <p>The Bank of Japan has been steadily unwinding its ultra-loose monetary policy since 2024. Market expectations now include further increases to the short-term prime rate over the next two to three years.</p>
+            <p>If variable rates rise from 1.0% to 2.0% on the same ¥50 million loan, annual repayment increases by approximately <strong>¥600,000</strong>. At 2.5%, the additional annual burden rises to roughly <strong>¥1 million</strong>.</p>
+            <p>The "always choose variable, it's cheaper" wisdom of the zero-rate era no longer applies.</p>
+            <h2>Three Scenarios, Three Answers</h2>
+            <p><strong>Scenario A: Long-term self-occupancy, stable income with limited upside</strong><br />→ Flat 35 makes sense. Locking in certainty has real value when your income isn't expected to grow significantly. Peace of mind over 35 years is worth the premium.</p>
+            <p><strong>Scenario B: Plan to sell or make substantial prepayments within 7 years</strong><br />→ Variable rate is likely favorable. Rates are unlikely to spike dramatically in the short term, and you capture the low-rate advantage during your holding period.</p>
+            <p><strong>Scenario C: Young household with growing income, dual incomes</strong><br />→ Consider a fixed-variable hybrid loan (固変ミックス型). Available from major banks, this product splits the loan between fixed and variable portions, balancing cost and risk.</p>
+            <h2>Don't Forget the Mortgage Tax Deduction</h2>
+            <p>Higher rates are partially offset by the expanded mortgage tax deduction system, which in 2026 allows deductions on loan balances up to ¥35 million (¥45 million for households with children) over 13 years at 0.7% annually.</p>
+            <p>Factoring in the deduction effectively reduces your real borrowing cost — meaning the "3.21% vs. 1.0%" gap is narrower in practice than it appears on paper.</p>
+            <p>There's no universally correct answer. The right loan is the one that fits your financial structure, risk tolerance, and life plan — not the one with the lowest headline rate.</p>
+          </div>
+          <div class="lang-jp">
+            <p>住宅ローンに大きな節目が訪れた。</p>
+            <p>フラット35（全期間固定型）の金利が<strong>3.21%</strong>に達し、この商品の歴史上初めて3%の壁を超えた。一方、変動金利は主流帯で<strong>0.85%〜1.40%</strong>と依然低水準を維持している。</p>
+            <p>この差をどう解釈し、どちらを選ぶべきか——それが今、住宅購入者に突きつけられている問いだ。</p>
+            <h2>現在の「金利差」を数字で見る</h2>
+            <p>5,000万円・35年返済で試算すると：</p>
+            <table>
+              <thead><tr><th>ローン種類</th><th>適用金利</th><th>月々の返済額（概算）</th></tr></thead>
+              <tbody>
+                <tr><td>フラット35</td><td>3.21%</td><td>約19.9万円</td></tr>
+                <tr><td>変動金利</td><td>1.0%（中間値）</td><td>約14.1万円</td></tr>
+              </tbody>
+            </table>
+            <p>月額で約5.8万円、年間で約70万円の差。35年トータルでは約2,450万円の差になる計算だ——金利が変わらなければ、の話だが。</p>
+            <h2>変動金利の「見えないリスク」</h2>
+            <p>日本銀行は2024年以降、段階的な利上げを続けている。変動金利の基準となる短期プライムレートは、今後2〜3年でさらに上昇する可能性が市場で織り込まれ始めている。</p>
+            <p>仮に変動金利が現在の1.0%から2.0%に上昇した場合、同じ5,000万円のローンで年間返済額は<strong>約60万円増加</strong>する。2.5%まで上昇すれば<strong>約100万円増</strong>となる。</p>
+            <p>過去30年の「ゼロ金利の常識」は、もはや通用しない。</p>
+            <h2>どちらを選ぶべきか——3つのシナリオ</h2>
+            <p><strong>シナリオA：長期・自己居住・収入の伸びしろが少ない</strong><br />→ フラット35を推奨。3%超でも、35年間の返済計画を確定できる安心感には価値がある。家計の見通しが立てやすく、金利上昇への心配が消える。</p>
+            <p><strong>シナリオB：7年以内に売却または繰上返済の予定がある</strong><br />→ 変動金利が有利。短期間では金利が急騰するリスクは限定的で、低金利の恩恵を享受できる。</p>
+            <p><strong>シナリオC：収入の成長が見込める共働き・若い世代</strong><br />→ 「固変ミックス型（一部固定＋一部変動）」も選択肢に。大手銀行が提供しているこのタイプは、リスクと金利コストのバランスを取れる。</p>
+            <h2>住宅ローン控除を忘れずに</h2>
+            <p>ローン金利が上がる一方で、住宅ローン控除の制度は2026年に大幅に拡充された（中古住宅3,500万円・子育て世帯4,500万円の控除対象額、期間13年）。</p>
+            <p>控除率0.7%を13年フルに活用すれば、実質的なローン金利負担は大きく軽減される。「表面金利」だけで判断せず、税制との組み合わせで「実質コスト」を計算することが重要だ。</p>
+            <p>ローン選びに「絶対の正解」はない。大切なのは、自分のライフプランと財務構造に照らして「最もリスクが少ない選択」を見つけることだ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 5 -->
+      <div class="art art-toggle" data-art="5" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>June 14, 2026</div>
+          <div>7 min read</div>
+          <div style="color:var(--orange)">real estate</div>
+          <div class="jp" style="margin-top:1em">2026年6月14日<br />読了7分</div>
+        </div>
+        <h3>
+          <span class="lang-en">Japan's Mortgage Tax Deduction Expanded — How Much Can You Actually Save?</span>
+          <span class="lang-jp">住宅ローン控除が大幅拡充——2026年の買い得を、数字で確認する</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-5">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>One of the most reliable, underutilized tools in Japanese home buying is the housing loan tax deduction (住宅ローン控除). In 2025, Japan's tax reform package expanded this system significantly — and in 2026, it's arguably the most favorable it has ever been for buyers of used homes.</p>
+            <p>The plain version: <strong>the government returns a portion of your home loan to you via your annual tax bill.</strong> Understanding how much, and for how long, should be part of every purchase calculation.</p>
+            <h2>What Changed</h2>
+            <p><strong>① Higher loan ceilings for used homes</strong></p>
+            <table>
+              <thead><tr><th>Buyer Type</th><th>Old Limit</th><th>New Limit (from 2026)</th></tr></thead>
+              <tbody>
+                <tr><td>Standard (used home)</td><td>¥20–30 million</td><td><strong>¥35 million</strong></td></tr>
+                <tr><td>Households with children / young buyers</td><td>Same</td><td><strong>¥45 million</strong></td></tr>
+              </tbody>
+            </table>
+            <p>The deduction now applies to a larger portion of your loan balance. This narrows the policy gap between used and new construction — a deliberate signal that the government wants more people buying used.</p>
+            <p><strong>② Deduction period extended to 13 years for used homes</strong><br />Previously, used home buyers received only 10 years of deduction. Now it's been extended to 13 years, matching new construction. Those extra 3 years matter.</p>
+            <p>For a ¥35 million starting balance at 0.7% annual deduction rate: the additional 3-year benefit is approximately <strong>¥600,000–¥800,000</strong> (declining as the balance shrinks).</p>
+            <p><strong>③ Program extended through 2030</strong><br />Buyers planning a purchase within the next 2–3 years have ample time to take advantage of the current terms.</p>
+            <h2>The Math for Child-Rearing Households</h2>
+            <p>If you qualify as a child-rearing or young buyer household (under 40, or with dependent children), the numbers look like this:</p>
+            <p>Annual maximum deduction: ¥45 million × 0.7% = <strong>¥315,000/year</strong></p>
+            <p>Over 13 years, the cumulative tax benefit can reach <strong>¥3.5–4 million+</strong> (diminishing as the loan is repaid). That's equivalent to a meaningful portion of a down payment being returned through the tax system.</p>
+            <h2>Key Eligibility Conditions</h2>
+            <ul>
+              <li>Loan term must be 10 years or more</li>
+              <li>Property must be your primary residence (not investment use)</li>
+              <li>Property must meet certain energy efficiency standards (used homes require a seismic certificate or existing home warranty insurance)</li>
+              <li>Household income must not exceed ¥20 million annually</li>
+            </ul>
+            <h2>How to Apply</h2>
+            <p>For the first year: file a tax return (確定申告) the following spring with documentation including the property registration certificate, loan balance certificate, and seismic certificate. From year two onward, company employees can process it automatically through their year-end tax adjustment.</p>
+            <p>The mortgage tax deduction isn't a bonus — it's a systematic way the Japanese government subsidizes homeownership. Knowing your number before you sign is simply good financial hygiene.</p>
+          </div>
+          <div class="lang-jp">
+            <p>住宅を買う際、多くの人が意識する「住宅ローン控除（減税）」。この制度が2025年末の税制改正大綱で大きく見直され、2026年以降の住宅購入者にとって実質的な恩恵が拡大した。</p>
+            <p>シンプルに言えば：<strong>今は制度が手厚い時期だ</strong>。</p>
+            <h2>何がどう変わったか</h2>
+            <p><strong>① 中古住宅の借入限度額が引き上げ</strong></p>
+            <table>
+              <thead><tr><th>対象</th><th>旧制度</th><th>新制度（2026年〜）</th></tr></thead>
+              <tbody>
+                <tr><td>中古住宅（一般）</td><td>2,000万〜3,000万円</td><td><strong>3,500万円</strong></td></tr>
+                <tr><td>子育て・若者世帯</td><td>同上</td><td><strong>4,500万円</strong></td></tr>
+              </tbody>
+            </table>
+            <p>これにより、中古住宅を購入した場合でも、より多くの借入残高に対して控除が適用される。</p>
+            <p><strong>② 控除期間が13年へ延長（中古住宅）</strong><br />これまで中古住宅は控除期間10年だったが、今回の改正で新築と同じ13年に延長された。</p>
+            <p>年間控除額（0.7%）は残高に応じて逓減するが、仮に3,500万円からスタートした場合：13年間の控除合計額は<strong>最大約280〜300万円前後</strong>（残高の推移による）。</p>
+            <p><strong>③ 制度の適用期限が2030年まで延長</strong><br />今後数年内に住宅購入を検討している方は、この制度の恩恵を受けられる期間が十分に確保されている。</p>
+            <h2>子育て世帯・若者世帯は特に優遇</h2>
+            <p>40歳未満の世帯、または同居する扶養子女がいる世帯は「子育て・若者世帯」として認定され、借入限度額が4,500万円に引き上げられる。</p>
+            <p>この場合の年間最大控除額：4,500万円 × 0.7% = <strong>31.5万円</strong></p>
+            <p>13年間フル活用すれば、合計で<strong>350〜400万円超の節税効果</strong>が期待できる。これは小さな数字ではない——頭金の一部に相当するレベルだ。</p>
+            <h2>適用条件の主なポイント</h2>
+            <ul>
+              <li>ローン返済期間が10年以上であること</li>
+              <li>本人が実際に居住すること（投資・賃貸目的は対象外）</li>
+              <li>物件が一定の省エネ基準を満たすこと（中古住宅は耐震証明書または既存住宅売買瑕疵保険の加入が必要）</li>
+              <li>合計所得金額が2,000万円以下であること</li>
+            </ul>
+            <h2>手続きは入居の翌年に</h2>
+            <p>初年度は確定申告が必要。提出書類は、登記事項証明書・住宅ローン残高証明書・耐震証明書（中古の場合）など。会社員の方は翌年以降は年末調整で処理できる。</p>
+            <p>「払ったローン利息の一部を国が返してくれる」制度をフル活用することが、住宅購入コストの実質的な最適化につながる。まずは自分がいくら戻ってくるか、計算してみることをお勧めする。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 6 -->
+      <div class="art art-toggle" data-art="6" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>June 17, 2026</div>
+          <div>8 min read</div>
+          <div style="color:var(--orange)">living</div>
+          <div class="jp" style="margin-top:1em">2026年6月17日<br />読了8分</div>
+        </div>
+        <h3>
+          <span class="lang-en">9 Million Empty Homes: Japan's Vacancy Crisis and What It Means for You</span>
+          <span class="lang-jp">空き家900万戸——誰もが「他人ごと」にできない問題の構造</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-6">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>Japan has approximately <strong>9 million vacant homes</strong> (空き家), accounting for <strong>13.8% of all residential properties</strong> — a record high, and nearly double the rate of 30 years ago (Statistics Bureau of Japan).</p>
+            <p>This is not an abstract national problem. It touches almost every Japanese family: the inherited family home in a provincial city, the rental property that hasn't found a tenant in years, the childhood house that nobody wants and nobody knows how to sell.</p>
+            <h2>The Real Problem: 3.85 Million "Other" Vacant Homes</h2>
+            <p>Not all vacant homes are equal. Homes that are listed for rent, listed for sale, or used as second residences are, in some sense, part of the functioning market.</p>
+            <p>The genuine crisis lies in the <strong>"other" category</strong> — homes that are neither for rent, nor for sale, nor seasonally used. Simply abandoned. There are approximately <strong>3.85 million</strong> of these nationwide, concentrated in aging residential neighborhoods of provincial cities and towns.</p>
+            <h2>Why Don't Owners Just Sell?</h2>
+            <p>The answer reveals a perverse incentive built into Japan's tax code.</p>
+            <p><strong>Fixed Asset Tax Reduction</strong><br />Land with a residential building on it receives up to a 6-fold reduction in fixed asset tax compared to vacant land. The moment a building is demolished, the tax burden on that land jumps sharply. So even for a crumbling wreck, "leave it standing" is often the financially rational choice.</p>
+            <p><strong>Demolition Costs</strong><br />Removing a standard wooden house costs <strong>¥1.5–3 million</strong> — not including debris disposal fees. For many inheritors who didn't expect the financial responsibility of a deteriorating property, this is simply beyond reach.</p>
+            <p><strong>Inheritance Complexity</strong><br />Many vacant homes are inherited by multiple heirs who can't reach agreement. Or the heirs are themselves elderly, live far away, and have no practical ability to manage the property. Inaction becomes the default.</p>
+            <h2>Government Responses</h2>
+            <p><strong>Mandatory Property Registration (2024)</strong><br />Inherited properties must now be registered within 3 years or face financial penalties. This addresses the "ownership limbo" problem that has allowed many vacant properties to sit in legal ambiguity.</p>
+            <p><strong>Designated Dangerous Vacant Home System</strong><br />Local governments can classify severely deteriorated homes as "designated vacant homes," removing their tax exemption and enabling forced demolition.</p>
+            <p><strong>Akiya Banks</strong><br />Regional governments maintain information databases matching vacant property owners with potential buyers or tenants. Results have been mixed, but some rural areas have seen meaningful transactions through these systems.</p>
+            <h2>The Opportunity Angle</h2>
+            <p>Every well-documented crisis contains overlooked opportunity. In this case:</p>
+            <p>Used homes — including fully traditional machiya townhouses and farmhouses — can be acquired in some areas for tens of thousands to hundreds of thousands of yen. Renovation, conversion to guesthouses, shared housing, or boutique accommodation has produced genuine success stories in places like Kanazawa, Matsumoto, and Kochi.</p>
+            <p>In Chiba Prefecture, the coastline areas of Katsuura and Kamogawa have seen a quiet but real movement of people converting old fishing village homes into short-term rentals and artist residences.</p>
+            <p>The vacant home problem is real. So is the opportunity embedded within it — for those willing to understand the rules and navigate the complexity.</p>
+          </div>
+          <div class="lang-jp">
+            <p>日本全国の空き家が約<strong>900万戸</strong>に達し、住宅全体に占める空き家率は<strong>13.8%</strong>と過去最高を更新した（総務省住宅・土地統計調査）。30年前と比べると、ほぼ2倍の水準だ。</p>
+            <p>これは誰かの話ではない。相続した実家、売れない親の家、放置されたままの古い賃貸——多くの家庭に、じわじわと迫っている問題だ。</p>
+            <h2>「危機」の核心は「その他空き家」385万戸</h2>
+            <p>空き家には種類がある。貸家（空室）・売却用・別荘・セカンドハウスとして利用中のものは、ある意味「流通中」の空き家だ。</p>
+            <p>問題の本丸は「<strong>その他空き家</strong>」——賃貸にも売りにも出されず、別荘でもなく、ただ放置されている住宅だ。全国でこれが約<strong>385万戸</strong>。この数字は年々増え続けている。</p>
+            <h2>なぜ、売らずに放置するのか</h2>
+            <p>驚くべきことに、放置することが「合理的」になってしまう制度上の歪みがある。</p>
+            <p><strong>固定資産税の減額制度</strong><br />住宅が建っている土地は、更地に比べて固定資産税が最大6分の1に軽減される。住宅を解体して更地にした瞬間、税負担が一気に跳ね上がる。だから、たとえ廃屋同然でも「建物を残しておいた方が得」という逆インセンティブが生まれる。</p>
+            <p><strong>解体費用の壁</strong><br />木造一般住宅の解体費用は<strong>150〜300万円</strong>。廃材の処分費用も含めると、経済的な負担は小さくない。相続で受け取った物件に解体費用を出す余裕がない相続人も多い。</p>
+            <p><strong>相続の複雑性</strong><br />複数の相続人が存在し、意見がまとまらない。相続人自身が高齢だったり遠方だったりして、実質的に管理不能なケースも少なくない。</p>
+            <h2>国の対策は追いつくか</h2>
+            <p><strong>空き家登記義務化（2024年施行）</strong>：相続物件は3年以内に登記しなければ罰則の対象に。</p>
+            <p><strong>特定空き家制度</strong>：危険・不衛生な空き家を市区町村が「特定空き家」に指定し、固定資産税の減額適用を外した上で強制除却が可能に。</p>
+            <p><strong>空き家バンク</strong>：全国の自治体が空き家情報を集約し、売買・賃貸の仲介を支援。</p>
+            <p>制度整備は進んでいるが、年間に増え続ける空き家の数には追いついていないのが現状だ。</p>
+            <h2>空き家を「再生資源」として見る視点</h2>
+            <p>問題の裏には、機会もある。地方都市の古民家・旧住宅が格安（数十万〜百数十万円）で流通するケースも増えており、リノベーション・民泊・シェアハウス転用で収益を生んでいる事例は全国に増えている。</p>
+            <p>千葉県内でも、九十九里・鴨川・勝浦エリアで古い漁師町の家屋が再生されたり、民泊として活用されるケースが出始めている。</p>
+            <p>「空き家問題」は社会の課題でありながら、読み解き方次第で個人の機会にもなりうる。大切なのは、感情ではなくデータと制度を理解した上で動くことだ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 7 -->
+      <div class="art art-toggle" data-art="7" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>June 20, 2026</div>
+          <div>7 min read</div>
+          <div style="color:var(--orange)">chiba</div>
+          <div class="jp" style="margin-top:1em">2026年6月20日<br />読了7分</div>
+        </div>
+        <h3>
+          <span class="lang-en">Chiba Land Prices Up 130% in 10 Years — What's Really Happening Here?</span>
+          <span class="lang-jp">千葉の地価が10年で130%上昇——何が起きているのか</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-7">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>Living in Chiba, you notice it before you look up the statistics. The new apartment buildings where there used to be parking lots. The coffee shops and craft beer bars in neighborhoods that didn't have them five years ago. The faces of young families with strollers who moved here from somewhere else.</p>
+            <p>The numbers confirm the intuition. According to the 2026 Land Price Announcement (地価公示), Chiba Prefecture's residential land prices have risen <strong>130.4% cumulatively since 2016</strong> — a figure that significantly outpaces the national average and many Tokyo wards.</p>
+            <h2>Why Has Chiba Risen So Much?</h2>
+            <p><strong>① The Overflow from Tokyo</strong><br />When central Tokyo prices push beyond what most buyers can comfortably afford, demand flows outward. Kanagawa, Saitama, and Chiba are the primary recipients. But Chiba holds a specific advantage: the Sobu and Keiyo lines connect Chiba's central areas to central Tokyo in 30–60 minutes, and unlike some suburban alternatives, you get meaningfully more space for your money.</p>
+            <p>For a young family choosing between a 60㎡ apartment in Suginami Ward and a 90㎡ house in Funabashi, the math often favors Chiba — especially once schools, parks, and community environments are factored in.</p>
+            <p><strong>② Narita Airport Expansion</strong><br />Construction of Narita International Airport's third runway — with associated logistics, commercial, and manufacturing development — has catalyzed land price appreciation around Inba and Narita City. Infrastructure investment has a well-documented multiplier effect on surrounding property values.</p>
+            <p><strong>③ Targeted Urban Development</strong><br />Chiba City's central ward redevelopment, Makuhari New Town's continued commercial and office growth, and Kashiwanoha Campus City's smart-city development have all contributed to area-wide land value increases extending well beyond their immediate footprints.</p>
+            <p><strong>④ Post-Pandemic Lifestyle Shift</strong><br />The normalization of remote and hybrid work has allowed many Tokyo workers to reconsider where they live. Chiba's natural assets — the Kujukuri coastline, Tokyo Bay waterfront, Kamogawa and Katsuura's rural landscapes — have made it a destination rather than a default for many relocating families and individuals seeking dual-residence (二拠点) arrangements.</p>
+            <h2>Areas to Watch</h2>
+            <table>
+              <thead><tr><th>Area</th><th>Key Characteristics</th></tr></thead>
+              <tbody>
+                <tr><td>Chiba City (Chuo/Inage)</td><td>Urban infrastructure, ongoing redevelopment</td></tr>
+                <tr><td>Funabashi / Ichikawa</td><td>Best commute access, established residential</td></tr>
+                <tr><td>Nagareyama (Otakanomori)</td><td>Top choice for young families, population growing</td></tr>
+                <tr><td>Narita area</td><td>Airport expansion + industrial investment</td></tr>
+                <tr><td>Katsuura / Kamogawa</td><td>Coastal assets, guesthouse and dual-residence potential</td></tr>
+              </tbody>
+            </table>
+            <h2>Chiba as a Conscious Choice</h2>
+            <p>Living in Chiba is no longer "settling." A growing cohort of people is choosing it deliberately — for the space, the nature, the community, and yes, the numbers.</p>
+            <p>At SKY Life, our roots here in Sakura City, Chiba are part of our identity. We operate our guesthouse not just as an accommodation business but as a reflection of what this place offers: accessible beauty, quiet authenticity, and a pace of life that the larger cities can no longer provide.</p>
+            <p>We believe Chiba's value — financial and otherwise — still has room to be recognized.</p>
+          </div>
+          <div class="lang-jp">
+            <p>千葉に暮らしていると、日々の買い物や通勤の中で「変わったな」と感じる場面が増えている。駅前の再開発、新しい商業施設、増える移住者——その実感を、数字が裏付けている。</p>
+            <p>2026年地価公示のデータによれば、千葉県の住宅地価格は<strong>2016年比で累計130.4%の上昇</strong>を記録した。全国平均の上昇率を大きく上回る数字だ。</p>
+            <h2>なぜ千葉は上がったのか</h2>
+            <p><strong>① 東京需要の「溢れ出し」を最も受け取った県</strong><br />東京都心の不動産価格が手の届かない水準に達すると、需要は隣県に流れ出す。神奈川・埼玉・千葉の三県がその受け皿となっているが、千葉には他にない強みがある。</p>
+            <p>総武線・京葉線で東京まで30〜60分という通勤圏の広さ、相対的な地価の低さ、そして「同じ予算で広い家が買える」というシンプルな論理が、特に子育て世帯の移住需要を引き付けてきた。</p>
+            <p><strong>② 成田空港の拡張と周辺開発</strong><br />第3滑走路の建設が進む成田国際空港の周辺では、物流施設・商業施設の新設が相次いでいる。印旛地区・成田市の地価上昇は、このインフラ投資と密接に連動している。</p>
+            <p><strong>③ 重点開発エリアの価値向上</strong><br />千葉市中央区の再開発、幕張新都心の商業・オフィス集積、柏の葉キャンパスシティのスマートシティ開発——こうしたプロジェクトが、点から面へと波及しながら周辺地価を引き上げている。</p>
+            <p><strong>④ コロナ禍以降の移住ブーム</strong><br />テレワーク普及を機に「都心のマンションより、郊外の広い家」を選ぶ動きが加速した。九十九里浜、東京湾岸、鴨川周辺など、千葉の豊かな自然環境が評価され、デュアルライフ（二拠点生活）の目的地としても注目を集めている。</p>
+            <h2>注目エリアの現状</h2>
+            <table>
+              <thead><tr><th>エリア</th><th>特徴</th></tr></thead>
+              <tbody>
+                <tr><td>千葉市（中央区・稲毛区）</td><td>都市インフラ充実、再開発継続中</td></tr>
+                <tr><td>船橋市・市川市</td><td>東京近郊最高峰の通勤便利性</td></tr>
+                <tr><td>流山市（おおたかの森）</td><td>子育て世帯に人気、人口増加中</td></tr>
+                <tr><td>成田市周辺</td><td>空港拡張＋産業投資の二重拡大</td></tr>
+                <tr><td>勝浦市・鴨川市</td><td>海岸線資源、民泊・二拠点の潜在力</td></tr>
+              </tbody>
+            </table>
+            <h2>「住みやすさ」と「資産価値」が重なる場所</h2>
+            <p>千葉に住むことは、もはや「東京に行けなかった人の選択」ではない。自然環境、住宅面積、生活コスト、そして交通アクセス——これらが高いレベルでバランスしていると、ある種の生活者が気づき始めている。</p>
+            <p>そしてその「気づき」の集積が、地価の上昇という形で現れているのだと思う。</p>
+            <p>SKYライフが本拠を置く佐倉市も、こうした千葉の変化の文脈の中にある。私たちが地域に根ざした民泊・生活空間の提供にこだわり続ける理由の一つは、この場所の「まだ語られていない価値」を信じているからだ。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 8 -->
+      <div class="art art-toggle" data-art="8" role="button" tabindex="0" data-reveal>
+        <div class="meta">
+          <div>June 23, 2026</div>
+          <div>9 min read</div>
+          <div style="color:var(--orange)">architecture</div>
+          <div class="jp" style="margin-top:1em">2026年6月23日<br />読了9分</div>
+        </div>
+        <h3>
+          <span class="lang-en">Japan's Building Code Overhaul: What Buyers and Investors Actually Need to Know</span>
+          <span class="lang-jp">建築基準法の大改正——住宅購入・投資家が知っておくべき実際の影響</span>
+        </h3>
+        <span class="arr art-arr">↓</span>
+      </div>
+      <div class="art-body theme-paper" id="art-body-8">
+        <div class="art-body__in wrap">
+          <div class="lang-en">
+            <p>In 2025, Japan's Building Standards Law underwent its most significant revision in approximately 25 years. The last major overhaul was in 2000 — itself a response to lessons learned from the 1995 Great Hanshin Earthquake. This new revision is similarly ambitious in scope, touching everything from structural safety to energy performance.</p>
+            <p>If you're buying a new home, commissioning a custom build, or investing in renovation of existing buildings, this matters to you.</p>
+            <h2>The Biggest Change: Section 4 Exemption (4号特例) Significantly Narrowed</h2>
+            <p>Under the previous framework, small wooden structures of two stories or fewer could obtain building permits without submitting formal structural calculations — a designer's own judgment was deemed sufficient. This "Section 4 Exemption" dramatically simplified the approval process for the small homes that make up the vast majority of Japan's housing stock.</p>
+            <p>That exemption has been substantially narrowed. A much larger category of buildings — including many previously exempt wooden structures — now requires formal structural calculations and submission for review.</p>
+            <p><strong>Practical consequences:</strong></p>
+            <ul>
+              <li>Design and review timelines are longer</li>
+              <li>Structural engineer involvement is now required for more projects</li>
+              <li>Development costs increase, and those increases flow through to sale prices</li>
+            </ul>
+            <h2>Energy Performance Standards Now Mandatory</h2>
+            <p>From April 2025, buildings that do not meet Japan's energy efficiency standards <strong>cannot receive a building permit</strong> — meaning they cannot be built.</p>
+            <p>Japan has historically treated energy efficiency as a target, not a requirement — one of the last developed nations to do so. This shift to mandatory compliance is a structural change with far-reaching implications.</p>
+            <p>The new standard affects:</p>
+            <ul>
+              <li>Insulation specifications</li>
+              <li>Window and glazing performance</li>
+              <li>Mechanical system efficiency ratings</li>
+              <li>Documentation and review requirements</li>
+            </ul>
+            <h2>Impact on Buyers: Four Key Points</h2>
+            <p><strong>① New construction prices will rise further</strong><br />Industry estimates suggest the combined effect of mandatory structural calculations and energy compliance review adds 3–8% to construction costs for mid-size residential buildings. That cost lands on the buyer.</p>
+            <p><strong>② Older buildings require fresh evaluation</strong><br />Homes built under the 4号特例 era — particularly pre-2000 stock — may never have had their structures formally verified. Before purchasing used property, commission an inspection (インスペクション) and seismic assessment. Don't skip this step.</p>
+            <p><strong>③ Renovation investment requires pre-purchase legal due diligence</strong><br />Large-scale renovations of existing non-conforming buildings now more frequently trigger the requirement for a new building permit. The "buy now, figure out the renovation later" approach carries real risk. Consult a licensed architect before committing to a purchase intended for major renovation.</p>
+            <p><strong>④ Traditional wooden architecture faces an existential tension</strong><br />The most contested aspect of this revision is the conflict between mandatory energy performance standards and Japan's tradition of earthen-wall, tile-roofed wooden architecture. Under the new standards, nearly all traditional kominka (古民家) fail energy compliance. How to preserve architectural and cultural heritage while achieving legitimate energy goals remains an unresolved policy challenge.</p>
+            <h2>For Real Estate Investors: Practical Checklist</h2>
+            <ul>
+              <li>Before purchasing old property for renovation investment, commission a licensed architect to assess post-renovation code compliance prospects</li>
+              <li>Build compliance retrofit costs explicitly into your return calculations</li>
+              <li>Seek out properties that have already completed seismic retrofitting and energy upgrades — their relative liquidity in the secondary market will improve as non-compliant stock faces increasing headwinds</li>
+            </ul>
+            <p>The short-term disruption of this revision is real. The long-term direction is clear: Japan's housing stock is being systematically upgraded for safety and sustainability. Property that meets the new standards will be better positioned — financially and physically — for the decades ahead.</p>
+          </div>
+          <div class="lang-jp">
+            <p>2025年、日本の建築基準法が約25年ぶりの大幅改正を迎えた。2000年改正以来最大規模とも言われるこの見直しは、新築・リノベーション・既存物件の売買に広く影響を及ぼすものだ。</p>
+            <p>「法改正はプロの話」と思わず、購入・売却・投資を考えるすべての人が基本的な内容を把握しておく必要がある。</p>
+            <h2>最大の変更点：「4号特例」の大幅縮小</h2>
+            <p>建築基準法第4条（通称「4号特例」）はこれまで、木造2階建て以下の小規模住宅に対して、建築確認の際の構造計算を省略することを認めていた。</p>
+            <p>この特例が大幅に縮小された。従来は省略できた木造住宅の多くが、今後は正式な構造計算の提出と建築確認審査が必要になる。</p>
+            <p><strong>何が変わるか</strong></p>
+            <ul>
+              <li>設計・審査期間が長くなる</li>
+              <li>設計費用が増加する（構造設計士の関与が必要）</li>
+              <li>開発コストが上昇し、新築価格に転嫁される</li>
+            </ul>
+            <h2>省エネ基準の義務化</h2>
+            <p>2025年4月以降、省エネ基準に適合しない建築物は<strong>建築確認済証が取得できない</strong>——すなわち着工すら許されない。</p>
+            <p>日本はこれまで、省エネ基準を「努力目標」として扱ってきた。その姿勢がようやく「義務」に転換された歴史的な変更だ。</p>
+            <p>実務上の影響として：</p>
+            <ul>
+              <li>断熱性能・設備効率の設計基準が全物件に適用される</li>
+              <li>適合審査の書類・期間が増加する</li>
+              <li>基準に満たない設計はやり直しが必要になる</li>
+            </ul>
+            <h2>購入者への実際の影響</h2>
+            <p><strong>新築価格はさらに上がる</strong><br />構造計算義務化と省エネ審査の追加で、中小規模住宅の建設コストは3〜8%程度上昇するとみられる。その分は価格に転嫁されることが多い。</p>
+            <p><strong>旧物件の価値評価が変わる</strong><br />4号特例時代に建てられた住宅（特に2000年以前）は、構造が十分に検証されていないものが多い。中古購入の際は、インスペクション（住宅診断）と耐震診断の実施を強く推奨する。</p>
+            <p><strong>リノベーション投資は事前確認が必須</strong><br />既存建物への大規模改修では、新基準の適用範囲が拡大し、確認申請が必要になるケースが増える。「買ってから考える」ではなく、購入前に建築士への相談を。</p>
+            <h2>伝統建築との矛盾——残された問い</h2>
+            <p>今回の改正で最もデリケートな問題が、省エネ義務化と伝統的な木造建築の共存だ。</p>
+            <p>土壁・瓦屋根・無断熱の古民家は、新基準の下ではほぼ全滅に近い。機能的な省エネ性能と、長い時間をかけて培われた建築文化的価値をどう両立させるか——制度設計は、まだ答えを出しきれていない。</p>
+            <h2>投資家への実践アドバイス</h2>
+            <ul>
+              <li>旧物件のリノベ投資を検討する際は、<strong>改修後の省エネ適合状況を事前に一級建築士に診断</strong>してもらう</li>
+              <li>適合改修コストを収益計算に組み込む（想定外のコストが一番のリスク）</li>
+              <li>耐震改修・省エネ改修済みの中古物件は、今後の市場流通性で優位性が高まる</li>
+            </ul>
+            <p>法改正の「痛み」は短期にある。しかし長期的には、基準を満たした住宅の資産価値はより安定したものになるはずだ。法改正は、不動産市場の「質の底上げ」という大きな流れの一部だと理解しておきたい。</p>
           </div>
         </div>
       </div>
@@ -345,10 +772,15 @@
     .art-body {
       max-height: 0; overflow: hidden;
       border-radius: clamp(10px,1.4vw,22px);
-      transition: max-height .7s cubic-bezier(.22,.61,.36,1);
     }
-    .art-body.is-open { max-height: 9999px; }
+    /* Open instantly (no max-height transition). Animating layout height forces
+       a reflow every frame, which makes ScrollSmoother jitter the whole page.
+       The reveal polish is done on .art-body__in via opacity/transform, which
+       don't touch layout — so the body expands in place with zero jitter. */
+    .art-body.is-open { max-height: none; }
     .art-body__in {
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .45s ease, transform .45s ease;
       /* comfortable symmetric padding so the text never touches the edges of
          the white paper box */
       padding: clamp(40px,7vh,80px) clamp(32px,5vw,72px);
@@ -356,6 +788,7 @@
       line-height: 1.85;
       color: var(--ink);
     }
+    .art-body.is-open .art-body__in { opacity: 1; transform: none; }
     @media (max-width:760px){
       /* mobile: the title is not indented (meta stacks above), so give the
          body symmetric, comfortable padding instead of the title-aligned indent */
@@ -372,11 +805,14 @@
     }
     .art-body__in ul { padding-left: 1.4em; margin-bottom: 1.2em; max-width: 72ch; }
     .art-body__in ul li { margin-bottom: .5em; }
+    .art-body__in table { width: 100%; max-width: 72ch; border-collapse: collapse; margin: 1.6em 0; font-size: .96em; }
+    .art-body__in th, .art-body__in td { border: 1px solid rgba(0,0,0,.15); padding: .55em .85em; text-align: left; vertical-align: top; }
+    .art-body__in th { font-weight: 700; background: rgba(0,0,0,.045); }
     .art-body__in strong { color: var(--ink); font-weight: 700; }
     .art-body__in em { font-style: italic; }
   </style>
 
-  <script src="js/site.js?v=9"></script>
+  <script src="js/site.js?v=10"></script>
   <script>
   (function () {
     /* ── article expand/collapse ── */
@@ -388,14 +824,15 @@
         /* close all */
         document.querySelectorAll('.art-toggle').forEach(function (t) { t.classList.remove('is-open'); });
         document.querySelectorAll('.art-body').forEach(function (b) { b.classList.remove('is-open'); });
-        /* open this one if it was closed */
+        /* open this one if it was closed — expand in place, no auto-scroll */
         if (!open) {
           tog.classList.add('is-open');
           body.classList.add('is-open');
-          setTimeout(function () {
-            tog.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 80);
         }
+        /* The body height changes instantly here. ScrollSmoother otherwise
+           re-measures on a delay (~0.x s later) and "catches up" with a visible
+           bounce. Force the recalc NOW so it merges into the expand instead. */
+        if (window.ScrollTrigger) window.ScrollTrigger.refresh();
       });
     });
   })();

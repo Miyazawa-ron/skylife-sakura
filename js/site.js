@@ -47,12 +47,13 @@
       content: '#smooth-content',
       smooth: 1.15,
       effects: true,           // enables data-speed / data-lag parallax
-      // normalizeScroll installs GSAP's own JS wheel-driver (with its own
-      // momentum) which fights the manual scroll-clamp in initWorkScrollLock,
-      // letting the page escape past the products pin boundary. The horizontal
-      // pin + lock are desktop-only, so keep normalizeScroll for mobile (where
-      // it fixes address-bar resize jumps) and disable it on desktop.
-      normalizeScroll: isMobile,
+      // normalizeScroll is disabled on every device:
+      //  · desktop — its JS wheel-driver fought the manual scroll-clamp in
+      //    initWorkScrollLock, letting the page escape past the products pin.
+      //  · mobile — it preventDefaults touchmove to take over scrolling, which
+      //    killed the native horizontal swipe of the PRODUCTS card track, so
+      //    only the first cards were reachable. Native touch scroll is fine.
+      normalizeScroll: false,
     });
   }
 
